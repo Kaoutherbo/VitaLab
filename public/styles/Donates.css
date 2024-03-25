@@ -1,7 +1,7 @@
  /* Donate process */
 & .Donates{
 	width: 1160px;
-	margin: 0 auto;
+	margin: 4rem auto 0 auto;
 	position: relative;
 	& > p{
 		text-align: center;
@@ -161,83 +161,35 @@
 }
 
 
-
-/* Responsive style */
-@media only screen and (max-width: 979px) {
-    .process_donate_line {
-      left: 30px;
-    }
-  
-    .process_donate_item:nth-child(2n) {
-      text-align: left;
-    }
-  
-    .card_box,
-    .process_donate_item:nth-child(2n) .ag-timeline-card_box {
-      padding: 0 0 20px;
-    }
-    
-    .card_meta_box {
-      display: none;
-    }
-    
-    .point_box,
-    .process_donate_item:nth-child(2n) .point_box {
-      margin: 0 0 0 8px;
-    }
-    
-    .card_point {
-      height: 40px;
-      line-height: 40px;
-      width: 40px;
-    }
-    
-    .card_item {
-      width: auto;
-      margin: -65px 0 0 75px
-    }
-    
-    .process_donate_item:nth-child(2n+1) .card_item,
-    .process_donate_item:nth-child(2n) .card_item {
-      transform: translateX(200%);
-    }
-    
-    .process_donate_item:nth-child(2n+1) .arrow {
-      right: auto;
-      left: 0;
-    }
-    
-    .arrow {
-      margin-top: 12px;
-    }
-  }
-  
-@media only screen and (max-width: 767px) {
-	.Donates {
-      width: 96%;
-    }
-  
-    .card_img {
-      height: auto;
-      width: auto;
-    }
-}
-  
-@media (min-width: 768px) and (max-width: 979px) {
-    .Donates {
-      width: 750px;
-    }
-}
-  
-@media (min-width: 980px) and (max-width: 1161px) {
-    .Donates {
-      width: 960px;
-    }
-}
-  /*--- Responsive Code End ---*/
-
-
+ 
 .js-ag-active.card_point {
 	color: #1d1d1b;
 	background-color: #f44738;
+}
+
+/*  Responsive style */
+@media only screen and (max-width: 600px) {
+    body{
+		overflow-x: hidden!important;
+		& .Donates{
+			max-width: 100%;
+			margin-bottom: 2rem;
+			& .card_meta{
+				font-size: 1rem!important;
+			}
+			& .card_item, & .js-ag-active.process_donate_item{
+				max-width: 95%!important;
+			}
+			& .js-ag-active.process_donate_item:nth-child(2n){
+				& .card_item {
+					transform: translateY(20%);
+				}
+			}
+			& .js-ag-active.process_donate_item:nth-child(2n + 1){
+				& .card_item {
+					transform: translate(5%, 30%);
+				}
+			}
+		}
+	}
 }

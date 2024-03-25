@@ -1,0 +1,146 @@
+.login{
+    padding-top: 8rem;
+}
+main{
+    padding-top: 6rem;
+    & .container{
+        backdrop-filter: blur(15px);
+        background-color: rgba(243, 184, 184, 0.453);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        display: flex;
+        max-width: 1000px;
+        margin:auto;
+        & .container-form{
+            flex: 1;
+            padding:0 2rem;
+            text-align: left;
+            & h2{
+                font-family: var(--Font-Family2);
+                color: var(--Black);
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            & form{
+                & > .group-inputs{
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                    & label {
+                        display: block;
+                        font-weight: var(--Font-weight-Bold);
+                        margin-bottom: 5px;
+                        color: var(--Dark-Grayish-Red);
+                      }
+                      
+                    & input[type="text"],
+                    & input[type="password"] , & input[type="email"], & input[type="tel"]{
+                        width: 100%;
+                        padding: 10px 23px;
+                        border: 1px solid #ccc;
+                        font-size: 16px;
+                        border: 2px solid #f4f3f3;
+                        background-color: #f4f3f3;
+                        outline: none;
+                        &::placeholder{
+                            color:var(--Desaturated-gray-color);
+                        }
+                        &:focus {
+                            border-color: #ccc;
+                        } 
+                    }
+                    & select {
+                        width: 180%;
+                        padding: 10px 23px;
+                        border: 1px solid #ccc;
+                        font-size: 16px;
+                        border: 2px solid #f4f3f3;
+                        background-color: #f4f3f3;
+                        outline: none;
+                        &::placeholder {
+                            color: var(--Desaturated-gray-color);
+                        }
+                        &:focus {
+                            border-color: #ccc;
+                        }
+                        & option{
+                            color: var(--Desaturated-gray-color);
+                            &:checked {
+                                color: var(--Desaturated-gray-color);
+                                background-color: #ccc; 
+                            }
+                        }
+                    }
+                    
+                }
+
+                
+                & div:last-child{
+                    & .btn{
+                        width: 100%;
+                        max-width: 100%;
+                        transform: none;
+                    }
+                    & p{
+                        margin-top: 15px;
+                        text-align: center;
+                        
+                        & a{
+                            color: #d7c12e;
+                            font-weight: var(--Font-Weight-bold);
+                        }
+                    }
+                }
+            }
+
+        }
+          
+        & .welcome-message {
+            flex: 1;
+            padding: 20px;
+            background-color:rgb(218, 47, 47);
+            color: #dcd4d4;
+            text-align: center;
+            & h2{
+                font-size: 1.7rem;
+                font-family: var(--Font-Family2);
+                margin: 2rem 0;
+                color: var(--Desturated-yellow);
+            }
+            & .donate-title{
+                margin-bottom: 10px;
+            }
+            & p{
+                line-height: 2;
+                margin-bottom: 20px;
+            }
+        }
+        
+    }
+}
+
+/* Responsive */
+  
+@media (max-width: 768px) {
+   
+    .container{
+      flex-direction: column;
+      & h2 {
+        margin-top: 2rem;
+        font-size: 1.2rem;
+      }
+      & .group-inputs > div {
+        flex: 0 0 100%;
+      }
+      & select {
+        width: 100%!important;
+      }
+      & img{
+        width: 300px;
+      }
+    }
+    & .login-container{
+        flex-direction: column-reverse;
+    }
+}

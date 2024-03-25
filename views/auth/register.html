@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link
+    rel="icon"
+    href="../../public/assets/images/Logo-donation.png"
+    sizes="48x48"
+    type="image/png"
+  />
+  <!-- Icons link -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+  />
+
+  <!-- Styles link -->
+  <link rel="stylesheet" href="../../public/styles/main.css">
+  <link rel="stylesheet" href="../../public/styles/register.css">
+
+    <title>Register</title>
+</head>
+<body>
+   <!-- Navigation Bar -->
+   <nav>
+    <a href="../Home/Home Page.html"class="logo">
+        <img src="../../public/assets/images/Logo-donation.png" alt="VitaLab Logo" width="36px">
+        <p>VitaLab</p>
+    </a>
+    <ul class="ulMenu">
+        <li><a href="../Home/Home Page.html">Home</a></li>
+        <li><a href="../Home/services.html">Services</a></li>
+        <li><a href="../Home/About.html">About Us</a></li>
+        <li><a href="../Home/News.html">Our News</a></li>
+        <li><a href="../Home/Contact.html">Contact</a></li>
+    </ul>
+    <span class="material-symbols-outlined hamburger">menu</span>
+    <span class="material-symbols-outlined closeIcone">close</span>
+   </nav>
+  
+  <!-- main -->
+ <main>
+    <section class="container">
+        <article class="welcome-message">
+            <h2>Welcome to the Blood Donation Management System!</h2>
+            <p>Join us in saving lives by donating blood. Your contribution can make a significant difference in someone's life. Together, we can ensure that hospitals have an adequate blood supply to help those in need.</p>
+        </article>
+        <article class="container-form">
+            <h2>Register now!</h2>
+                <form action="../../controllers/auth/register.php" method="post">
+                    <div class="group-inputs">
+
+                        <div>
+                            <label for="username">Username</label>
+                            <input type="text" name="name" id="username" placeholder="Enter your Full name" required/>
+                        </div>
+                        <div>
+                            <label for="image">Image</label>
+                            <input type="text" name="Image" id="Image" placeholder="Enter your profile image" required/>
+                        </div>
+
+                        <div>
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" placeholder="Enter your email" required/>
+                        </div>
+                        <div>
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" placeholder="Enter your password" required/>
+                        </div>
+                        <div>
+                            <label for="Adress">Adress</label>
+                            <input type="text" name="Adress" id="Adress" placeholder="Enter your address" required/>
+                        </div>
+                        <div>
+                            <label for="role">Role</label>
+                            <select name="role" id="role" aria-placeholder="Select a role..."  required>
+                                <option value="donor">Donor</option>
+                                <option value="lab_employee">Admin</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                    <div>
+                        <button type="submit" class="btn">Register</button>
+                            <p>Already have an account? <a href="./login.html">Log in</a> </p>
+                    </div>
+
+                </form>
+        </article>
+    </section>
+</main>
+    <script src="../../public/js/nav.js"></script>
+</body>
+</html>

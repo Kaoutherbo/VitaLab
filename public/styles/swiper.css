@@ -1,0 +1,121 @@
+/* Testimonials */
+& .swiper{
+    margin-bottom: 3rem;
+& .testimonials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 5rem 0;
+    &  p {
+        font-size: 14px;
+        color: var(--red);
+        font-weight: var(--Font-weight-Regular);
+        letter-spacing: 1px;
+    }
+    &  h2 {
+        font-size: 2rem;
+        color: black;
+        margin-bottom: 1.5rem;
+    }
+    & .swiper-slide {
+        width: 600px;
+        height: 320px;
+        padding: 2rem;
+        
+        & p{
+            color: var(--Dark-Grayish-Red);
+            font-size: 14px;
+            text-align: center;
+            position: relative;
+            margin-top: 2rem;
+        }
+        & #quotes{
+            align-self: center;
+        }
+        & > .card {
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            background-color: #f6d9d9;
+            margin: auto;
+            width: 700px;
+            height: 320px;
+            & > div:first-child{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                & > div:first-child{
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    &  > img {
+                        width: 55px;
+                        height: 55px;
+                        border-radius: 50%;
+                        border: 2px solid rgb(253, 160, 160);
+                        object-fit: fill;
+                    }
+                    & span {
+                        font-size: 12px;
+                    }
+                    & b {
+                        font-size: 15px;
+                        color: var(--Dark-Grayish-Red);
+                    }
+                }
+            }
+          
+
+        }
+    }
+    
+/* Swiper Buttons */
+& .swiper-button-prev,
+& .swiper-button-next {
+    margin-top: 3.4rem;
+    color: var(--Desaturated-gray-color);
+}
+
+& .swiper-pagination {
+  margin: auto;
+}
+
+
+& .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: var(--Desaturated-Red); 
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+& .swiper-pagination-bullet-active {
+  background-color: #f97d7d; 
+}
+
+}
+}
+
+/*  Responsive style */
+@media only screen and (max-width: 600px) {
+    body{
+        & .swiper-container {
+            padding: 0;
+        &  .swiper-slide {
+            max-width: 100%!important;
+            height: max-content!important;
+            padding: 0!important;
+            & > .card{
+                max-width: 100%!important;
+                height: 350px!important;
+            }
+        }
+        & .swiper-button-prev,
+        & .swiper-button-next {
+            margin: 3.6rem -.7rem!important;
+        }
+        }
+    }
+}

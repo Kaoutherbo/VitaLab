@@ -1,0 +1,10 @@
+------------------------------------------
+
+- [X] Présenter le laboratoire, sa position,...
+- [X] Ajouter un nouveau donataire (membre)
+- [] Rechercher un donataire;
+- [X] Supprimer un donataire;
+- [X] Modifier les informations d’un donataire existant 
+- [] Enregistrer les opérations de donation de sang de chaque donataire
+- [] Afficher les donations de sang entre deux dates et par groupe sanguin. 
+- [] Commenter et noter la qualité de service  (by donor)
