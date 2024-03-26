@@ -1,40 +1,43 @@
 <?php
-@include '../config.php';
-session_start(); // start or resumes an existing session (Sessions are used to persist data across multiple HTTP requests.)
+session_start();
+include '../config.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") { // action in form  is set to POST, so we know it's a submission of the form
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    $username = $conn->real_escape_string($_POST['name']);
-    $password = $_POST['password'];
-    $email = $conn->real_escape_string($_POST['email']);
-    $role = $conn->real_escape_string($_POST['role']);
-
+    $username = mysqli_real_escape_string($conn,$_POST['name']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $role = mysqli_real_escape_string($conn, $_POST['role']);
 
     $table = ($role == "donor") ? "donors" : "labEmployee";
-    
 
-    $query = "SELECT * FROM $table WHERE name='$username' AND email='$email'"; 
+    $query = "SELECT * FROM $table WHERE name='$username' LIMIT 1";
     $result = mysqli_query($conn, $query);
+    
+    if ($result->num_rows == 1) {
+        $row = mysqli_fetch_assoc($result);
+        $hashed_password = $row['password'];
 
-    if (mysqli_num_rows($result) == 1) {
-        $_SESSION['name'] = $username;
+        if (password_verify($password, $hashed_password)) { // problem with password 
+            $_SESSION['name'] = $username;
+
             if ($role == "donor") {
                 header("Location: ../../views/Donor page/donor.html");
             } else {
                 header("Location: ../../views/Admin page/admin.php");
             }
             exit();
+        } else {
+            $error = "Incorrect password. Please try again.";
+
+            header("Location: ../../views/auth/login.html?error=" . urlencode($error));
+            exit();
+        }
     } else {
-        $_SESSION['login_error'] = "Invalid username or password";
-        header('Location: ../../auth/login.html');
+        $error = "User not found. Please register first.";
+        
+        header("Location: ../../views/auth/login.html?error=" . urlencode($error));
+        exit();
     }
-
-    mysqli_close($conn);
-
 }
-
 ?>

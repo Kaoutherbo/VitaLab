@@ -32,6 +32,8 @@
 	--light-orange: #FFE0D3;
     --Desaturated-pink:hsl(0, 65%, 83%);
     --pink:hsl(0, 100%, 91%);
+    --green: #6fd88f;
+    --light-green: #e5f6e5;
 
     /* Fonts */
     --Font-Family: "Jost", sans-serif;

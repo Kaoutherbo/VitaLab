@@ -1,7 +1,7 @@
 
 body.dark{
 	--light: #0C0C1E;
-    --pink:#161632;
+    --pink:#101023;
 	--gray: #060714;
 	--dark: #FBFBFB;
 }
@@ -26,13 +26,32 @@ body {
         & .side-menu{
             width: 100%;
             margin-top: 48px;
-            & li {
+            & li , & .link-button{
+                cursor: pointer;
                 height: 48px;
                 background: transparent;
                 margin-left: 6px;
                 border-radius: 28px 0 0 28px;
                 padding: 4px;
-                & a {
+                & .link-button{
+                    height: 38px;
+                    display: flex;
+                    align-items: center;
+                    padding:0 10px;
+                    background-color: var(--light);
+                    border-radius: 48px;
+                    font-size: var(--Font-size);
+                    color: var(--dark);
+                    white-space: nowrap;
+                    overflow-x: hidden;
+                    gap: 12px;
+                    margin-left: 0;
+                    &.active, &:hover{
+                        background-color: var(--light);
+                        color: var(--red);
+                    }
+                } 
+                & a{
                     width: 100%;
                     height: 100%;
                     background: var(--light);
@@ -277,47 +296,59 @@ body {
                 grid-template-columns: repeat(4, minmax(190px, 1fr));
                 grid-gap: 24px;
                 margin-top: 36px;
-                & article {
-                    padding: 24px;
+                &  article {
                     background-color:var(--pink);
                     border-radius: 15px;
-                    display: flex;
-                    align-items: center;
-                    grid-gap: 24px;
                     cursor: pointer;
-                    & .bx {
-                        width: 80px;
-                        height: 80px;
-                        border-radius: 10px;
-                        font-size: 36px;
+                    & .article-btn {
+                        padding: 15px;
                         display: flex;
-                        justify-content: center;
                         align-items: center;
-                    }
-                    & .text {
-                        & h3{
-                            font-size: 24px;
-                            font-weight: var(--Font-weight-Bold);
-                            color: var(--dark);
+                        gap: 1.2rem;
+                        cursor: pointer;
+                        & .bx {
+                            width: 80px;
+                            height: 80px;
+                            border-radius: 10px;
+                            font-size: 36px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
                         }
-                        &  p {
-                            color: var(--dark);	
+                        & .text {
+                            & h3{
+                                font-size: 24px;
+                                font-weight: var(--Font-weight-Bold);
+                                color: var(--dark);
+                            }
+                            &  p {
+                                color: var(--dark);	
+                            }
                         }
-                    }
+                    
+                    }   
                 }
-                &  article:nth-child(2n+1) .bx {
+               
+                
+                &  article:nth-child(1) .bx ,  &  article:nth-child(7) .bx {
                     background: var(--light-blue);
                     color: var(--red);
                 }
-                & article:nth-child(2n) .bx {
+                & article:nth-child(2) .bx ,  &  article:nth-child(8) .bx {
                     background: var(--light-yellow);
                     color: var(--yellow);
                 }
-                & article:nth-child(3n) .bx {
+                & article:nth-child(3) .bx ,  &  article:nth-child(5) .bx {
                     background: var(--light-orange);
                     color: var(--orange);
                 }
+                & article:nth-child(4) .bx ,  &  article:nth-child(6) .bx {
+                    background: var(--light-green);
+                    color: var(--green);
+                }
             }
+
+
             & .table-data {
                 margin-top: 24px;
                 width: 100%;
