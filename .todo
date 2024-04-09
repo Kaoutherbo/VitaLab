@@ -5,8 +5,28 @@
 - [X] Rechercher un donataire;
 - [X] Supprimer un donataire;
 - [X] Modifier les informations d’un donataire existant 
+- [X] create a donation  event with date and place of the event by admin.
+- [X] Afficher les donations de sang entre deux dates et par groupe sanguin. 
+- [X] Commenter et noter la qualité de service  (by donor) 
+- [X] Enregistrer les opérations de donation de sang de chaque donataire.
 
-- [] Enregistrer les opérations de donation de sang de chaque donataire
-- [] Afficher les donations de sang entre deux dates et par groupe sanguin. 
-- [] Commenter et noter la qualité de service  (by donor)
-- [] create a donation  event with date and place of the event by admin (optional)
+- [] fix the login error.
+
+---------------------------------------------
+
+- [X] errors handling for each form. + add the user info for the display_donations 
+    - [X] empty error for each filed
+    - [X] email error
+    - [X] password error (password not correct +  too short)
+    - [X] user already exist error
+    - [X] username has only letters
+    - [X] error make rating
+    - [X] you already donate error
+    - [X] donate type error (- , +)
+    - [X] create donation date error (must be in future not past or today).
+    - [X] if donor donate for this donation ,he can't donate again.
+    - [X] phone number error
+    - [X] only who donates for donation can comment  on it.
+    - [X] No donation found for a donation that don't exist.
+
+------------------------------------------

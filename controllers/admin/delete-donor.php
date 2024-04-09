@@ -9,7 +9,7 @@ if(isset($_GET["id"])) {
     $stmt->bind_param("i", $id);
 
     if($stmt->execute()) {
-        header("Location: admin.php?msg=Data deleted successfully");
+        header("Location: ../../views/Admin page/admin.php?msg=Data deleted successfully");
         exit();
     } else {
         echo "Failed: " . $stmt->error;

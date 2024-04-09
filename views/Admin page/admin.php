@@ -1,8 +1,12 @@
 <?php
-@include "fetch_donor_info.php";
-@include "search_donor.php";
-@include "display_by_blood_type.php";
-@include "display_donors.php";
+@include "../../controllers/admin/fetch_admin_info.php";
+@include "../../controllers/admin/search_donor.php";
+@include "../../controllers/admin/display_by_blood_type.php";
+@include "../../controllers/admin/display_donors.php";
+
+$errors = isset($_GET['err']) ? json_decode(urldecode($_GET['err']), true) : array();
+unset($_SESSION['errors']);
+
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="icon" href="../../public/assets/images/Logo-donation.png" sizes="48x48" type="image/png" />
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <!-- My CSS -->
@@ -21,7 +26,7 @@
     <!-- Icons link -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
-    <link rel="icon" href="../../public/assets/images/Logo-donation.png" sizes="48x48" type="image/png" />
+
     <title>Lab Employee</title>
 </head>
 
@@ -59,16 +64,21 @@
             </li>
 
             <li>
+                <a href="create-donation.php">
+                    <i class='bx bxs-calendar-event'></i>
+                    <span class="text">Add Donation</span>
+                </a>
+            </li>
+            <li>
+                <a href="../../views/Donor page/display_donations.php">
+                    <i class='bx bxs-calendar'></i>
+                    <span class="text">All donations</span>
+                </a>
+            </li>
+            <li>
                 <a href="#">
                     <i class='bx bxs-doughnut-chart'></i>
                     <span class="text">Analytics</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="donations.php">
-                    <i class='bx bxs-calendar-event'></i>
-                    <span class="text">Donations</span>
                 </a>
             </li>
             <li>
@@ -80,8 +90,8 @@
         </ul>
 
         <ul class="side-menu">
-            <li>
-                <a href="setting.php">
+            <li id="settingsLink">
+                <a href="#">
                     <i class='bx bxs-cog'></i>
                     <span class="text">Settings</span>
                 </a>
@@ -97,7 +107,6 @@
     </section>
     <!-- Main content section -->
     <section id="content">
-        <!-- Box info section -->
         <!-- NAVBAR -->
         <nav>
             <i class='bx bx-menu'></i>
@@ -116,13 +125,8 @@
                 <span class="num">8</span>
             </a>
 
-            <a href="#" class="profile">
+            <a href="#" class="profile" id="profilePicture">
                 <img src="<?php echo $row_admin['profilePicture']; ?>" alt="Profile Picture">
-                <!-- for the profile section-->
-                <p><?php echo $row_admin['address']; ?></p>
-                <p><?php echo $row_admin['email']; ?></p>
-                <p><?php echo $row_admin['name']; ?></p>
-
             </a>
         </nav>
         <main>
@@ -165,16 +169,29 @@
                         <form action="" method="post" class="form-donor">
                             <div class="form-input">
                                 <input type="text" name="search_term" placeholder="Search donors...">
-                                <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                                <button type="submit" class="search-btn">
+                                    <i class='bx bx-search'></i>
+                                </button>
                             </div>
+                            <?php if (!empty($errors['searchTerm'])) : ?>
+                                <small class="error"><?php echo $errors['searchTerm']; ?></small>
+                            <?php endif; ?>
+
                         </form>
-                        <a href="add-donor.php" class="add-btn"><i class='bx bx-plus'></i></a>
+
+                        <button class="add-btn">
+                            <a href="add-donor.php">Add Donor</a>
+                            <i class='bx bx-plus'></i>
+                        </button>
                     </div>
                     <table>
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Donor</th>
                                 <th>Date of Registration</th>
+                                <th>Email</th>
+                                <th>Address</th>
                                 <th>Blood type</th>
                                 <th>Action</th>
                             </tr>
@@ -188,15 +205,18 @@
                                 } else {
                                     while ($row_donor = mysqli_fetch_assoc($result_to_use)) {
                                         echo "<tr>";
+                                        echo "<td>" . $row_donor['id'] . "</td>";
                                         echo "<td>";
                                         echo "<img src='" . $row_donor['profilePicture'] . "' alt='Profile Picture'>";
                                         echo "<p>" . $row_donor['name'] . "</p>";
                                         echo "</td>";
                                         echo "<td>" . $row_donor['created_at'] . "</td>";
+                                        echo "<td>" . $row_donor['email'] . "</td>";
+                                        echo "<td>" . $row_donor['address'] . "</td>";
                                         echo "<td>" . $row_donor['blood_type'] . "</td>";
                                         echo "<td>";
-                                        echo "<a href='update-donor.php?id=" . $row_donor['id'] . "' class='status completed'>Update</a>";
-                                        echo "<a href='delete-donor.php?id=" . $row_donor['id'] . "' class='status completed'>Delete</a>";
+                                        echo "<a href='update-donor.php?id=" . $row_donor['id'] . "' class='status edit'><span class='material-symbols-outlined'>edit</span></a>";
+                                        echo "<a href='../../controllers/admin/delete-donor.php?id=" . $row_donor['id'] . "' class='status delete'><span class='material-symbols-outlined'>delete</span></a>";
                                         echo "</td>";
                                         echo "</tr>";
                                     }
@@ -205,15 +225,18 @@
                                 if (mysqli_num_rows($result_donor) > 0 || $allDonorsClicked) {
                                     while ($row_donor = mysqli_fetch_assoc($result_donor)) {
                                         echo "<tr>";
+                                        echo "<td>" . $row_donor['id'] . "</td>";
                                         echo "<td>";
                                         echo "<img src='" . $row_donor['profilePicture'] . "' alt='Profile Picture'>";
                                         echo "<p>" . $row_donor['name'] . "</p>";
                                         echo "</td>";
                                         echo "<td>" . $row_donor['created_at'] . "</td>";
+                                        echo "<td>" . $row_donor['email'] . "</td>";
+                                        echo "<td>" . $row_donor['address'] . "</td>";
                                         echo "<td>" . $row_donor['blood_type'] . "</td>";
                                         echo "<td>";
-                                        echo "<a href='update-donor.php?id=" . $row_donor['id'] . "' class='status completed'>Update</a>";
-                                        echo "<a href='delete-donor.php?id=" . $row_donor['id'] . "' class='status completed'>Delete</a>";
+                                        echo "<a href='update-donor.php?id=" . $row_donor['id'] . "' class='status edit'><span class='material-symbols-outlined'>edit</span></a>";
+                                        echo "<a href='../../controllers/admin/delete-donor.php?id=" . $row_donor['id'] . "' class='status delete'><span class='material-symbols-outlined'>delete</span></a>";
                                         echo "</td>";
                                         echo "</tr>";
                                     }
@@ -227,6 +250,31 @@
                 </div>
             </section>
         </main>
+    </section>
+    <!-- for the profile section-->
+    <section class="account" id="accountSection">
+        <div class="container">
+
+            <div>
+                <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
+                <img src="<?php echo $row_admin['profilePicture']; ?>" alt="Profile Picture">
+            </div>
+
+            <h2>Username</h2>
+            <p><?php echo $row_admin['name']; ?></p>
+            <h2>Email</h2>
+            <p><?php echo $row_admin['email']; ?></p>
+            <h2>Address</h2>
+            <p><?php echo $row_admin['address']; ?></p>
+            <div class="btns2">
+                <button class="logout">
+                    <a href="../../controllers/auth/logout.php">
+                        <i class="bx"><span class="material-symbols-outlined">logout</span></i>
+                    </a>
+                </button>
+                <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
+            </div>
+        </div>
     </section>
 
     <script src="../../public/js/admin.js"></script>

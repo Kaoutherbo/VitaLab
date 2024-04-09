@@ -10,6 +10,7 @@ body.dark{
 body {
     background: var(--gray);
     overflow-x: hidden;
+    position: relative;
 
     /* SIDEBAR */
     & #sidebar {
@@ -359,79 +360,175 @@ body {
                     padding: 24px;
                     overflow-x: auto;
                 }
-                & .head {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 3rem;
-                    margin-bottom: 24px;
-                    & h3 {
-                        font-family: var(--Font-Family2);
-                        font-size: 24px;
-                        font-weight: var(--Font-weight-Bold);
-                    }
-                    & .bx {
-                        cursor: pointer;
-                    }
-                }
+
                 & .order {
+                    & .head {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 24px;
+                        & h3 {
+                            font-family: var(--Font-Family2);
+                            font-size: 1.5rem;
+                            font-weight: var(--Font-weight-Bold);
+                        }
+                        & > form{
+                            margin: auto;
+                        }
+                        & .add-btn{
+                            display: flex;
+                            gap: 10px;
+                            align-items: center;
+                            transform: none;
+                            border-radius: 5px;
+                            margin-top: 0;
+                            padding: 7px 25px;
+                            text-align: center;
+                            &:hover{
+                                background-color: beige;
+                                color: var(--Black)!important;
+                                & a{
+                                color: var(--Black)!important; 
+                            }
+                            }
+
+                        }
+                    }
                     & table {
                         width: 100%;
                         border-collapse: collapse;
                         & th {
-                            padding: 5px;
                             font-size: 13px;
                             text-align: left;
                             border-bottom: 1px solid var(--gray);
                         }
-                        & tr{
-                            display: flex;
-                            justify-content: space-between;
+                        & thead{
+                            & tr{
+                                & th{
+                                    padding:6.5px;
+                                }
+                            }
+                        }
+                        & tbody tr{
                             cursor: pointer;
-                        }
-                        & tbody tr:hover{
-                                background-color: var(--gray);
+                            &:hover{
                                 border-radius: 15px;
+                                background-color: var(--gray);
+                            }
+                            & td{
+                                padding: 10px 6.5px;
+                            }
+                            & td:first-child{
+                                padding-left: 0;
+                            }
+
                         }
-                        & td {
-                            padding: 10px 0;
+                        
+                        & tr td:nth-child(2) ,& tr td:last-child {
+                            display: flex;
+                            align-items: center;
+                            grid-gap: 12px;
+                            padding-left: 6px;
+                            
                             & img {
                                 width: 30px;
                                 height: 30px;
                                 border-radius: 50%;
                                 object-fit: cover;
                             }
-                        }
-                        
-                        & tr td:first-child {
-                            display: flex;
-                            align-items: center;
-                            grid-gap: 12px;
-                            padding-left: 6px;
-                        }
-                        & tr td .status {
-                            font-size: 10px;
-                            padding: 6px 16px;
-                            color: var(--light);
-                            border-radius: 20px;
-                            font-weight: 700;
-                            &.completed {
-                                background: var(--red);
+                            & .edit{
+                                color: var(--green);
                             }
-                            &.process {
-                                background: var(--yellow);
+                            & .delete{
+                                color: var(--red);
                             }
-                            &.pending {
-                                background: var(--orange);
-                            }
-                            
                         }
                     }
                 }
             }
         }
     }
+    /* ACCOUNT */
+    & .account{
+      min-width: 100%;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      background-color: rgba(134, 133, 133, 0.3);
+      z-index: 3000;
+      display: grid;
+      place-items: center;
+      display: none;
+      
+      & .container {
+        width: 420px;
+        height: fit-content;
+        border-radius: 15px;
+        background-color: #f1dbdb;
+        padding:1rem 2rem;
 
+        & div:first-child{
+            display: flex;
+            flex-direction: column;
+            justify-content:  space-between;
+        }
+        & span {
+          font-size: 2rem;
+          cursor: pointer;
+          height: 30px;
+          width: 30px;
+          align-self: flex-end;
+          margin-top: 5px;
+        }
+    
+        & img {
+          margin: auto;
+          border-radius: 50%;
+          width: 120px;
+          height: 120px;
+          object-fit: cover;
+        }
+    
+        & h2 {
+          color: var(--Black);
+          font-family: var(--Font-Family2);
+          margin-top: 14px;
+        }
+        & p {
+            color: var( --Very-Dark-Gray);
+            margin: 5px;
+            font-size: 14px;
+          }
+        & .btns2 {
+          display: flex;
+          justify-content: center;
+          gap: 2rem;
+          margin-top: 1.5rem;
+          & button {
+            padding: 5px 50px;
+            background-color: var(--Black);
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+            margin-top: 0;
+            transform: none;
+            &:hover {
+              background-color: beige;
+              & span{
+                color: var(--Black);
+              }
+            }
+          }
+          & .logout:hover{
+            background-color: var(--red);
+            & span{
+              color: white;
+            }
+          }
+    
+        }
+      }
+    }
 }
 
 
@@ -459,6 +556,33 @@ body {
     .head  h3{
         font-size: 1rem!important;
     }
+    .account{
+        & .container {
+          width: 50%!important;
+          padding-left: 2rem!important;
+          & img {
+            width: 100px!important;
+            height: 100px!important;
+          }
+          & h2{
+            font-size: 15px;
+          }
+          & p{
+            font-size: 1rem!important;
+          }
+          & > .btns2 {
+            height: 35px;
+            & button {
+              padding: 0.3rem 1.5rem!important;
+              font-size: 10px!important;
+              & span{
+                margin-top: 5px;
+                font-size: 1rem;
+              }
+            }
+          }
+        }
+      }
 
 }
 
@@ -503,4 +627,17 @@ body {
 	#content main .table-data .order table {
 		min-width: 420px;
 	}
+    .account{
+        & .container {
+          width: 70%!important;
+          padding: 1rem!important;
+          & img {
+            width: 80px!important;
+            height: 80px!important;
+          }
+          & span{
+            margin-top: 10px;
+          }
+        }
+      }
 }

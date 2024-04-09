@@ -1,8 +1,7 @@
-.login{
-    padding-top: 8rem;
-}
 main{
     padding-top: 6rem;
+    padding-bottom: 3rem;
+    margin: auto;
     & .container{
         backdrop-filter: blur(15px);
         background-color: rgba(243, 184, 184, 0.453);
@@ -10,7 +9,9 @@ main{
         padding: 20px;
         display: flex;
         max-width: 1000px;
+        max-height: fit-content;
         margin:auto;
+
         & .container-form{
             flex: 1;
             padding:0 2rem;
@@ -24,18 +25,22 @@ main{
             
             & form{
                 & > .group-inputs{
-                    display: flex;
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr) ;
+                    grid-template-rows: repeat(3, 1fr);
                     flex-wrap: wrap;
-                    gap: 20px;
+                    row-gap: 15px;
+                    column-gap: 25px;
+                  
                     & label {
                         display: block;
                         font-weight: var(--Font-weight-Bold);
                         margin-bottom: 5px;
                         color: var(--Dark-Grayish-Red);
-                      }
+                    }
                       
-                    & input[type="text"],
-                    & input[type="password"] , & input[type="email"], & input[type="tel"]{
+                    & input[type="text"], & input[type="number"],& input[type="tel"],
+                    & input[type="password"] , & input[type="email"], & input[type="address"] , & input[type="date"]{
                         width: 100%;
                         padding: 10px 23px;
                         border: 1px solid #ccc;
@@ -50,8 +55,12 @@ main{
                             border-color: #ccc;
                         } 
                     }
+                   & .date{
+                    margin-right: 10px;
+                   }
+
                     & select {
-                        width: 180%;
+                        width: 100%;
                         padding: 10px 23px;
                         border: 1px solid #ccc;
                         font-size: 16px;
@@ -73,6 +82,10 @@ main{
                         }
                     }
                     
+                    & .role{
+                        width: 200%;
+                    }
+                    
                 }
 
                 
@@ -92,13 +105,24 @@ main{
                         }
                     }
                 }
+                & .group-btns{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 3rem;
+                    & button{
+                        width: 50%;
+                        transform: none;
+                        transition: .3s;
+                    }
+                }
             }
 
         }
           
         & .welcome-message {
             flex: 1;
-            padding: 20px;
+            padding: 20px 20px 10px 20px;
             background-color:rgb(218, 47, 47);
             color: #dcd4d4;
             text-align: center;
@@ -113,10 +137,20 @@ main{
             }
             & p{
                 line-height: 2;
-                margin-bottom: 20px;
+                margin-bottom: 1rem;
             }
         }
         
+    }
+}
+.login{
+    padding-top: 8rem;
+    & .container .container-form form{
+        & > .group-inputs{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr) ;
+            grid-template-rows: repeat(2, 1fr);
+        }
     }
 }
 
@@ -131,6 +165,8 @@ main{
         font-size: 1.2rem;
       }
       & .group-inputs > div {
+        display: flex;
+        flex-direction: column;
         flex: 0 0 100%;
       }
       & select {

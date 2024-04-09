@@ -2,42 +2,70 @@
 session_start();
 include '../config.php';
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $username = mysqli_real_escape_string($conn,$_POST['name']);
+    $username = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $password = $_POST['password'];
     $role = mysqli_real_escape_string($conn, $_POST['role']);
 
-    $table = ($role == "donor") ? "donors" : "labEmployee";
+    $errors = array();
+    // Validate username
+    if (empty($username)) {
+        $errors['name'] = "Username is required.";
+    } elseif (!ctype_alpha(str_replace(' ', '', $username))) {
+        $errors['name'] = "Username can only contain letters.";
+    }
+    // Validate password
+    if (empty($password)) {
+        $errors['password'] = "Password is required.";
+    } elseif (strlen($password) < 6) {
+        $errors['password'] = "Password should be at least 6 characters long.";
+    }
+     // Validate role
+     if (empty($role)) {
+        $errors['role'] = "Role is required.";
+    }
+     // Validate email
+     if (empty($email)) {
+        $errors['email'] = "Email is required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = "Please enter a valid email address.";
+    }
 
+     // Check if there are any errors
+     if (count($errors) > 0) {
+        $_SESSION['errors'] = $errors;
+        header("Location: ../../views/auth/login.php?err=" . urlencode(json_encode($errors)));
+        exit();
+    }
+
+    $table = ($role == "donor") ? "donors" : "labEmployee";
     $query = "SELECT * FROM $table WHERE name='$username' LIMIT 1";
     $result = mysqli_query($conn, $query);
-    
+
     if ($result->num_rows == 1) {
         $row = mysqli_fetch_assoc($result);
         $hashed_password = $row['password'];
 
-        if (password_verify($password, $hashed_password)) { // problem with password 
+        if (password_verify($password, $hashed_password)) {
             $_SESSION['name'] = $username;
-
+            $_SESSION['donor_id'] = $row['id'];
             if ($role == "donor") {
-                header("Location: ../../views/Donor page/donor.html");
+                header("Location: ../../views/Donor page/donor.php");
             } else {
                 header("Location: ../../views/Admin page/admin.php");
             }
             exit();
         } else {
-            $error = "Incorrect password. Please try again.";
-
-            header("Location: ../../views/auth/login.html?error=" . urlencode($error));
-            exit();
+            $errors['password'] = "Incorrect password. Please try again.";
         }
     } else {
-        $error = "User not found. Please register first.";
-        
-        header("Location: ../../views/auth/login.html?error=" . urlencode($error));
-        exit();
+        $errors['name'] = "User not found. Please register first.";
     }
+
+    // Redirect back to login page with errors appended to URL
+    header("Location: ../../views/auth/login.php?error=" . urlencode(json_encode($errors)));
+    exit();
 }
-?>

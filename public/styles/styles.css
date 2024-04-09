@@ -579,7 +579,142 @@ body {
        
 
     }
-}   
+
+    /* create-donation */
+    & .create-donation{
+        color: var(--Black);
+        width: 100%;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+            
+            & > div{
+                padding: 20px 2rem ; 
+                margin: 4rem auto;
+                box-shadow: 0 0 2em rgba(0, 0, 0, 0.2);
+                display: flex;
+                max-width: 900px;
+                gap: 2rem;
+                backdrop-filter: blur(15px);
+                background-color: rgba(243, 184, 184, 0.453);               
+
+                & .left{
+                    width: 650px;        
+                    & h3{
+                        font-size: 1.5rem;
+                        margin:0 0 .7rem 0;
+                        font-family: var(--Font-Family2);
+                    }
+                    & p{
+                        color: var(--Desaturated-gray-color);
+                        line-height: 1.6;
+                        margin:0 0 1.7rem 0;
+                    }
+                    & > form{
+                        display: flex;
+                        flex-direction: column;
+                        gap:  1.2rem;
+                        & > div{
+                            display: flex;
+                            gap:  .8rem;
+                            & input[type="text"],
+                            & input[type="date"] {
+                                width: 100%;
+                                padding: 10px 43px;
+                                border: 1px solid #ccc;
+                                font-size: 16px;
+                                border: 2px solid #f4f3f3;
+                                background-color: #f4f3f3;
+                                outline: none;
+                                &::placeholder{
+                                    color:var(--Desaturated-gray-color);
+                                }
+                                &:focus {
+                                    border-color: #ccc;
+                                } 
+                            }
+                            & select {
+                                width: 100%;
+                                padding: 7px 23px;
+                                border: 1px solid #ccc;
+                                font-size: 16px;
+                                border: 2px solid #f4f3f3;
+                                background-color: #f4f3f3;
+                                outline: none;
+                                &::placeholder {
+                                    color: var(--Desaturated-gray-color);
+                                }
+                                &:focus {
+                                    border-color: #ccc;
+                                }
+                                & option{
+                                    color: var(--Desaturated-gray-color);
+                                    &:checked {
+                                        color: var(--Desaturated-gray-color);
+                                        background-color: #ccc; 
+                                    }
+                                }
+                            }
+                            & input[type="date"]{
+                                padding: 10px 45px;
+                            }
+                        }
+
+                        & .group{
+                            display: flex;
+                            flex-direction: column;
+                            gap: 7px;
+                        }
+                        &  #textarea{
+                            border: solid 1px #ccc;
+                            padding: 1.7rem;
+                            height: 140px;
+                            padding: 10px;
+                            font-size: var(--Font-size);
+                            font-family: var(--Font-Family);
+                            border: 2px solid #f4f3f3;
+                            background-color: #f4f3f3;
+                            outline: none;
+                            resize: none;
+                            &::placeholder {
+                                color:var(--Desaturated-gray-color);
+                              }
+                            &:focus {
+                                border-color: #ccc;
+                            }  
+                        }
+                        & button{
+                            margin-top: 0; 
+                            transform: scaleX(1);
+                        }
+                    }
+                }
+                & .right{
+                    background-color: rgb(246, 64, 64);
+                    padding: 2rem 1.5rem;
+                    width: 500px;
+                    color: #dcd4d4;
+                    text-align: center;
+                    
+                    & > span{
+                        font-size: 13px;
+                    }
+                    & h3{
+                        font-size: 1.5rem;
+                        letter-spacing: 2px;
+                        color: var(--Desturated-yellow);
+                        font-family: var(--Font-Family2);
+                        margin-bottom: 1rem;
+                    }
+                    & > p{
+                        line-height: 2;
+                        margin-bottom: 1rem;
+                    }
+                }
+            }
+
+    }
+}
 
 /*  Responsive style */
 @media only screen and (max-width: 600px) {
@@ -694,6 +829,24 @@ body {
                 }
             }
         }
+    }
+    & .create-donation{
+        width: 100%;
+        &  div:first-child{
+            margin: auto;
+            max-width: 100%;
+            flex-direction: column;
+            & .right, & .left{
+                max-width: 100%;
+                & div{
+                    margin: 0;
+                }
+                & img{
+                    width: 90%;
+                    height: 90%;
+                }
+            }
+        }   
     }
 
     & .about{

@@ -1,42 +1,11 @@
 <?php
-include "../../controllers/config.php";
+session_start();
+@include "../../controllers/config.php";
+@include "../../controllers/admin/add-donor.php";
 
-if (isset($_POST["submit"])) {
-    $name = $_POST['name'];
-    $blood_type = $_POST['blood_type'];
-    $contact_number = $_POST['contact_number'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $address = $_POST['address'];
-    $profilePicture = $_POST['profilePicture'];
-    $last_donation_date = $_POST['last_donation_date'];
+$errors = isset($_GET['err']) ? json_decode(urldecode($_GET['err']), true) : array();
+unset($_SESSION['errors']);
 
-    // Check if the user already exists
-    $existing_user_query = "SELECT * FROM donors WHERE name='$name'";
-    $existing_user_result = mysqli_query($conn, $existing_user_query);
-    if (mysqli_num_rows($existing_user_result) > 0) {
-        echo "User already exists.";
-        exit(); // Stop execution if user already exists
-    }
-
-    // Generating current timestamp for created_at and updated_at fields
-    $created_at = date("Y-m-d  H:i:s");
-    $updated_at = $created_at;
-   // Hash the password before saving it in the database
-   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Using prepared statements to prevent SQL injection
-    $stmt = $conn->prepare("INSERT INTO `donors` (`name`, `blood_type`, `contact_number`, `email`, `password`, `address`, `profilePicture`, `last_donation_date`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssssss", $name, $blood_type, $contact_number, $email, $hashed_password, $address, $profilePicture, $last_donation_date, $created_at, $updated_at);
-
-    if ($stmt->execute()) {
-        header("Location: admin.php?msg=New record created successfully");
-        exit();
-    } else {
-        echo "Failed: " . $conn->error;
-    }
-    $stmt->close();
-}
 ?>
 
 <!DOCTYPE html>
@@ -47,75 +16,95 @@ if (isset($_POST["submit"])) {
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-   <!-- Bootstrap -->
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
+   <link rel="icon" href="../../public/assets/images/Logo-donation.png" sizes="48x48" type="image/png" />
    <!-- Font Awesome -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+   <link rel="stylesheet" href="../../public/styles/main.css">
+   <link rel="stylesheet" href="../../public/styles/register.css">
    <title>Add New Donor</title>
 </head>
 
 <body>
-   <div class="container">
-      <div class="text-center mb-4">
-         <h3>Add New Donor</h3>
-         <p class="text-muted">Complete the form below to add a new user</p>
-      </div>
+   <!-- main -->
+   <main>
+      <section class="container">
 
-      <div class="container d-flex justify-content-center">
-      <form action="" method="post" style="width:50vw; min-width:300px;">
-   <div class="mb-3">
-      <label class="form-label">Full Name:</label>
-      <input type="text" class="form-control" name="name" placeholder="John Doe">
-   </div>
+         <article class="container-form">
+            <h2>Add Donor!</h2>
+            <form action="" method="post">
+               <div class="group-inputs">
 
-   <div class="mb-3">
-      <label class="form-label">Blood Type:</label>
-      <input type="text" class="form-control" name="blood_type" placeholder="A+">
-   </div>
+                  <div>
+                     <label for="username">Username</label>
+                     <input type="text" name="name" id="username" placeholder="Enter the Full name" />
+                     <?php if (!empty($errors['name'])) : ?>
+                        <small class="error"><?php echo $errors['name']; ?></small>
+                     <?php endif; ?>
+                  </div>
+                  <div>
+                     <label for="image">Image</label>
+                     <input type="text" name="profilePicture" id="Image" placeholder="Enter the profile image" />
+                  </div>
 
-   <div class="mb-3">
-      <label class="form-label">Contact Number:</label>
-      <input type="text" class="form-control" name="contact_number" placeholder="1234567890">
-   </div>
+                  <div>
+                     <label for="email">Email</label>
+                     <input type="email" name="email" id="email" placeholder="Enter the email" />
+                     <?php if (!empty($errors['email'])) : ?>
+                        <small class="error"><?php echo $errors['email']; ?></small>
+                     <?php endif; ?>
+                  </div>
+                  <div>
+                     <label for="password">Password</label>
+                     <input type="password" name="password" id="password" placeholder="Enter the password" />
+                     <?php if (!empty($errors['password'])) : ?>
+                        <small class="error"><?php echo $errors['password']; ?></small>
+                     <?php endif; ?>
+                  </div>
+                  <div>
+                     <label for="address">Address</label>
+                     <input type="text" name="address" id="address" placeholder="Enter the address" />
+                     <?php if (!empty($errors['address'])) : ?>
+                        <small class="error"><?php echo $errors['address']; ?></small>
+                     <?php endif; ?>
+                  </div>
 
-   <div class="mb-3">
-      <label class="form-label">Email:</label>
-      <input type="email" class="form-control" name="email" placeholder="name@example.com">
-   </div>
-    <div class="mb-3">
-        <label class="form-label">Password:</label>
-        <input type="password" class="form-control" name="password" placeholder="Password">
-    </div>
+                  <div class="donate-options">
+                     <label for="blood_group">Blood Group</label>
+                     <select name="blood_group" id="blood_group">
+                        <option value="" selected disabled hidden>Select your blood group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                     </select>
+                     <?php if (!empty($errors['blood_group'])) : ?>
+                        <small class="error"><?php echo $errors['blood_group']; ?></small>
+                     <?php endif; ?>
+                  </div>
 
-   <div class="mb-3">
-      <label class="form-label">Address:</label>
-      <input type="text" class="form-control" name="address" placeholder="123 Main St, City, Country">
-   </div>
+               </div>
+               <?php if (!empty($errors['general'])) : ?>
+                        <small class="error"><?php echo $errors['general']; ?></small>
+                     <?php endif; ?>
+               <div class="group-btns">
+                  <button type="submit" name="submit">Save</button>
+                  <button><a href="admin.php">Cancel</a></button>
+               </div>
 
-   <div class="mb-3">
-      <label class="form-label">Profile Picture URL:</label>
-      <input type="text" class="form-control" name="profilePicture" placeholder="http://example.com/profile.jpg">
-   </div>
+            </form>
+         </article>
+         <article class="welcome-message">
+            <h2>Welcome, Lab Employee!</h2>
+            <p>Add new donors to our Blood Donation Management System to help save lives. Your efforts in recruiting donors are invaluable and can make a significant difference in ensuring an adequate blood supply for those in need.</p>
+            <img src="../../public/assets/images/add-donor.jpg" alt="Add Donor" width="390px" height="150px">
+         </article>
 
-   <div class="mb-3">
-      <label class="form-label">Last Donation Date:</label>
-      <input type="date" class="form-control" name="last_donation_date">
-   </div>
-
-   <div>
-      <button type="submit" class="btn btn-success" name="submit">Save</button>
-      <a href="LabEmployee.html" class="btn btn-danger">Cancel</a>
-   </div>
-</form>
-
-      </div>
-   </div>
-
-   <!-- Bootstrap -->
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-
+      </section>
+   </main>
 </body>
 
 </html>
