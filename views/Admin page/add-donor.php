@@ -36,7 +36,7 @@ unset($_SESSION['errors']);
 
                   <div>
                      <label for="username">Username</label>
-                     <input type="text" name="name" id="username" placeholder="Enter the Full name" />
+                     <input type="text" name="name" id="username" placeholder="Enter the Full name" style="<?php echo (!empty($errors['name']) ? 'border: 1.5px solid red;' : ''); ?>" />
                      <?php if (!empty($errors['name'])) : ?>
                         <small class="error"><?php echo $errors['name']; ?></small>
                      <?php endif; ?>
@@ -48,21 +48,21 @@ unset($_SESSION['errors']);
 
                   <div>
                      <label for="email">Email</label>
-                     <input type="email" name="email" id="email" placeholder="Enter the email" />
+                     <input type="email" name="email" id="email" placeholder="Enter the email" style="<?php echo (!empty($errors['email']) ? 'border: 1.5px solid red;' : ''); ?>" />
                      <?php if (!empty($errors['email'])) : ?>
                         <small class="error"><?php echo $errors['email']; ?></small>
                      <?php endif; ?>
                   </div>
                   <div>
                      <label for="password">Password</label>
-                     <input type="password" name="password" id="password" placeholder="Enter the password" />
+                     <input type="password" name="password" id="password" placeholder="Enter the password" style="<?php echo (!empty($errors['password']) ? 'border: 1.5px solid red;' : ''); ?>"/>
                      <?php if (!empty($errors['password'])) : ?>
                         <small class="error"><?php echo $errors['password']; ?></small>
                      <?php endif; ?>
                   </div>
                   <div>
                      <label for="address">Address</label>
-                     <input type="text" name="address" id="address" placeholder="Enter the address" />
+                     <input type="text" name="address" id="address" placeholder="Enter the address" style="<?php echo (!empty($errors['address']) ? 'border: 1.5px solid red;' : ''); ?>"/>
                      <?php if (!empty($errors['address'])) : ?>
                         <small class="error"><?php echo $errors['address']; ?></small>
                      <?php endif; ?>
@@ -70,7 +70,7 @@ unset($_SESSION['errors']);
 
                   <div class="donate-options">
                      <label for="blood_group">Blood Group</label>
-                     <select name="blood_group" id="blood_group">
+                     <select name="blood_group" id="blood_group" style="<?php echo (!empty($errors['blood_group']) ? 'border: 1.5px solid red;' : ''); ?>">
                         <option value="" selected disabled hidden>Select your blood group</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>

@@ -77,7 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Insert the new user into the database
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     $sql = "INSERT INTO $table (name, password, email, profilePicture, address, phone, blood_group) VALUES ('$username', '$hashedPassword', '$email', '$profilePicture', '$address', '$phone', '$blood_group')";
     if ($conn->query($sql) === TRUE) {

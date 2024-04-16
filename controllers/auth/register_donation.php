@@ -5,7 +5,7 @@ include "../config.php";
 
 $errors = array();
 
-// Check if the form is submitted
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $username = mysqli_real_escape_string($conn, $_POST['username']);
@@ -13,16 +13,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $age = mysqli_real_escape_string($conn, $_POST['age']);
     $weight = mysqli_real_escape_string($conn, $_POST['weight']);
     $health = mysqli_real_escape_string($conn, $_POST['health']);
-    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+    $blood_volume = mysqli_real_escape_string($conn, $_POST['blood_volume']);
     $donation_id = isset($_POST['donation_id']) ? mysqli_real_escape_string($conn, $_POST['donation_id']) : null;
     $name = isset($_POST['donor_id']) ? mysqli_real_escape_string($conn, $_POST['donor_id']) : null;
 
-     // Retrieve donation information
-     $query_blood_info = "SELECT blood_type, donation_date FROM donations WHERE id = '$donation_id'";
+
+     $query_blood_info = "SELECT blood_group, donation_date FROM donations WHERE id = '$donation_id'";
      $result_blood_info = mysqli_query($conn, $query_blood_info);
      if ($result_blood_info) {
          $row_blood_info = mysqli_fetch_assoc($result_blood_info);
-         $donation_blood_type = $row_blood_info['blood_type'];
+         $donation_blood_type = $row_blood_info['blood_group'];
          $donation_date = $row_blood_info['donation_date'];
      } else {
          $errors['general'] = "Donation information not found.";
@@ -42,11 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['name'] = "Enter correct username.";
     }
 
-    // Validate gender
-    if (empty($gender)) {
-        $errors['gender'] = "Gender is required.";
-    } elseif (!in_array($gender, ['male', 'female'])) {
-        $errors['gender'] = "Invalid Gender selected.";
+    // Validate blood_volume
+    if (empty($blood_volume)) {
+        $errors['blood_volume'] = "blood volume is required.";
+    } elseif($blood_volume > 500){
+        $errors['blood_volume'] = "Blood volume is too big.";
     }
 
     // Validate phone
@@ -94,7 +94,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $donor_id = $row['id'];
         $blood_group = $row['blood_group'];
     } else {
-        // Handle the case where the donor is not found
         $errors['name'] = "Donor information not found.";
     }
 
@@ -159,11 +158,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Insert donor data into the donation_records table
-    $query = "INSERT INTO donation_records (donor_id, donation_id, blood_type) 
-              VALUES ('$donor_id', '$donation_id', '$blood_group')";
+    $query = "INSERT INTO donation_records (donor_id, donation_id, blood_group, blood_volume) 
+              VALUES ('$donor_id', '$donation_id', '$blood_group', '$blood_volume')";
 
-    // Execute the query
     $result = mysqli_query($conn, $query);
 
     if ($result) {

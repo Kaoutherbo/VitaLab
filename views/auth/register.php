@@ -42,11 +42,14 @@ unset($_SESSION['errors']); // clean up the session
     <!-- main -->
     <main>
         <section class="container">
-            <article class="welcome-message">
-                <h2>Welcome to the Blood Donation Management System!</h2>
-                <p>Join us in saving lives by donating blood. Your contribution can make a significant difference in someone's life. Together, we can ensure that hospitals have an adequate blood supply to help those in need.</p>
-                <img src="../../public/assets/images/hand2.png" alt="register" width="400px" height="220px">
-
+            <article class="welcome-message register-welcome">
+                <div class="infos">
+                    <h2>Welcome to <b>Vitalab Laboratory</b> Your Partner in Blood Donation Management!</h2>
+                    
+                    <p>
+                        Whether you are a first-time donor or a regular participant, your generosity and commitment to helping others are greatly appreciated. Join us in our efforts to make a lasting difference in our community and beyond.
+                    </p>
+                </div>
             </article>
             <article class="container-form">
                 <h2>Register now!</h2>
@@ -55,7 +58,7 @@ unset($_SESSION['errors']); // clean up the session
 
                         <div>
                             <label for="username">Username</label>
-                            <input type="text" name="name" id="username" placeholder="Enter your Full name" />
+                            <input type="text" name="name" id="username" placeholder="Enter your Full name" style="<?php echo (!empty($errors['name']) ? 'border: 1.5px solid red;' : ''); ?>" />
                             <?php if (!empty($errors['name'])) : ?>
                                 <small class="error"><?php echo $errors['name']; ?></small>
                             <?php endif; ?>
@@ -68,28 +71,28 @@ unset($_SESSION['errors']); // clean up the session
 
                         <div>
                             <label for="email">Email</label>
-                            <input type="email" name="email" id="email" placeholder="Enter your email" />
+                            <input type="email" name="email" id="email" placeholder="Enter your email" style="<?php echo (!empty($errors['email']) ? 'border: 1.5px solid red;' : ''); ?>" />
                             <?php if (!empty($errors['email'])) : ?>
                                 <small class="error"><?php echo $errors['email']; ?></small>
                             <?php endif; ?>
                         </div>
                         <div>
                             <label for="password">Password</label>
-                            <input type="password" name="password" id="password" placeholder="Enter your password" />
+                            <input type="password" name="password" id="password" placeholder="Enter your password" style="<?php echo (!empty($errors['password']) ? 'border: 1.5px solid red;' : ''); ?>" />
                             <?php if (!empty($errors['password'])) : ?>
                                 <small class="error"><?php echo $errors['password']; ?></small>
                             <?php endif; ?>
                         </div>
                         <div>
                             <label for="Address">Address</label>
-                            <input type="text" name="Address" id="address" placeholder="Enter your address" />
+                            <input type="text" name="Address" id="address" placeholder="Enter your address" style="<?php echo (!empty($errors['address']) ? 'border: 1.5px solid red;' : ''); ?>" />
                             <?php if (!empty($errors['address'])) : ?>
                                 <small class="error"><?php echo $errors['address']; ?></small>
                             <?php endif; ?>
                         </div>
                         <div>
                             <label for="role">Role</label>
-                            <select name="role" id="role">
+                            <select name="role" id="role" style="<?php echo (!empty($errors['role']) ? 'border: 1.5px solid red;' : ''); ?>">
                                 <option value="" selected disabled hidden>Select your role....</option>
                                 <option value="donor">Donor</option>
                                 <option value="lab_employee">Admin</option>
@@ -100,7 +103,7 @@ unset($_SESSION['errors']); // clean up the session
                         </div>
                         <div class="donate-options">
                             <label for="blood_group">Blood Group</label>
-                            <select name="blood_group" id="blood_group">
+                            <select name="blood_group" id="blood_group" style="<?php echo (!empty($errors['blood_group']) ? 'border: 1.5px solid red;' : ''); ?>">
                                 <option value="" selected disabled hidden>Select your blood group</option>
                                 <option value="A+">A+</option>
                                 <option value="A-">A-</option>
@@ -117,7 +120,7 @@ unset($_SESSION['errors']); // clean up the session
                         </div>
                         <div>
                             <label for="tel">Phone</label>
-                            <input type="tel" name="phone" id="phone" placeholder="Enter your phone number" />
+                            <input type="tel" name="phone" id="phone" placeholder="Enter your phone number" style="<?php echo (!empty($errors['phone']) ? 'border: 1.5px solid red;' : ''); ?>" />
                             <?php if (!empty($errors['phone'])) : ?>
                                 <small class="error"><?php echo $errors['phone']; ?></small>
                             <?php endif; ?>

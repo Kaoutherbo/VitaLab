@@ -58,10 +58,10 @@ if (isset($_POST["submit"])) {
             }
 
             // Prepare and execute the SQL query
-            $insert_query = "INSERT INTO donations (donation_place, donation_date, title, description, donation_image, created_by, created_at, blood_type) VALUES ('$donation_place', '$donation_date', '$title', '$description', '$donation_image', '$lab_employee_id', NOW(), '$blood_type')";
+            $insert_query = "INSERT INTO donations (donation_place, donation_date, title, description, donation_image, created_by, created_at, blood_group) VALUES ('$donation_place', '$donation_date', '$title', '$description', '$donation_image', '$lab_employee_id', NOW(), '$blood_group')";
 
             if (mysqli_query($conn, $insert_query)) {
-                header("Location: ../../views/Admin page/admin.php?msg=New donation created successfully");
+                header("Location: ../../views/Donor page/display_donations.php?msg=New donation created successfully");
                 exit();
             } else {
                 echo "Failed to create donation. Please try again later.";

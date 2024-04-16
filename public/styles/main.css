@@ -63,6 +63,8 @@ body{
         color: red;
         font-size: 11px;
     }
+    
+    
     /* For scroll bar */
     &::-webkit-scrollbar {
         width: 10px;
@@ -279,7 +281,117 @@ body{
         }
 
     }
-    
+     /* ACCOUNT */
+     & .account {
+        min-width: 100%;
+        min-height: 100vh;
+        position: fixed;
+        top: 0;
+        background-color: rgba(134, 133, 133, 0.3);
+        z-index: 3000;
+        display: grid;
+        place-items: center;
+        display: none;
+
+        & .container {
+            width: 420px;
+            height: fit-content;
+            border-radius: 15px;
+            background-color: #f1dbdb;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+
+            &  .infos {
+                display: flex;
+                gap: 20px;
+                
+            }
+            & > span {
+                font-size: 2rem;
+                cursor: pointer;
+                height: 30px;
+                width: 30px;
+                align-self: flex-end;
+                margin-top: 5px;
+            }
+            & img {
+                margin: 2rem 0;
+                border-radius: 50%;
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+            }
+
+            & h2 {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                font-size: 15px;
+                letter-spacing: 0;
+                margin: 0;
+                color: var(--Black);
+                font-family: var(--Font-Family2);
+                margin-top: 14px;
+                
+            }
+
+            & p {
+                color: var(--Very-Dark-Gray);
+                margin: 5px 2rem;
+                font-size: 14px;
+            }
+
+            & .secondary_info{
+                display: flex;
+                justify-content: space-between;
+            }
+            & .btns2 {
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                margin-top: 1.5rem;
+
+                & button {
+                    padding: 5px 40px;
+                    background-color: var(--Black);
+                    font-size: 13px;
+                    cursor: pointer;
+                    border-radius: 10px;
+                    transition: 0.3s;
+                    margin-top: 0;
+                    transform: none;
+
+                    &:hover {
+                        background-color: beige;
+
+                        & span {
+                            color: var(--Black);
+                        }
+                    }
+                }
+
+                & .logout:hover {
+                    background-color: var(--red);
+
+                    & span {
+                        color: white;
+                    }
+                }
+
+            }
+        }
+    }
+    & .graphs{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #F6DCDC;
+      & div{
+        flex: 1;
+        
+      }
+    }
 }
 
 /*  Responsive style */
@@ -337,8 +449,80 @@ body{
                 }
             }
         }
+        &  .account {
+            & .container {
+                height: fit-content;
+                &  .infos{
+                    flex-direction: column;
+                    gap: 0;
+                    & > div:first-child{
+                        width: 100px;
+                        height: 100px;
+                        margin: auto;
+                        & img {
+                            width: 100%;
+                            height: 100%;
+                            margin: 0;
+                        }
+                    }
+                }
+                
     
+                & h2 {
+                    font-size: 15px;
+                }
+    
+                & p {
+                    font-size: 1rem !important;
+                }
+    
+                &>.btns2 {
+                    height: 35px;
+                    & button {
+                        margin: 0 2rem ;
+                        padding: 0.3rem 1.5rem !important;
+                        font-size: 10px !important;
+    
+                        & span {
+                            margin-top: 5px;
+                            font-size: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+    & .graphs{
+        flex-direction: column;
+        & div{
+          max-width:100%;
+        }
+      }
     } 
+
     
   
+}
+@media screen and (max-width: 576px) {
+    .account {
+        & .container {
+            width: 80% !important;
+            padding: 1rem !important;
+
+            & img {
+                width: 80px !important;
+                height: 80px !important;
+            }
+
+
+            & span {
+                margin-top: 10px;
+            }
+            & .btns2 button {
+                padding: 0.3rem 1.75rem !important;
+                span{
+                font-size: 17px;
+            }
+        }
+        }
+    }
 }

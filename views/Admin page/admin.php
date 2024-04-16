@@ -1,5 +1,5 @@
 <?php
-@include "../../controllers/admin/fetch_admin_info.php";
+@include "../../controllers/fetch_user.php";
 @include "../../controllers/admin/search_donor.php";
 @include "../../controllers/admin/display_by_blood_type.php";
 @include "../../controllers/admin/display_donors.php";
@@ -25,6 +25,82 @@ unset($_SESSION['errors']);
     <link rel="stylesheet" href="../../public/styles/labEmpl.css">
     <!-- Icons link -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        // Load the Google Charts library
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+
+        // Callback function to draw the first chart (PieChart) with donor's blood type and donation registrations
+        google.charts.setOnLoadCallback(drawDonorHealthChart);
+
+        function drawDonorHealthChart() {
+            // Data array: blood type and donations registrations
+            var data = google.visualization.arrayToDataTable([
+                ['Blood Type', 'Donations'],
+                ['A+', 30],
+                ['A-', 15],
+                ['B+', 25],
+                ['B-', 10],
+                ['O+', 40],
+                ['O-', 20],
+                ['AB+', 5],
+                ['AB-', 2]
+            ]);
+
+            // Chart options
+            var options = {
+                title: 'Donors Blood Type and Donations',
+                colors: ['#18A810', '#F28E2B', '#FB373A', '#4563FC', '#59A14F', '#EDC948', '#75288D', '#FF9DA7'],
+            };
+
+            // Create and draw the pie chart
+            var chart = new google.visualization.PieChart(document.getElementById('bloodTypeChart'));
+            chart.draw(data, options);
+        }
+
+        // Callback function to draw the second chart (ComboChart) with daily activities and health metrics
+        google.charts.setOnLoadCallback(drawDonorActivitiesChart);
+
+        function drawDonorActivitiesChart() {
+            // Data array: task, hours per day, health metric
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day', 'Health Metric'],
+                ['Work', 8, 110],
+                ['Eat', 2, 120],
+                ['Commute', 1, 130],
+                ['Watch TV', 3, 100],
+                ['Sleep', 10, 140]
+            ]);
+
+            // Chart options
+            var options = {
+                title: 'Donor Daily Activities and Health Metrics',
+                vAxis: {
+                    title: 'Values'
+                },
+                hAxis: {
+                    title: 'Tasks'
+                },
+                seriesType: 'bars',
+                series: {
+                    0: {
+                        type: 'bars',
+                        color: '#1ECB2D'
+                    }, // Color for the first series (bars)
+                    1: {
+                        type: 'line',
+                        color: '#FF5733'
+                    } // Color for the second series (line)
+                }
+            };
+
+            // Create and draw the combination chart
+            var chart = new google.visualization.ComboChart(document.getElementById('dailyActivitiesChart'));
+            chart.draw(data, options);
+        }
+    </script>
 
 
     <title>Lab Employee</title>
@@ -109,26 +185,26 @@ unset($_SESSION['errors']);
     <section id="content">
         <!-- NAVBAR -->
         <nav>
-            <i class='bx bx-menu'></i>
-            <a href="#" class="nav-link">Categories</a>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search...">
-                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
-            <input type="checkbox" id="switch-mode" hidden>
-            <label for="switch-mode" class="switch-mode"></label>
+            <div>
+                <i class='bx bx-menu'></i>
+                <a href="#" class="nav-link">Categories</a>
+            </div>
 
-            <a href="#" class="notification">
-                <i class='bx bxs-bell'></i>
-                <span class="num">8</span>
-            </a>
+            <div>
+                <input type="checkbox" id="switch-mode" hidden>
+                <label for="switch-mode" class="switch-mode"></label>
 
-            <a href="#" class="profile" id="profilePicture">
-                <img src="<?php echo $row_admin['profilePicture']; ?>" alt="Profile Picture">
-            </a>
+                <a href="#" class="notification">
+                    <i class='bx bxs-bell'></i>
+                    <span class="num">8</span>
+                </a>
+
+                <a href="#" class="profile" id="profilePicture">
+                    <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
+                </a>
+            </div>
         </nav>
+
         <main>
             <div class="head-title">
                 <ul class="breadcrumb">
@@ -144,10 +220,10 @@ unset($_SESSION['errors']);
 
             <section class="box-info">
 
-                <?php foreach ($blood_types as $type => $count) : ?>
+                <?php foreach ($blood_groups as $type => $count) : ?>
                     <article>
                         <form action="" method="post">
-                            <input type="hidden" name="blood_type" value="<?php echo $type; ?>" />
+                            <input type="hidden" name="blood_group" value="<?php echo $type; ?>" />
                             <div class="article-btn" onclick="this.parentNode.submit();">
                                 <i class='bx bxs-group'></i>
                                 <span class='text'>
@@ -168,16 +244,16 @@ unset($_SESSION['errors']);
                         <!-- Search form -->
                         <form action="" method="post" class="form-donor">
                             <div class="form-input">
-                                <input type="text" name="search_term" placeholder="Search donors...">
-                                <button type="submit" class="search-btn">
+                                <input type="text" name="search_term" placeholder="Search donors..." style="<?php echo (!empty($errors['searchTerm']) ? 'border: 1.5px solid red;' : ''); ?>">
+                                <button type="submit" class="search-btn" aria-label="Search">
                                     <i class='bx bx-search'></i>
                                 </button>
                             </div>
                             <?php if (!empty($errors['searchTerm'])) : ?>
-                                <small class="error"><?php echo $errors['searchTerm']; ?></small>
+                                <small class="error" style="margin: 0 2rem"><?php echo htmlspecialchars($errors['searchTerm']); ?></small>
                             <?php endif; ?>
-
                         </form>
+
 
                         <button class="add-btn">
                             <a href="add-donor.php">Add Donor</a>
@@ -213,7 +289,7 @@ unset($_SESSION['errors']);
                                         echo "<td>" . $row_donor['created_at'] . "</td>";
                                         echo "<td>" . $row_donor['email'] . "</td>";
                                         echo "<td>" . $row_donor['address'] . "</td>";
-                                        echo "<td>" . $row_donor['blood_type'] . "</td>";
+                                        echo "<td>" . $row_donor['blood_group'] . "</td>";
                                         echo "<td>";
                                         echo "<a href='update-donor.php?id=" . $row_donor['id'] . "' class='status edit'><span class='material-symbols-outlined'>edit</span></a>";
                                         echo "<a href='../../controllers/admin/delete-donor.php?id=" . $row_donor['id'] . "' class='status delete'><span class='material-symbols-outlined'>delete</span></a>";
@@ -233,7 +309,7 @@ unset($_SESSION['errors']);
                                         echo "<td>" . $row_donor['created_at'] . "</td>";
                                         echo "<td>" . $row_donor['email'] . "</td>";
                                         echo "<td>" . $row_donor['address'] . "</td>";
-                                        echo "<td>" . $row_donor['blood_type'] . "</td>";
+                                        echo "<td>" . $row_donor['blood_group'] . "</td>";
                                         echo "<td>";
                                         echo "<a href='update-donor.php?id=" . $row_donor['id'] . "' class='status edit'><span class='material-symbols-outlined'>edit</span></a>";
                                         echo "<a href='../../controllers/admin/delete-donor.php?id=" . $row_donor['id'] . "' class='status delete'><span class='material-symbols-outlined'>delete</span></a>";
@@ -249,31 +325,55 @@ unset($_SESSION['errors']);
                     </table>
                 </div>
             </section>
+            <section class="graphs">
+                <div id="bloodTypeChart" style="width: 100%; height: 400px;"></div>
+                <div id="dailyActivitiesChart" style="width: 100%; height: 400px;"></div>
+            </section>
         </main>
     </section>
+
     <!-- for the profile section-->
     <section class="account" id="accountSection">
         <div class="container">
+            <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
 
-            <div>
-                <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
-                <img src="<?php echo $row_admin['profilePicture']; ?>" alt="Profile Picture">
+            <div class="infos">
+                <div>
+                    <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
+                </div>
+
+                <div>
+                    <h2><span class="material-symbols-outlined">Person</span> Username</h2>
+                    <p><?php echo $row_user['name']; ?></p>
+                    <h2><span class="material-symbols-outlined">Mail</span>Email</h2>
+                    <p><?php echo $row_user['email']; ?></p>
+                    <h2><span class="material-symbols-outlined">location_on</span>Address</h2>
+                    <p><?php echo $row_user['address']; ?></p>
+                    <div class="secondary_info">
+                        <div>
+                            <h2><span class="material-symbols-outlined">relax</span>Blood Group</h2>
+                            <p><?php echo $row_user['blood_group']; ?></p>
+
+                        </div>
+                        <div>
+                            <h2><span class="material-symbols-outlined">admin_panel_settings</span>Role</h2>
+                            <p><?php echo $row_user['role']; ?></p>
+                        </div>
+                    </div>
+
+                    <div class="btns2">
+                        <button class="logout">
+                            <a href="../../controllers/auth/logout.php">
+                                <i class="bx"><span class="material-symbols-outlined">logout</span></i>
+                            </a>
+                        </button>
+                        <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
+                    </div>
+
+                </div>
+
             </div>
 
-            <h2>Username</h2>
-            <p><?php echo $row_admin['name']; ?></p>
-            <h2>Email</h2>
-            <p><?php echo $row_admin['email']; ?></p>
-            <h2>Address</h2>
-            <p><?php echo $row_admin['address']; ?></p>
-            <div class="btns2">
-                <button class="logout">
-                    <a href="../../controllers/auth/logout.php">
-                        <i class="bx"><span class="material-symbols-outlined">logout</span></i>
-                    </a>
-                </button>
-                <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
-            </div>
         </div>
     </section>
 

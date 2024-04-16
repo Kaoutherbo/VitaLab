@@ -2,8 +2,7 @@
 session_start();
 @include '../../controllers/config.php';
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-comment'])) { // add condition
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-comment'])) {
     // Check if the user is logged in
     if (isset($_SESSION['name'])) {
         // Get form data
@@ -41,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-comment'])) { // a
         // Check if there are any errors
         if (count($errors) > 0) {
             $_SESSION['errors'] = $errors; // Store errors for this specific donation
-            header("Location: ../../views/Donor page/display_donations.php?id=$donation_id&err=" . urlencode(json_encode($errors)));
+            header("Location: ../../views/Donor page/donor.php?id=$donation_id&err=" . urlencode(json_encode($errors)));
             exit();
         }
 
@@ -60,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-comment'])) { // a
                   VALUES ('$donor_id', '$donation_id', '$comment', '$rating', '$profilePicture', '$comment_donor_name')";
             if (mysqli_query($conn, $query_insert_comment)) {
                 // Comment inserted successfully, redirect back to the donor page
-                header("Location: ../../views/Donor page/display_donations.php");
+                header("Location: ../../views/Donor page/donor.php");
                 exit;
             } else {
                 // Error inserting comment

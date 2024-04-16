@@ -1,7 +1,7 @@
 <?php
 session_start();
 @include '../../controllers/config.php';
-@include '../../controllers/user/fetch_donor_info.php';
+@include '../../controllers/fetch_user.php';
 
 $donation_id = $_GET['id'];
 
@@ -41,7 +41,7 @@ unset($_SESSION['errors']); // clean up the session
         <li><a href="../Home/Contact.html">Contact</a></li>
       </ul>
       <a href="#" class="profile" id="profilePicture">
-        <img src="<?php echo $row_donor['profilePicture']; ?>" alt="Profile Picture">
+        <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
       </a>
       <span class="material-symbols-outlined hamburger">menu</span>
       <span class="material-symbols-outlined closeIcone">close</span>
@@ -62,25 +62,25 @@ unset($_SESSION['errors']); // clean up the session
         <h2>Register for Donation</h2>
         <form action="../../controllers/auth/register_donation.php?id=<?php echo $donation_id; ?>" method="post">
           <input name="donation_id" value="<?php echo $donation_id; ?>" type="hidden">
-          <input name="donor_id" value="<?php echo $row_donor['name']; ?>" type="hidden">
+          <input name="donor_id" value="<?php echo $row_user['name']; ?>" type="hidden">
           <div class="group-inputs">
             <div>
               <label for="username">Full Name</label>
-              <input type="text" name="username" id="username" placeholder="Enter your Full name" />
+              <input type="text" name="username" id="username" placeholder="Enter your Full name" style="<?php echo (!empty($errors['name']) ? 'border: 1.5px solid red;' : ''); ?>" />
               <?php if (!empty($errors['name'])) : ?>
                 <small class="error"><?php echo $errors['name']; ?></small>
               <?php endif; ?>
             </div>
             <div>
               <label for="tel">Phone</label>
-              <input type="tel" name="phone" id="phone" placeholder="Enter your phone number" />
+              <input type="tel" name="phone" id="phone" placeholder="Enter your phone number" style="<?php echo (!empty($errors['phone']) ? 'border: 1.5px solid red;' : ''); ?>" />
               <?php if (!empty($errors['phone'])) : ?>
                 <small class="error"><?php echo $errors['phone']; ?></small>
               <?php endif; ?>
             </div>
             <div>
               <label for="number">Age</label>
-              <input type="number" name="age" id="age" placeholder="Enter your age" />
+              <input type="number" name="age" id="age" placeholder="Enter your age" style="<?php echo (!empty($errors['age']) ? 'border: 1.5px solid red;' : ''); ?>" />
               <?php if (!empty($errors['age'])) : ?>
                 <small class="error"><?php echo $errors['age']; ?></small>
               <?php endif; ?>
@@ -88,7 +88,7 @@ unset($_SESSION['errors']); // clean up the session
 
             <div>
               <label for="number">Weight</label>
-              <input type="number" name="weight" id="weight" placeholder="Enter your weight" />
+              <input type="number" name="weight" id="weight" placeholder="Enter your weight" style="<?php echo (!empty($errors['weight']) ? 'border: 1.5px solid red;' : ''); ?>" />
               <?php if (!empty($errors['weight'])) : ?>
                 <small class="error"><?php echo $errors['weight']; ?></small>
               <?php endif; ?>
@@ -96,7 +96,7 @@ unset($_SESSION['errors']); // clean up the session
 
             <div>
               <label for="text">Health</label>
-              <select name="health" id="health">
+              <select name="health" id="health" style="<?php echo (!empty($errors['health']) ? 'border: 1.5px solid red;' : ''); ?>">
                 <option value="" selected disabled hidden>Do you have any diseases?</option>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
@@ -106,17 +106,14 @@ unset($_SESSION['errors']); // clean up the session
               <?php endif; ?>
             </div>
 
-            <div class="donate-options">
-              <label for="gender">Gender</label>
-              <select name="gender" id="gender">
-                <option value="" selected disabled hidden>Select your Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-              <?php if (!empty($errors['gender'])) : ?>
-                <small class="error"><?php echo $errors['gender']; ?></small>
+            <div>
+              <label for="blood_volume">Blood Volume (in ml)</label>
+              <input type="number" name="blood_volume" id="blood_volume" placeholder="Enter your blood volume (in ml)" style="<?php echo (!empty($errors['blood_volume']) ? 'border: 1.5px solid red;' : ''); ?>" />
+              <?php if (!empty($errors['blood_volume'])) : ?>
+                <small class="error"><?php echo $errors['blood_volume']; ?></small>
               <?php endif; ?>
             </div>
+
 
           </div>
           <div>
@@ -134,29 +131,48 @@ unset($_SESSION['errors']); // clean up the session
     </section>
 
   </main>
-  <!-- Account -->
+  <!-- for the profile section-->
   <section class="account" id="accountSection">
     <div class="container">
+      <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
 
-      <div>
-        <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
-        <img src="<?php echo $row_donor['profilePicture']; ?>" alt="Profile Picture">
+      <div class="infos">
+        <div>
+          <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
+        </div>
+
+        <div>
+          <h2><span class="material-symbols-outlined">Person</span> Username</h2>
+          <p><?php echo $row_user['name']; ?></p>
+          <h2><span class="material-symbols-outlined">Mail</span>Email</h2>
+          <p><?php echo $row_user['email']; ?></p>
+          <h2><span class="material-symbols-outlined">location_on</span>Address</h2>
+          <p><?php echo $row_user['address']; ?></p>
+          <div class="secondary_info">
+            <div>
+              <h2><span class="material-symbols-outlined">relax</span>Blood Group</h2>
+              <p><?php echo $row_user['blood_group']; ?></p>
+
+            </div>
+            <div>
+              <h2><span class="material-symbols-outlined">Person</span>Role</h2>
+              <p><?php echo $row_user['role']; ?></p>
+            </div>
+          </div>
+
+          <div class="btns2">
+            <button class="logout">
+              <a href="../../controllers/auth/logout.php">
+                <i class="bx"><span class="material-symbols-outlined">logout</span></i>
+              </a>
+            </button>
+            <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
+          </div>
+
+        </div>
+
       </div>
 
-      <h3>Username</h3>
-      <p><?php echo $row_donor['name']; ?></p>
-      <h3>Email</h3>
-      <p><?php echo $row_donor['email']; ?></p>
-      <h3>Address</h3>
-      <p><?php echo $row_donor['address']; ?></p>
-      <div class="btns2">
-        <button class="logout">
-          <a href="../../controllers/auth/logout.php">
-            <i class="bx"><span class="material-symbols-outlined">logout</span></i>
-          </a>
-        </button>
-        <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
-      </div>
     </div>
   </section>
 

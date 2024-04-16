@@ -35,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])) {
         exit();
     }
 
-    // Construct the query to filter donations based on user input
     $query = "SELECT * FROM donations WHERE donation_date BETWEEN '$start_date' AND '$end_date' AND blood_type = '$blood_group'";
     $result_Donations = mysqli_query($conn, $query);
 } else {

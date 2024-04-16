@@ -3,7 +3,7 @@ session_start();
 @include '../../controllers/config.php';
 @include '../../controllers/user/display_donations.php';
 @include '../../controllers/user/submit_comment.php';
-@include '../../controllers/user/fetch_donor_info.php';
+@include '../../controllers/fetch_user.php';
 
 // Check if the database connection is successful
 if (!$conn) {
@@ -48,12 +48,12 @@ mysqli_close($conn);
         <div id="container">
             <ul class="ulMenu">
                 <li><a href="../Home/Home Page.html">Home</a></li>
-                <li><a href="../Donor page/donor.php">Dashboard</a></li> <!--If it was an admin we return it to his dashboard(admin.php) otherwise donor page(donor.php)-->
-                <li><a href="?all_donations">All Donations</a></li> <!-- display all the donations from the db -->
+                <li><a href="<?php echo $row_user['role'] == 'admin' ? '../Admin page/admin.php' : '../Donor page/donor.php'; ?>">Dashboard</a></li>
+                <li><a href="?all_donations">All Donations</a></li>
             </ul>
             <a href="#" class="profile" id="profilePicture">
-                <img src="<?php echo $row_donor['profilePicture']; ?>" alt="Profile Picture">
-            </a> <!--If it was an admin we display the admin profile and infos otherwise donor profile and infos -->
+                <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
+            </a>
             <span class="material-symbols-outlined hamburger">menu</span>
             <span class="material-symbols-outlined closeIcone">close</span>
         </div>
@@ -64,14 +64,14 @@ mysqli_close($conn);
         <form method="POST" id="searchForm">
             <div class="" group-inputs>
                 <label for="start_date">Start Date:</label>
-                <input type="date" name="startDate" id="startDate">
+                <input type="date" name="startDate" id="startDate" style="<?php echo (!empty($errors['start_date']) ? 'border: 1.5px solid red;' : ''); ?>">
                 <?php if (!empty($errors['start_date'])) : ?>
                     <small class="error"><?php echo $errors['start_date']; ?></small>
                 <?php endif; ?>
             </div>
             <div class="" group-inputs>
                 <label for="end_date">End Date:</label>
-                <input type="date" name="endDate" id="endDate">
+                <input type="date" name="endDate" id="endDate" style="<?php echo (!empty($errors['end_date']) ? 'border: 1.5px solid red;' : ''); ?>">
                 <?php if (!empty($errors['end_date'])) : ?>
                     <small class="error"><?php echo $errors['end_date']; ?></small>
                 <?php endif; ?>
@@ -79,16 +79,16 @@ mysqli_close($conn);
 
             <div class="last">
                 <label for="blood_group">Blood Group</label>
-                <select name="blood_group" id="blood_group">
-                    <option value="" selected disabled hidden>Select your blood group</option>
-                    <option value="A+">A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+">B+</option>
-                    <option value="B-">B-</option>
-                    <option value="AB+">AB+</option>
-                    <option value="AB-">AB-</option>
-                    <option value="O+">O+</option>
-                    <option value="O-">O-</option>
+                <select name="blood_group" id="blood_group" style="<?php echo (!empty($errors['blood_group']) ? 'border: 1.5px solid red;' : ''); ?>" >
+                <option value="" selected disabled hidden>Select your blood group</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
                 </select>
                 <?php if (!empty($errors['blood_group'])) : ?>
                     <small class="error"><?php echo $errors['blood_group']; ?></small>
@@ -116,7 +116,7 @@ mysqli_close($conn);
                     echo '</div>';
                     echo '<div class="title-bld">';
                     echo '<h3>' . $donation['title'] . '</h3>';
-                    echo '<strong>' . $donation['blood_type'] . '</strong>';
+                    echo '<strong>' . $donation['blood_group'] . '</strong>';
                     echo '</div>';
                     echo '<p>' . $donation['description'] . '</p>';
                     echo '<button class="btn-donation"><a href="../auth/donatePage.php?id=' . $donation['id'] . '">Donate Now</a></button>';
@@ -156,13 +156,22 @@ mysqli_close($conn);
                     // Display form for adding comments
                     echo '<form class="input-comments" action="../../controllers/user/submit_comment.php" method="post">';
                     echo '<input type="hidden" name="donation_id" value="' . $donation_id . '">';
-                    echo '<input type="text" placeholder="Add comment..." name="comment-content">';
+                    echo '<input type="text" placeholder="Add comment..." name="comment-content" style="';
                     if ($errorId == $donation_id && !empty($errors['comment'])) {
-                        echo '<small class="error">' . $errors['comment'] . '</small>';
+                        echo 'border: 1.5px solid red;';
+                    }
+                    echo '">';
+                    
+                    if ($errorId == $donation_id && !empty($errors['comment'])) {
+                        echo '<small class="error" style="position: absolute; bottom: 0; left: 10px; margin: 0 0 -1.1rem 0">' . $errors['comment'] . '</small>';
                     }
                     echo '<div>';
                     echo '<button type="submit" name="add-comment">Add comment</button>';
-                    echo '<select name="rating" id="rating">';
+                    echo '<select name="rating" id="rating" style="';
+                    if ($errorId == $donation_id && !empty($errors['rating'])) {
+                        echo 'border: 1.5px solid red;';
+                    }
+                    echo '">';
                     echo '<option value="" disabled selected>Rates the service...</option>';
                     echo '<option value="1">1</option>';
                     echo '<option value="2">2</option>';
@@ -171,11 +180,11 @@ mysqli_close($conn);
                     echo '<option value="5">5</option>';
                     echo '</select>';
                     if ($errorId == $donation_id && !empty($errors['rating'])) {
-                        echo '<small class="error">' . $errors['rating'] . '</small>';
+                        echo '<small class="error" style="position: absolute; bottom: 0; right: 40px; margin: 0 0 -1rem 0">' . $errors['rating'] . '</small>';
                     }
                     echo '</div>';
                     if ($errorId == $donation_id && !empty($errors['donation'])) {
-                        echo '<small class="error">' . $errors['donation'] . '</small>';
+                        echo '<small class="error" style="position: absolute; bottom: 100px; left: 20px"> ' . $errors['donation'] . '</small>';
                     }
                     echo '</form>';
 
@@ -189,31 +198,51 @@ mysqli_close($conn);
 
     </section>
 
-    <!-- Account -->
+    <!-- for the profile section-->
     <section class="account" id="accountSection">
         <div class="container">
+            <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
 
-            <div>
-                <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
-                <img src="<?php echo $row_donor['profilePicture']; ?>" alt="Profile Picture">
+            <div class="infos">
+                <div>
+                    <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
+                </div>
+
+                <div>
+                    <h2><span class="material-symbols-outlined">Person</span> Username</h2>
+                    <p><?php echo $row_user['name']; ?></p>
+                    <h2><span class="material-symbols-outlined">Mail</span>Email</h2>
+                    <p><?php echo $row_user['email']; ?></p>
+                    <h2><span class="material-symbols-outlined">location_on</span>Address</h2>
+                    <p><?php echo $row_user['address']; ?></p>
+                    <div class="secondary_info">
+                        <div>
+                            <h2><span class="material-symbols-outlined">relax</span>Blood Group</h2>
+                            <p><?php echo $row_user['blood_group']; ?></p>
+
+                        </div>
+                        <div>
+                            <h2><span class="material-symbols-outlined">Person</span>Role</h2>
+                            <p><?php echo $row_user['role']; ?></p>
+                        </div>
+                    </div>
+
+                    <div class="btns2">
+                        <button class="logout">
+                            <a href="../../controllers/auth/logout.php">
+                                <i class="bx"><span class="material-symbols-outlined">logout</span></i>
+                            </a>
+                        </button>
+                        <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
+                    </div>
+
+                </div>
+
             </div>
 
-            <h3>Username</h3>
-            <p><?php echo $row_donor['name']; ?></p>
-            <h3>Email</h3>
-            <p><?php echo $row_donor['email']; ?></p>
-            <h3>Address</h3>
-            <p><?php echo $row_donor['address']; ?></p>
-            <div class="btns2">
-                <button class="logout">
-                    <a href="../../controllers/auth/logout.php">
-                        <i class="bx"><span class="material-symbols-outlined">logout</span></i>
-                    </a>
-                </button>
-                <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
-            </div>
         </div>
     </section>
+
 
     <!-- Scripts -->
     <script src="../../public/js/nav.js"></script>

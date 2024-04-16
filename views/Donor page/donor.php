@@ -3,7 +3,7 @@
 @include '../../controllers/config.php';
 @include '../../controllers/user/display_latest.php';
 @include '../../controllers/user/submit_comment.php';
-@include '../../controllers/user/fetch_donor_info.php';
+@include '../../controllers/fetch_user.php';
 
 // Check if the database connection is successful
 if (!$conn) {
@@ -12,8 +12,12 @@ if (!$conn) {
 
 
 @include '../../controllers/user/display_comments.php';
+
 $errors = isset($_GET['err']) ? json_decode(urldecode($_GET['err']), true) : array();
 unset($_SESSION['errors']);
+// Get the error ID from the URL parameters
+$errorId = isset($_GET['id']) ? $_GET['id'] : null;
+
 
 ?>
 
@@ -32,6 +36,86 @@ unset($_SESSION['errors']);
     <link rel="stylesheet" href="../../public/styles/styles.css">
     <link rel="stylesheet" href="../../public/styles/main.css">
     <link rel="stylesheet" href="../../public/styles/donor.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            // Replace the data with the donor's health information
+            var data = google.visualization.arrayToDataTable([
+                ['Metric', 'Value'],
+                ['Blood Pressure', 20],
+                ['Heart Rate', 15],
+                ['Cholesterol', 30],
+                ['Hemoglobin', 35]
+            ]);
+
+            // Set the chart options
+            var options = {
+                title: 'Donor Health Information',
+                backgroundColor: '#F6DCDC',
+                chartArea: {
+                    width: '75%',
+                    height: '75%'
+
+                },
+                pieHole: 3,
+            };
+
+            // Create and draw the chart
+            var chart = new google.visualization.PieChart(document.getElementById('healthChart'));
+
+            chart.draw(data, options);
+        }
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawVisualization);
+
+        function drawVisualization() {
+            // Data: task, hours per day, additional health metric
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day', 'Health Metric'],
+                ['Work', 11, 75],
+                ['Eat', 3, 120],
+                ['Commute', 4, 180],
+                ['Watch TV', 5, 13.5],
+                ['Sleep', 7, 15]
+            ]);
+
+            // Chart options with colors and series type
+            var options = {
+                title: 'Donor Health Information and Daily Activities',
+                backgroundColor: '#F6DCDC',
+                vAxis: {
+                    title: 'Values'
+                },
+                hAxis: {
+                    title: 'Tasks'
+                },
+                seriesType: 'bars', // Default series type is bars
+                series: {
+                    0: {
+                        type: 'bars',
+                        color: '#5FDC31'
+                    },
+                    1: {
+                        type: 'line',
+                        color: '#F57842'
+                    }
+                },
+            };
+
+            // Create and draw the combination chart
+            var chart = new google.visualization.ComboChart(document.getElementById('comboChart'));
+            chart.draw(data, options);
+        }
+    </script>
+
+
 </head>
 
 <body>
@@ -50,7 +134,7 @@ unset($_SESSION['errors']);
                 <li><a href="../Home/Contact.html">Contact</a></li>
             </ul>
             <a href="#" class="profile" id="profilePicture">
-                <img src="<?php echo $row_donor['profilePicture']; ?>" alt="Profile Picture">
+                <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
             </a>
             <span class="material-symbols-outlined hamburger">menu</span>
             <span class="material-symbols-outlined closeIcone">close</span>
@@ -69,103 +153,132 @@ unset($_SESSION['errors']);
 
         <div>
             <?php
-            // Display donations
-            foreach ($donations as $donation_id => $donation) {
-                // Display donation information
-                echo '<article>';
-                echo '<div class="donation-content">';
-                // Display donation details
-                echo '<img src="' . $donation['donation_image'] . '" alt="News 1">';
-                echo '<div>';
-                echo '<div>';
-                echo '<p><span class="material-symbols-outlined">schedule</span>' . $donation['donation_date'] . '</p>';
-                echo '<p><span class="material-symbols-outlined">location_on</span>' . $donation['donation_place'] . '</p>';
-                echo '</div>';
-                echo '<div class="title-bld">';
-                echo '<h3>' . $donation['title'] . '</h3>';
-                echo '<strong>' . $donation['blood_type'] . '</strong>';
-                echo '</div>';
-                echo '<p>' . $donation['description'] . '</p>';
-                echo '<button class="btn-donation"><a href="../auth/donatePage.php?id=' . $donation['id'] . '">Donate Now</a></button>';
+            if (empty($donations)) {
+                echo '<p class="emptyDonation">No donation found.</p>';
+            } else {
+                // Display donations
+                foreach ($donations as $donation_id => $donation) {
+                    // Display donation information
+                    echo '<article>';
+                    echo '<div class="donation-content">';
+                    // Display donation details
+                    echo '<img src="' . $donation['donation_image'] . '" alt="News 1">';
+                    echo '<div>';
+                    echo '<div>';
+                    echo '<p><span class="material-symbols-outlined">schedule</span>' . $donation['donation_date'] . '</p>';
+                    echo '<p><span class="material-symbols-outlined">location_on</span>' . $donation['donation_place'] . '</p>';
+                    echo '</div>';
+                    echo '<div class="title-bld">';
+                    echo '<h3>' . $donation['title'] . '</h3>';
+                    echo '<strong>' . $donation['blood_group'] . '</strong>';
+                    echo '</div>';
+                    echo '<p>' . $donation['description'] . '</p>';
+                    echo '<button class="btn-donation"><a href="../auth/donatePage.php?id=' . $donation['id'] . '">Donate Now</a></button>';
+                    echo '</div>';
+                    echo '</div>';
 
-                echo '</div>';
-                echo '</div>';
+                    // Display comments for this donation
+                    echo '<div class="comments_rates">';
+                    echo '<h3>Comments</h3>';
+                    echo ' <div class="comments-contents">';
+                    if (isset($comments[$donation_id]) && count($comments[$donation_id]) > 0) {
+                        // Display each comment
+                        foreach ($comments[$donation_id] as $comment_row) {
+                            echo '<div>';
+                            echo '<div>';
+                            echo '<div class="user">';
+                            // Display donor's profile picture and name
+                            echo '<img src="' . $comment_row['profilePicture'] . '" alt="Profile Picture" class="profilePicture">';
+                            echo '<strong>' . $comment_row['name'] . '</strong>';
+                            echo '</div>';
 
-                // Display comments for this donation
-                echo '<div class="comments_rates">';
-                echo '<h3>Comments</h3>';
-                echo ' <div class="comments-contents">';
-                if (isset($comments[$donation_id]) && count($comments[$donation_id]) > 0) {
-                    // Display each comment
-                    foreach ($comments[$donation_id] as $comment_row) {
-                        echo '<div>';
-                        echo '<div>';
-                        echo '<div class="user">';
-                        // Display donor's profile picture and name
-                        echo '<img src="' . $comment_row['profilePicture'] . '" alt="Profile Picture" class="profilePicture">';
-                        echo '<strong>' . $comment_row['name'] . '</strong>';
-                        echo '</div>';
-
-                        // Display rating
-                        echo '<div class="rating">';
-                        for ($i = 0; $i < $comment_row['rating']; $i++) {
-                            echo '<img src="../../public/assets/images/Star_fill.png" alt="star" class="star" />';
+                            // Display rating
+                            echo '<div class="rating">';
+                            for ($i = 0; $i < $comment_row['rating']; $i++) {
+                                echo '<img src="../../public/assets/images/Star_fill.png" alt="star" class="star" />';
+                            }
+                            echo '</div>';
+                            echo '</div>';
+                            // Display comment
+                            echo '<p>' . $comment_row['comment'] . '</p>';
+                            echo '</div>';
                         }
-                        echo '</div>';
-                        echo '</div>';
-                        // Display comment
-                        echo '<p>' . $comment_row['comment'] . '</p>';
-                        echo '</div>';
+                    } else {
+                        // No comments for this donation
+                        echo '<p>No comments for this donation.</p>';
                     }
-                } else {
-                    // No comments for this donation
-                    echo '<p>No comments for this donation.</p>';
-                }
-                // Form for adding comments and rates
-                echo '<form class="input-comments" action="../../controllers/user/submit_comment.php" method="post">';
-                echo '<input type="hidden" name="donation_id" value="' . $donation_id . '">';
-                echo '<input type="text" placeholder="Add comment..." name="comment-content">';
-                echo '<div>';
-                echo '<button type="submit" name="add-comment">Add comment</button>';
-                echo '<select name="rating" id="rating">';
-                echo '<option value="" disabled selected>Rates the service...</option>';
-                echo '<option value="1">1</option>';
-                echo '<option value="2">2</option>';
-                echo '<option value="3">3</option>';
-                echo '<option value="4">4</option>';
-                echo '<option value="5">5</option>';
-                echo '</select>';
-                echo '</div>';
-                echo '</form>';
+                    // Display form for adding comments
+                    echo '<form class="input-comments" action="../../controllers/user/submit_comment.php" method="post">';
+                    echo '<input type="hidden" name="donation_id" value="' . $donation_id . '">';
+                    echo '<input type="text" placeholder="Add comment..." name="comment-content" style="';
+                    if ($errorId == $donation_id && !empty($errors['comment'])) {
+                        echo 'border: 1.5px solid red;';
+                    }
+                    echo '">';
 
-                echo '</div>';
-                echo '</div>';
-                echo '</article>';
+                    if ($errorId == $donation_id && !empty($errors['comment'])) {
+                        echo '<small class="error" style="position: absolute; bottom: 0; left: 10px; margin: 0 0 -1.1rem 0">' . $errors['comment'] . '</small>';
+                    }
+                    echo '<div>';
+                    echo '<button type="submit" name="add-comment">Add comment</button>';
+                    echo '<select name="rating" id="rating" style="';
+                    if ($errorId == $donation_id && !empty($errors['rating'])) {
+                        echo 'border: 1.5px solid red;';
+                    }
+                    echo '">';
+                    echo '<option value="" disabled selected>Rates the service...</option>';
+                    echo '<option value="1">1</option>';
+                    echo '<option value="2">2</option>';
+                    echo '<option value="3">3</option>';
+                    echo '<option value="4">4</option>';
+                    echo '<option value="5">5</option>';
+                    echo '</select>';
+                    if ($errorId == $donation_id && !empty($errors['rating'])) {
+                        echo '<small class="error" style="position: absolute; bottom: 0; right: 10%; margin: 0 0 -1rem 0">' . $errors['rating'] . '</small>';
+                    }
+                    echo '</div>';
+                    if ($errorId == $donation_id && !empty($errors['donation'])) {
+                        echo '<small class="error" style="position: absolute; bottom: 100px; left: 20px"> ' . $errors['donation'] . '</small>';
+                    }
+                    echo '</form>';
+
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</article>';
+                }
             }
             ?>
         </div>
+    </section>
+    <h2><?php echo "<h2>{$row_user['name']}'s Health Progress</h2>"; ?></h2>
 
+    <!-- Graph -->
+    <section class="graphs">
+        <div id="healthChart" style="width: 600px; height: 500px; "></div>
+        <div id="comboChart" style="width: 600px; height: 500px; "></div>
     </section>
 
     <!-- Donation History Section -->
     <section class="donation-history">
-        <h2>Donation History</h2>
+        <h2 style="margin-top: 2rem;">Donation History</h2>
         <table>
             <thead>
                 <tr>
                     <th>Name of Donation</th>
                     <th>Date</th>
                     <th>Location</th>
+                    <th>Blood Volume</th>
                     <th>Blood Type</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $current_donor_id = $row_donor['id'];
-                $query = "SELECT donations.* 
-                FROM donation_records 
-                INNER JOIN donations ON donation_records.donation_id = donations.id 
-                WHERE donation_records.donor_id = $current_donor_id";
+                $current_donor_id = $row_user['id'];
+                $query = "SELECT donations.*, donation_records.blood_volume
+          FROM donation_records 
+          INNER JOIN donations ON donation_records.donation_id = donations.id 
+          WHERE donation_records.donor_id = $current_donor_id";
+
 
                 $result = mysqli_query($conn, $query);
 
@@ -177,7 +290,8 @@ unset($_SESSION['errors']);
                         echo '<td>' . $donation['title'] . '</td>';
                         echo '<td>' . $donation['donation_date'] . '</td>';
                         echo '<td>' . $donation['donation_place'] . '</td>';
-                        echo '<td>' . $donation['blood_type'] . '</td>';
+                        echo '<td>' . $donation['blood_volume'] . '</td>';
+                        echo '<td>' . $donation['blood_group'] . '</td>';
                         echo '</tr>';
                     }
                 } else {
@@ -185,36 +299,56 @@ unset($_SESSION['errors']);
                     echo '<tr><td colspan="4">No donation history found for the current donor.</td></tr>';
                 }
                 ?>
-                
+
             </tbody>
         </table>
     </section>
 
-    <!-- Account -->
+    <!-- for the profile section-->
     <section class="account" id="accountSection">
         <div class="container">
+            <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
 
-            <div>
-                <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
-                <img src="<?php echo $row_donor['profilePicture']; ?>" alt="Profile Picture">
+            <div class="infos">
+                <div>
+                    <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
+                </div>
+
+                <div>
+                    <h2><span class="material-symbols-outlined">Person</span> Username</h2>
+                    <p><?php echo $row_user['name']; ?></p>
+                    <h2><span class="material-symbols-outlined">Mail</span>Email</h2>
+                    <p><?php echo $row_user['email']; ?></p>
+                    <h2><span class="material-symbols-outlined">location_on</span>Address</h2>
+                    <p><?php echo $row_user['address']; ?></p>
+                    <div class="secondary_info">
+                        <div>
+                            <h2><span class="material-symbols-outlined">relax</span>Blood Group</h2>
+                            <p><?php echo $row_user['blood_group']; ?></p>
+
+                        </div>
+                        <div>
+                            <h2><span class="material-symbols-outlined">admin_panel_settings</span>Role</h2>
+                            <p><?php echo $row_user['role']; ?></p>
+                        </div>
+                    </div>
+
+                    <div class="btns2">
+                        <button class="logout">
+                            <a href="../../controllers/auth/logout.php">
+                                <i class="bx"><span class="material-symbols-outlined">logout</span></i>
+                            </a>
+                        </button>
+                        <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
+                    </div>
+
+                </div>
+
             </div>
 
-            <h3>Username</h3>
-            <p><?php echo $row_donor['name']; ?></p>
-            <h3>Email</h3>
-            <p><?php echo $row_donor['email']; ?></p>
-            <h3>Address</h3>
-            <p><?php echo $row_donor['address']; ?></p>
-            <div class="btns2">
-                <button class="logout">
-                    <a href="../../controllers/auth/logout.php">
-                        <i class="bx"><span class="material-symbols-outlined">logout</span></i>
-                    </a>
-                </button>
-                <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
-            </div>
         </div>
     </section>
+
 
     <!-- Footer -->
     <footer>
@@ -235,15 +369,15 @@ unset($_SESSION['errors']);
 
         <div class="end">
             <ul>
-                <li><a href="./Home Page.html">Home</a></li>
-                <li><a href="./services.html">Services</a></li>
-                <li><a href="./About.html">About Us</a></li>
-                <li><a href="news" name="donations">Donations</a></li>
-                <li><a href="./Contact.html">Contact</a></li>
+                <li><a href="../Home/Home Page.html">Home</a></li>
+                <li><a href="../Home/services.html">Services</a></li>
+                <li><a href="../Home/About.html">About Us</a></li>
+                <li><a href="./display_donations.php">Donations</a></li>
+                <li><a href="../Home/Contact.html">Contact</a></li>
             </ul>
             <div>
                 <input type="text" placeholder="Enter your email">
-                <button>Subsecribe</button>
+                <button>Subscribe</button>
             </div>
         </div>
         <hr>
@@ -252,6 +386,7 @@ unset($_SESSION['errors']);
 
     <script src="../../public/js/nav.js"></script>
     <script src="../../public/js/donor.js"></script>
+
 </body>
 
 </html>

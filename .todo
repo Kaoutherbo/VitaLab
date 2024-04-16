@@ -1,32 +1,44 @@
-------------------------------------------
+---
 
 - [X] Présenter le laboratoire, sa position,...
 - [X] Ajouter un nouveau donataire (membre)
 - [X] Rechercher un donataire;
 - [X] Supprimer un donataire;
-- [X] Modifier les informations d’un donataire existant 
+- [X] Modifier les informations d’un donataire existant
 - [X] create a donation  event with date and place of the event by admin.
-- [X] Afficher les donations de sang entre deux dates et par groupe sanguin. 
-- [X] Commenter et noter la qualité de service  (by donor) 
+- [X] Afficher les donations de sang entre deux dates et par groupe sanguin.
+- [X] Commenter et noter la qualité de service  (by donor)
 - [X] Enregistrer les opérations de donation de sang de chaque donataire.
+- [X] fix the login error.
+- [X] add blood volume to the db and donate page.
+- [X] privacy policy page instead of news.
+- [] change the display donations page.
+- [] add comment to the services of all the laboratory and display them in the testimonials section in the about page.
 
-- [] fix the login error.
+---
 
----------------------------------------------
+- [X] errors handling for each form. + add the user info for the display_donations
+  - [X] empty error for each filed
+  - [X] email error
+  - [X] password error (password not correct +  too short)
+  - [X] user already exist error
+  - [X] username has only letters
+  - [X] error make rating
+  - [X] you already donate error
+  - [X] donate type error (- , +)
+  - [X] create donation date error (must be in future not past or today).
+  - [X] if donor donate for this donation ,he can't donate again.
+  - [X] phone number error
+  - [X] only who donates for donation can comment  on it.
+  - [X] No donation found for a donation that don't exist.
 
-- [X] errors handling for each form. + add the user info for the display_donations 
-    - [X] empty error for each filed
-    - [X] email error
-    - [X] password error (password not correct +  too short)
-    - [X] user already exist error
-    - [X] username has only letters
-    - [X] error make rating
-    - [X] you already donate error
-    - [X] donate type error (- , +)
-    - [X] create donation date error (must be in future not past or today).
-    - [X] if donor donate for this donation ,he can't donate again.
-    - [X] phone number error
-    - [X] only who donates for donation can comment  on it.
-    - [X] No donation found for a donation that don't exist.
+---
 
-------------------------------------------
+1. Rédiger un rapport qui présente :
+a. Une petite conception du site web à développer, c’est-à-dire un schéma qui montre
+l’ensemble des pages et les liens entre ces pages.
+b. Une image (maquette) de la page d’accueil.
+c. Explication du code de chaque page ou procédure.
+d. Une présentation de la base de données utilisée (MCD et MLD).
+[X] 2. Développer l’application conçue avec du HTML, CSS, PHP, ...
+[X] 3. Faire des tests de l’application sous un serveur web local.

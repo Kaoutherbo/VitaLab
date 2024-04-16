@@ -24,7 +24,8 @@
       padding: 1rem;
       box-shadow: 0 6px 12px rgba(0, 0, 0, .06), 0 -6px 18px rgba(0, 0, 0, .06);
       display: flex;
-      max-width: 80%;
+      max-width: 100%;
+      width: 80%;
       gap: 1rem;
       margin: auto;
       margin-bottom: 5rem;
@@ -79,7 +80,8 @@
         }
 
         &>.comments-contents {
-          max-height: 300px;
+          max-height: 100%;
+          height: 300px;
           overflow-y: auto;
           padding: 10px;
           margin: 0 10px;
@@ -139,7 +141,7 @@
           left: 0;
           display: flex;
           gap: 3px;
-
+         
           & input {
             flex: 2;
             width: 100%;
@@ -216,27 +218,30 @@
         font-size: 14px;
       }
     }
-
+    & > article:last-child{
+      margin-bottom: 16px;
+    }
   }
 
 }
 
 .All-donations {
   margin: auto;
-  padding-top: 6rem;
+  padding: 6rem 1rem  1rem  1rem;
   display: block;
-  width: 1200px;
+  
+  background-color: rgb(254, 255, 247);
 
   & form:first-child {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    margin-bottom: 2rem;
-
+    margin: 2rem 0;
+    background-color: #fff;
     & div {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 2px;
     }
 
     & label {
@@ -247,22 +252,17 @@
     }
 
     & button {
-      padding: 15px 65px;
+      padding: 13px 60px;
       transform: none;
     }
-
+   
     & input[type="date"] {
       width: 100%;
       padding: 10px 23px;
-      border: 1px solid #ccc;
       font-size: 16px;
       border: 2px solid #f4f3f3;
       background-color: #f7dcdc;
       outline: none;
-
-      &::placeholder {
-        color: var(--Desaturated-gray-color);
-      }
 
       &:focus {
         border-color: #ccc;
@@ -276,15 +276,10 @@
     & select {
       width: 100%;
       padding: 10px 23px;
-      border: 1px solid #ccc;
       font-size: 16px;
       border: 2px solid #f4f3f3;
       background-color: #f7dcdc;
       outline: none;
-
-      &::placeholder {
-        color: var(--Desaturated-gray-color);
-      }
 
       &:focus {
         border-color: #ccc;
@@ -292,11 +287,11 @@
 
       & option {
         width: 30%;
-        color: var(--Desaturated-gray-color);
+        
 
         &:checked {
           color: var(--Desaturated-gray-color);
-          background-color: #ccc;
+          background-color: #ede7e7;
         }
       }
     }
@@ -304,97 +299,6 @@
   }
 }
 
-
-/* ACCOUNT */
-.account {
-  min-width: 100%;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  background-color: rgba(134, 133, 133, 0.3);
-  z-index: 3000;
-  display: grid;
-  place-items: center;
-  display: none;
-
-  & .container {
-    width: 420px;
-    height: fit-content;
-    border-radius: 15px;
-    background-color: #f1dbdb;
-    padding: 1rem 2rem;
-
-    & div:first-child {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    & span {
-      font-size: 2rem;
-      cursor: pointer;
-      height: 30px;
-      width: 30px;
-      align-self: flex-end;
-      margin-top: 5px;
-    }
-
-    & img {
-      margin: auto;
-      border-radius: 50%;
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-    }
-
-    & h3 {
-      color: var(--Black);
-      font-family: var(--Font-Family2);
-      margin-top: 14px;
-    }
-
-    & p {
-      color: var(--Very-Dark-Gray);
-      margin: 5px;
-      font-size: 14px;
-    }
-
-    & .btns2 {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 1.5rem;
-
-      & button {
-        padding: 5px 50px;
-        background-color: var(--Black);
-        font-size: 18px;
-        cursor: pointer;
-        border-radius: 10px;
-        transition: 0.3s;
-        margin-top: 0;
-        transform: none;
-
-        &:hover {
-          background-color: beige;
-
-          & span {
-            color: var(--Black);
-          }
-        }
-      }
-
-      & .logout:hover {
-        background-color: var(--red);
-
-        & span {
-          color: white;
-        }
-      }
-
-    }
-  }
-}
 
 nav {
   align-items: center;
@@ -423,10 +327,11 @@ h2 {
   text-align: center;
 }
 
+
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: var(--pink);
+  background-color: #F6DCDC;
   padding: 24px;
   cursor: pointer;
   margin-bottom: 2rem;
@@ -464,6 +369,24 @@ table {
   nav #container {
     gap: 10px !important;
   }
+  h2{
+    font-size: 1.3rem;
+  }
+  article{
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0 !important;
+    &>.donation-content , &>.comments_rates{
+      flex: 1;
+      width: 100% !important;
+      & img{
+        object-fit: cover;
+      }
+      & .comments-contents{
+        margin-bottom: 8rem!important;
+      }
+    }
+  }
 
   .news {
     &>div {
@@ -480,38 +403,17 @@ table {
       }
     }
   }
-
-  .account {
-    & .container {
-      width: 80% !important;
-      padding-left: 2rem !important;
-
-      & img {
-        width: 100px !important;
-        height: 100px !important;
-      }
-
-      & h2 {
-        font-size: 15px;
-      }
-
-      & p {
-        font-size: 1rem !important;
-      }
-
-      &>.btns2 {
-        height: 35px;
-
-        & button {
-          padding: 0.3rem 1.5rem !important;
-          font-size: 10px !important;
-
-          & span {
-            margin-top: 5px;
-            font-size: 1rem;
-          }
-        }
+  .All-donations {
+    max-width: 100% !important;
+    & form:first-child {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px !important;
+     
+      & .last{
+        width: 100% !important;
       }
     }
   }
+  
 }

@@ -1,6 +1,6 @@
 <?php
 // Initialize blood type counts
-$blood_types = array(
+$blood_groups = array(
     'O+' => 0,
     'A+' => 0,
     'B+' => 0,
@@ -12,19 +12,19 @@ $blood_types = array(
 );
 
 // Count donors by blood type
-$sql_counts = "SELECT blood_type, COUNT(*) AS count FROM donors GROUP BY blood_type";
+$sql_counts = "SELECT blood_group, COUNT(*) AS count FROM donors GROUP BY blood_group";
 $result_counts = mysqli_query($conn, $sql_counts);
 
 while ($row_count = mysqli_fetch_assoc($result_counts)) {
-    $blood_type = $row_count['blood_type'];
+    $blood_group = $row_count['blood_group'];
     $count = $row_count['count'];
-    $blood_types[$blood_type] = $count;
+    $blood_groups[$blood_group] = $count;
 }
 
 // Handle filtering donors by blood type
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blood_type'])) {
-    $bloodType = $_POST['blood_type'];
-    $sql_donor_filtered = "SELECT * FROM donors WHERE blood_type = '$bloodType' ORDER BY created_at DESC";
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['blood_group'])) {
+    $bloodType = $_POST['blood_group'];
+    $sql_donor_filtered = "SELECT * FROM donors WHERE blood_group = '$bloodType' ORDER BY created_at DESC";
     $result_donor_filtered = mysqli_query($conn, $sql_donor_filtered);
 }
 ?>

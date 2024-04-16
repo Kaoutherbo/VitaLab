@@ -44,14 +44,14 @@ unset($_SESSION['errors']);
                <div>
                   <div class="group">
                      <label for="text">Date</label>
-                     <input type="date" name="date" placeholder="Date">
+                     <input type="date" name="date" placeholder="Date" style="<?php echo (!empty($errors['date']) ? 'border: 1.5px solid red;' : ''); ?>">
                      <?php if (!empty($errors['date'])) : ?>
                         <small class="error"><?php echo $errors['date']; ?></small>
                      <?php endif; ?>
                   </div>
                   <div class="group">
                      <label for="text">Location</label>
-                     <input type="text" name="location" placeholder="Location">
+                     <input type="text" name="location" placeholder="Location" style="<?php echo (!empty($errors['location']) ? 'border: 1.5px solid red;' : ''); ?>">
                      <?php if (!empty($errors['location'])) : ?>
                         <small class="error"><?php echo $errors['location']; ?></small>
                      <?php endif; ?>
@@ -64,7 +64,7 @@ unset($_SESSION['errors']);
                   </div>
                   <div class="group">
                      <label for="text">Title</label>
-                     <input type="text" name="title" placeholder="Title">
+                     <input type="text" name="title" placeholder="Title" style="<?php echo (!empty($errors['title']) ? 'border: 1.5px solid red;' : ''); ?>">
                      <?php if (!empty($errors['title'])) : ?>
                         <small class="error"><?php echo $errors['title']; ?></small>
                      <?php endif; ?>
@@ -72,7 +72,7 @@ unset($_SESSION['errors']);
                </div>
                <div class="group">
                   <label for="blood_group">Blood Group</label>
-                  <select name="blood_group" id="blood_group">
+                  <select name="blood_group" id="blood_group" style="<?php echo (!empty($errors['blood_group']) ? 'border: 1.5px solid red;' : ''); ?>">
                      <option value="" selected disabled hidden>Select your blood group</option>
                      <option value="A+">A+</option>
                      <option value="A-">A-</option>
@@ -90,9 +90,9 @@ unset($_SESSION['errors']);
 
                <div class="group">
                   <label for="text">Description</label>
-                  <textarea name="description" id="textarea" cols="30" rows="10" placeholder="Add Description here .."></textarea>
+                  <textarea name="description" id="textarea" cols="30" rows="10" placeholder="Add Description here .." style="<?php echo (!empty($errors['description']) ? 'border: 1.5px solid red;' : ''); ?>"></textarea>
                   <?php if (!empty($errors['description'])) : ?>
-                     <small class="error"><?php echo $errors['description']; ?></small>
+                     <small class="error" ><?php echo $errors['description']; ?></small>
                   <?php endif; ?>
                </div>
                <input type="hidden" name="lab_employee_id" value="<?php echo $row_admin['id']; ?>">

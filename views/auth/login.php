@@ -49,28 +49,28 @@ unset($_SESSION['errors']); // clean up the session
           <div class="group-inputs">
             <div>
               <label for="username">Username</label>
-              <input type="text" name="name" id="username" placeholder="Enter your Full name" />
+              <input type="text" name="name" id="username" placeholder="Enter your Full name"  style="<?php echo (!empty($errors['name']) ? 'border: 1.5px solid red;' : ''); ?>"/>
               <?php if (!empty($errors['name'])) : ?>
                 <small class="error"><?php echo $errors['name']; ?></small>
               <?php endif; ?>
             </div>
             <div>
               <label for="password">Password</label>
-              <input type="password" name="password" id="password" placeholder="Enter your password" />
+              <input type="password" name="password" id="password" placeholder="Enter your password"  style="<?php echo (!empty($errors['password']) ? 'border: 1.5px solid red;' : ''); ?>"/>
               <?php if (!empty($errors['password'])) : ?>
                 <small class="error"><?php echo $errors['password']; ?></small>
               <?php endif; ?>
             </div>
             <div>
               <label for="email">Email</label>
-              <input type="email" name="email" id="email" placeholder="Enter your email" />
+              <input type="email" name="email" id="email" placeholder="Enter your email"  style="<?php echo (!empty($errors['email']) ? 'border: 1.5px solid red;' : ''); ?>"/>
               <?php if (!empty($errors['email'])) : ?>
                 <small class="error"><?php echo $errors['email']; ?></small>
               <?php endif; ?>
             </div>
             <div>
               <label for="role">Role</label>
-              <select name="role" id="role" aria-placeholder="Select a role...">
+              <select name="role" id="role" aria-placeholder="Select a role..."  style="<?php echo (!empty($errors['role']) ? 'border: 1.5px solid red;' : ''); ?>">
                 <option value="" selected disabled hidden>Select your role....</option>
                 <option value="donor">Donor</option>
                 <option value="lab_employee">Admin</option>
@@ -88,10 +88,13 @@ unset($_SESSION['errors']); // clean up the session
 
         </form>
       </article>
-      <article class="welcome-message">
-        <h2>Welcome to the Blood Donation Management System!</h2>
+      <article class="welcome-message login-welcome">
+        <div class="infos">
+        <h2>Welcome to <b>Vitalab Laboratory</b> Your Partner in Blood Donation Management!</h2>
+                    
         <p>Join us in saving lives by donating blood. Your contribution can make a significant difference in someone's life. Together, we can ensure that hospitals have an adequate blood supply to help those in need.</p>
 
+        </div>
       </article>
     </section>
 
