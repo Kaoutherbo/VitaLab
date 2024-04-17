@@ -97,12 +97,12 @@ unset($_SESSION['errors']);
 
             </form>
          </article>
-         <article class="welcome-message">
+         <article class="welcome-message add-donor">
             <div class="infos">
-               <h2>Welcome, Lab Employee!</h2>
-               <p>Add new donors to our Blood Donation Management System to help save lives. Your efforts in recruiting donors are invaluable and can make a significant difference in ensuring an adequate blood supply for those in need.</p>
-               <img src="../../public/assets/images/add-donor.jpg" alt="Add Donor" width="390px" height="150px">
-
+               <div class="infos">
+                  <h2>Welcome, Lab Employee!</h2>
+                  <p>Add new donors to our Blood Donation Management System to help save lives. Your efforts in recruiting donors are invaluable and can make a significant difference in ensuring an adequate blood supply for those in need.</p>
+               </div>
             </div>
          </article>
 

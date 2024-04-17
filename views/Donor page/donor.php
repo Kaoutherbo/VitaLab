@@ -2,10 +2,10 @@
 
 @include '../../controllers/config.php';
 @include '../../controllers/user/display_latest.php';
-@include '../../controllers/user/submit_comment.php';
+@include '../../controllers/user/add-comment.php';
 @include '../../controllers/fetch_user.php';
 
-// Check if the database connection is successful
+
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -15,10 +15,9 @@ if (!$conn) {
 
 $errors = isset($_GET['err']) ? json_decode(urldecode($_GET['err']), true) : array();
 unset($_SESSION['errors']);
-// Get the error ID from the URL parameters
+
 $errorId = isset($_GET['id']) ? $_GET['id'] : null;
 
-// Assume you have a variable $currentDonorId representing the ID of the current donor.
 $currentDonorId = $row_user['id'];
 
 $sql = "SELECT d.donation_date, SUM(dr.blood_volume) AS total_blood_volume
@@ -32,10 +31,8 @@ ORDER BY d.donation_date ASC
 
 $result = mysqli_query($conn, $sql);
 
-// Initialize an array to store the data
 $donationData = array();
 
-// Fetch results and store them in the data array
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $date = $row['donation_date'];
@@ -44,7 +41,6 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Convert the PHP array to a JavaScript-friendly format
 $donationDataJS = implode(',', $donationData);
 
 
@@ -65,6 +61,8 @@ $donationDataJS = implode(',', $donationData);
     <link rel="stylesheet" href="../../public/styles/styles.css">
     <link rel="stylesheet" href="../../public/styles/main.css">
     <link rel="stylesheet" href="../../public/styles/donor.css">
+
+    <!--Draw the charts-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {
@@ -73,7 +71,6 @@ $donationDataJS = implode(',', $donationData);
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            // Replace the data with the donor's health information
             var data = google.visualization.arrayToDataTable([
                 ['Metric', 'Value'],
                 ['Blood Pressure', 20],
@@ -82,7 +79,6 @@ $donationDataJS = implode(',', $donationData);
                 ['Hemoglobin', 35]
             ]);
 
-            // Set the chart options
             var options = {
                 title: 'Donor Health Information',
                 backgroundColor: '#FED5D5',
@@ -94,7 +90,6 @@ $donationDataJS = implode(',', $donationData);
                 pieHole: 0.4,
             };
 
-            // Create and draw the chart
             var chart = new google.visualization.PieChart(document.getElementById('healthChart'));
 
             chart.draw(data, options);
@@ -105,13 +100,11 @@ $donationDataJS = implode(',', $donationData);
         google.charts.setOnLoadCallback(drawVisualization);
 
         function drawVisualization() {
-            // Data array: donation date and total blood volume
             var data = google.visualization.arrayToDataTable([
                 ['Donation Date', 'Total Blood Volume'],
                 <?php echo $donationDataJS; ?>
             ]);
 
-            // Chart options
             var options = {
                 title: 'Donor Blood Volume Over Time',
                 backgroundColor: '#FED5D5',
@@ -130,7 +123,6 @@ $donationDataJS = implode(',', $donationData);
                 }
             };
 
-            // Create and draw the combination chart
             var chart = new google.visualization.ComboChart(document.getElementById('comboChart'));
             chart.draw(data, options);
         }
@@ -150,7 +142,7 @@ $donationDataJS = implode(',', $donationData);
             <ul class="ulMenu">
                 <li><a href="../Home/Home Page.html">Home</a></li>
                 <li><a href="../Home/services.html">Services</a></li>
-                <li><a href="../Home/About.html">About Us</a></li>
+                <li><a href="../Home/About.php">About Us</a></li>
                 <li><a href="./display_donations.php">Donations</a></li>
                 <li><a href="../Home/Contact.html">Contact</a></li>
             </ul>
@@ -179,10 +171,10 @@ $donationDataJS = implode(',', $donationData);
             } else {
                 // Display donations
                 foreach ($donations as $donation_id => $donation) {
-                    // Display donation information
+                    
                     echo '<article>';
                     echo '<div class="donation-content">';
-                    // Display donation details
+                    
                     echo '<img src="' . $donation['donation_image'] . '" alt="News 1">';
                     echo '<div>';
                     echo '<div>';
@@ -203,35 +195,34 @@ $donationDataJS = implode(',', $donationData);
                     echo '<h3>Comments</h3>';
                     echo ' <div class="comments-contents">';
                     if (isset($comments[$donation_id]) && count($comments[$donation_id]) > 0) {
-                        // Display each comment
+                        
                         foreach ($comments[$donation_id] as $comment_row) {
                             echo '<div>';
                             echo '<div>';
                             echo '<div class="user">';
-                            // Display donor's profile picture and name
+                           
                             echo '<img src="' . $comment_row['profilePicture'] . '" alt="Profile Picture" class="profilePicture">';
                             echo '<strong>' . $comment_row['name'] . '</strong>';
                             echo '</div>';
 
-                            // Display rating
+                        
                             echo '<div class="rating">';
                             for ($i = 0; $i < $comment_row['rating']; $i++) {
                                 echo '<img src="../../public/assets/images/Star_fill.png" alt="star" class="star" />';
                             }
                             echo '</div>';
                             echo '</div>';
-                            // Display comment
+                            
                             echo '<p>' . $comment_row['comment'] . '</p>';
                             echo '</div>';
                         }
                     } else {
-                        // No comments for this donation
                         echo '<p>No comments for this donation.</p>';
                     }
-                    // Display form for adding comments
-                    echo '<form class="input-comments" action="../../controllers/user/submit_comment.php" method="post">';
+                    echo '<form class="input-comments" action="../../controllers/user/add-comment.php" method="post">';
+                    echo '<input type="hidden" name="name" value="' . $row_user['name'] . '">';
                     echo '<input type="hidden" name="donation_id" value="' . $donation_id . '">';
-                    echo '<input type="text" placeholder="Add comment..." name="comment-content" style="';
+                    echo '<input type="text" placeholder="Add comment..." name="comment" style="';
                     if ($errorId == $donation_id && !empty($errors['comment'])) {
                         echo 'border: 1.5px solid red;';
                     }
@@ -271,6 +262,7 @@ $donationDataJS = implode(',', $donationData);
             ?>
         </div>
     </section>
+    
     <h2><?php echo "<h2>{$row_user['name']}'s Health Progress</h2>"; ?></h2>
 
     <!-- Graph -->
@@ -305,9 +297,7 @@ $donationDataJS = implode(',', $donationData);
 
                 $result = mysqli_query($conn, $query);
 
-                // Check if there are any donations in the history
                 if (mysqli_num_rows($result) > 0) {
-                    // Fetch and display the donation history
                     while ($donation = mysqli_fetch_assoc($result)) {
                         echo '<tr>';
                         echo '<td>' . $donation['title'] . '</td>';
@@ -318,7 +308,6 @@ $donationDataJS = implode(',', $donationData);
                         echo '</tr>';
                     }
                 } else {
-                    // No donation history found for the current donor
                     echo '<tr><td colspan="4">No donation history found for the current donor.</td></tr>';
                 }
                 ?>
@@ -397,7 +386,7 @@ $donationDataJS = implode(',', $donationData);
             <ul>
                 <li><a href="../Home/Home Page.html">Home</a></li>
                 <li><a href="../Home/services.html">Services</a></li>
-                <li><a href="../Home/About.html">About Us</a></li>
+                <li><a href="../Home/About.php">About Us</a></li>
                 <li><a href="./display_donations.php">Donations</a></li>
                 <li><a href="../Home/Contact.html">Contact</a></li>
             </ul>
@@ -411,7 +400,7 @@ $donationDataJS = implode(',', $donationData);
     </footer>
 
     <script src="../../public/js/nav.js"></script>
-    <script src="../../public/js/donor.js"></script>
+    <script src="../../public/js/profile.js"></script>
 
 </body>
 

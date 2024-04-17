@@ -8,8 +8,6 @@ unset($_SESSION['errors']);
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,6 +34,7 @@ unset($_SESSION['errors']);
             <h3>Organize a Donation Campaign</h3>
             <p>Create a donation event, raise awareness, and inspire others to participate. Together, let's ensure a steady supply of blood for those in need.</p>
             <img src="../../public/assets/images/hand.png" alt="Create a Donation Campaign" width="300px" height="250px">
+         
          </article>
 
          <article class="left">

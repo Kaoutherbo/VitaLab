@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Define variables to reference elements
+    
   const agTimeline = document.querySelector('.process_donate');
   const agTimelineLine = document.querySelector('.process_donate_line');
   const agTimelineLineProgress = document.querySelector('.line-progress');

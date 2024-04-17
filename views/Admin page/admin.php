@@ -7,13 +7,13 @@
 $errors = isset($_GET['err']) ? json_decode(urldecode($_GET['err']), true) : array();
 unset($_SESSION['errors']);
 
-// Fetch the counts of each blood type from the PHP array
+
 $bloodTypeData = [];
 foreach ($blood_groups as $type => $count) {
     $bloodTypeData[] = "['$type', $count]";
 }
 
-// Convert the PHP array to a JavaScript-friendly format
+// Convert the PHP array to a JavaScript format
 $bloodTypeDataJS = implode(',', $bloodTypeData);
 
 
@@ -22,12 +22,12 @@ $sql = "SELECT d.donation_date, SUM(dr.blood_volume) AS total_blood_volume
         JOIN donation_records dr ON d.id = dr.donation_id
         GROUP BY d.donation_date
         ORDER BY d.donation_date ASC";
+        
 $result = mysqli_query($conn, $sql);
 
-// Initialize an array to store the data
+
 $donationData = array();
 
-// Fetch results and store them in the data array
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $date = $row['donation_date'];
@@ -36,7 +36,6 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Convert the PHP array to a JavaScript-friendly format
 $donationDataJS = implode(',', $donationData);
 
 ?>
@@ -49,7 +48,7 @@ $donationDataJS = implode(',', $donationData);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" href="../../public/assets/images/Logo-donation.png" sizes="48x48" type="image/png" />
-    <!-- Boxicons -->
+    <!-- BoxIcons -->
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
     <!-- My CSS -->
     <link rel="stylesheet" href="../../public/styles/main.css">
@@ -57,6 +56,8 @@ $donationDataJS = implode(',', $donationData);
     <link rel="stylesheet" href="../../public/styles/labEmpl.css">
     <!-- Icons link -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
+    <!--Draw the charts-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         // Load the Google Charts library
@@ -64,17 +65,14 @@ $donationDataJS = implode(',', $donationData);
             'packages': ['corechart']
         });
 
-        // Callback function to draw the first chart (PieChart) with donor's blood type and donation registrations
         google.charts.setOnLoadCallback(drawDonorHealthChart);
 
         function drawDonorHealthChart() {
-            // Data array: blood type and donations registrations
             var data = google.visualization.arrayToDataTable([
                 ['Blood Type', 'Donations'],
                 <?php echo $bloodTypeDataJS; ?>
             ]);
 
-            // Chart options
             var options = {
                 title: 'Donors Blood Type',
                 backgroundColor: '#FED5D5',
@@ -87,22 +85,18 @@ $donationDataJS = implode(',', $donationData);
                 is3D: true,
             };
 
-            // Create and draw the pie chart
             var chart = new google.visualization.PieChart(document.getElementById('bloodTypeChart'));
             chart.draw(data, options);
         }
 
-        // Callback function to draw the second chart (ComboChart) with daily activities and health metrics
         google.charts.setOnLoadCallback(drawDonorActivitiesChart);
 
         function drawDonorActivitiesChart() {
-            // Data array: donation date and total blood volume
             var data = google.visualization.arrayToDataTable([
                 ['Donation Date', 'Total Blood Volume'],
                 <?php echo $donationDataJS; ?>
             ]);
 
-            // Chart options
             var options = {
                 title: 'Donor Blood Volume Over Time',
                 backgroundColor: '#FED5D5',
@@ -122,7 +116,6 @@ $donationDataJS = implode(',', $donationData);
                 }
             }
 
-            // Create and draw the combination chart
             var chart = new google.visualization.ComboChart(document.getElementById('dailyActivitiesChart'));
             chart.draw(data, options);
         }

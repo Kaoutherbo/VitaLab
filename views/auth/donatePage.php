@@ -36,8 +36,8 @@ unset($_SESSION['errors']); // clean up the session
       <ul class="ulMenu">
         <li><a href="../Home/Home Page.html">Home</a></li>
         <li><a href="../Home/services.html">Services</a></li>
-        <li><a href="../Home/About.html">About Us</a></li>
-        <li><a href="./display_donations.php">Donations</a></li>
+        <li><a href="../Home/About.php">About Us</a></li>
+        <li><a href="../Home/Privacy.html">Privacy Policy</a></li>
         <li><a href="../Home/Contact.html">Contact</a></li>
       </ul>
       <a href="#" class="profile" id="profilePicture">
@@ -53,11 +53,14 @@ unset($_SESSION['errors']); // clean up the session
   <main>
 
     <section class="container">
-      <article class="welcome-message">
-        <h2 class="donate-title">Welcome to the Blood Donation Registration!</h2>
-        <p>Your donation can save lives. Register now to become a blood donor and make a difference in someone's life.</p>
-        <img src="../../public/assets/images/give_blood2.png" alt="" width="380px" height="170px">
+      <article class="welcome-message register-donation">
+        <div class="info">
+          <h2 class="donate-title">Join Our <b>Life-Saving</b> Blood Donation Initiative!</h2>
+          <p>Your choice to donate blood can save lives and offer hope to those in need. Join a compassionate community making a significant impact. Each donation can change a life, providing a path to recovery and a brighter future. Register now to become a blood donor and be a hero to others.</p>
+        </div>
       </article>
+
+
       <article class="container-form">
         <h2>Register for Donation</h2>
         <form action="../../controllers/auth/register_donation.php?id=<?php echo $donation_id; ?>" method="post">
@@ -131,57 +134,57 @@ unset($_SESSION['errors']); // clean up the session
     </section>
 
   </main>
-   
+
   <!-- for the profile section-->
-   <section class="account" id="accountSection">
-        <div class="container">
-            <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
+  <section class="account" id="accountSection">
+    <div class="container">
+      <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
 
-            <div class="infos">
-                <div>
-                    <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
-                </div>
+      <div class="infos">
+        <div>
+          <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
+        </div>
 
-                <div>
-                    <h2><span class="material-symbols-outlined">Person</span> Username</h2>
-                    <p><?php echo $row_user['name']; ?></p>
-                    <h2><span class="material-symbols-outlined">Mail</span>Email</h2>
-                    <p><?php echo $row_user['email']; ?></p>
-                    <h2><span class="material-symbols-outlined">location_on</span>Address</h2>
-                    <p><?php echo $row_user['address']; ?></p>
-                    <div class="secondary_info">
-                        <div>
-                            <h2><span class="material-symbols-outlined">relax</span>Blood Group</h2>
-                            <p><?php echo $row_user['blood_group']; ?></p>
-
-                        </div>
-                        <div>
-                            <h2><span class="material-symbols-outlined">admin_panel_settings</span>Role</h2>
-                            <p><?php echo $row_user['role']; ?></p>
-                        </div>
-                    </div>
-
-                    <div class="btns2">
-                        <button class="logout">
-                            <a href="../../controllers/auth/logout.php">
-                                <i class="bx"><span class="material-symbols-outlined">logout</span></i>
-                            </a>
-                        </button>
-                        <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>" class="button">
-                                <span class="material-symbols-outlined">edit</span>
-                            </a>
-                        </button>
-                    </div>
-
-                </div>
+        <div>
+          <h2><span class="material-symbols-outlined">Person</span> Username</h2>
+          <p><?php echo $row_user['name']; ?></p>
+          <h2><span class="material-symbols-outlined">Mail</span>Email</h2>
+          <p><?php echo $row_user['email']; ?></p>
+          <h2><span class="material-symbols-outlined">location_on</span>Address</h2>
+          <p><?php echo $row_user['address']; ?></p>
+          <div class="secondary_info">
+            <div>
+              <h2><span class="material-symbols-outlined">relax</span>Blood Group</h2>
+              <p><?php echo $row_user['blood_group']; ?></p>
 
             </div>
+            <div>
+              <h2><span class="material-symbols-outlined">admin_panel_settings</span>Role</h2>
+              <p><?php echo $row_user['role']; ?></p>
+            </div>
+          </div>
+
+          <div class="btns2">
+            <button class="logout">
+              <a href="../../controllers/auth/logout.php">
+                <i class="bx"><span class="material-symbols-outlined">logout</span></i>
+              </a>
+            </button>
+            <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>" class="button">
+                <span class="material-symbols-outlined">edit</span>
+              </a>
+            </button>
+          </div>
 
         </div>
-    </section>
+
+      </div>
+
+    </div>
+  </section>
 
   <script src="../../public/js/nav.js"></script>
-  <script src="../../public/js/donor.js"></script>
+  <script src="../../public/js/profile.js"></script>
 </body>
 
 </html>

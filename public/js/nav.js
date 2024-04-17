@@ -1,5 +1,3 @@
-
-// Get references to the necessary elements
 const menuIcon = document.querySelector('.hamburger');
 const closeIcon = document.querySelector('.closeIcone');
 const ulMenu = document.querySelector('.ulMenu');

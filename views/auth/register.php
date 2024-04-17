@@ -31,8 +31,8 @@ unset($_SESSION['errors']); // clean up the session
         <ul class="ulMenu">
             <li><a href="../Home/Home Page.html">Home</a></li>
             <li><a href="../Home/services.html">Services</a></li>
-            <li><a href="../Home/About.html">About Us</a></li>
-            <li><a href="../Home/News.html">Our News</a></li>
+            <li><a href="../Home/About.php">About Us</a></li>
+            <li><a href="../Home/Privacy.html">Privacy Policy</a></li>
             <li><a href="../Home/Contact.html">Contact</a></li>
         </ul>
         <span class="material-symbols-outlined hamburger">menu</span>
@@ -45,7 +45,7 @@ unset($_SESSION['errors']); // clean up the session
             <article class="welcome-message register-welcome">
                 <div class="infos">
                     <h2>Welcome to <b>Vitalab Laboratory</b> Your Partner in Blood Donation Management!</h2>
-                    
+
                     <p>
                         Whether you are a first-time donor or a regular participant, your generosity and commitment to helping others are greatly appreciated. Join us in our efforts to make a lasting difference in our community and beyond.
                     </p>

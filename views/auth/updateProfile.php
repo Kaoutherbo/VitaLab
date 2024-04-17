@@ -111,7 +111,7 @@ unset($_SESSION['errors']);
 
                     <div class="group-btns">
                         <button type="submit" name="submit">Save</button>
-                        <button><a href="<?php echo $row['role'] == 'admin' ? '../Admin page/admin.php' : '../Donor page/donor.php'; ?>">Cancel</a></button>
+                        <button><a href="<?php echo $row_user['role'] == 'admin' ? '../Admin page/admin.php' : '../Donor page/donor.php'; ?>">Cancel</a></button>
                     </div>
 
                 </form>

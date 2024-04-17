@@ -185,7 +185,7 @@ mysqli_close($conn);
 
     <!-- Scripts -->
     <script src="../../public/js/nav.js"></script>
-    <script src="../../public/js/donor.js"></script>
+    <script src="../../public/js/profile.js"></script>
 </body>
 
 </html>

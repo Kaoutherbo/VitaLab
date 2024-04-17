@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 break;
             case 'O+':
-                if (!in_array($donation_blood_type, ['A-', 'B-', 'AB-', 'O-'])) {
+                if (!in_array($donation_blood_type, ['A+', 'B+', 'AB+', 'O+'])) {
                     $errors["blood_group"] = "The donated blood does not match your blood type.";
                 }
                 break;

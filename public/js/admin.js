@@ -31,6 +31,7 @@ switchMode.addEventListener('change', function() {
 });
 
 
+
 // Add click event listener to the profile picture
 const settingsLink = document.getElementById('settingsLink');
 const profilePicture = document.getElementById('profilePicture');
