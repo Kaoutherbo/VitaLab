@@ -55,14 +55,14 @@ unset($_SESSION['errors']);
                   </div>
                   <div>
                      <label for="password">Password</label>
-                     <input type="password" name="password" id="password" placeholder="Enter the password" style="<?php echo (!empty($errors['password']) ? 'border: 1.5px solid red;' : ''); ?>"/>
+                     <input type="password" name="password" id="password" placeholder="Enter the password" style="<?php echo (!empty($errors['password']) ? 'border: 1.5px solid red;' : ''); ?>" />
                      <?php if (!empty($errors['password'])) : ?>
                         <small class="error"><?php echo $errors['password']; ?></small>
                      <?php endif; ?>
                   </div>
                   <div>
                      <label for="address">Address</label>
-                     <input type="text" name="address" id="address" placeholder="Enter the address" style="<?php echo (!empty($errors['address']) ? 'border: 1.5px solid red;' : ''); ?>"/>
+                     <input type="text" name="address" id="address" placeholder="Enter the address" style="<?php echo (!empty($errors['address']) ? 'border: 1.5px solid red;' : ''); ?>" />
                      <?php if (!empty($errors['address'])) : ?>
                         <small class="error"><?php echo $errors['address']; ?></small>
                      <?php endif; ?>
@@ -88,8 +88,8 @@ unset($_SESSION['errors']);
 
                </div>
                <?php if (!empty($errors['general'])) : ?>
-                        <small class="error"><?php echo $errors['general']; ?></small>
-                     <?php endif; ?>
+                  <small class="error"><?php echo $errors['general']; ?></small>
+               <?php endif; ?>
                <div class="group-btns">
                   <button type="submit" name="submit">Save</button>
                   <button><a href="admin.php">Cancel</a></button>
@@ -98,9 +98,12 @@ unset($_SESSION['errors']);
             </form>
          </article>
          <article class="welcome-message">
-            <h2>Welcome, Lab Employee!</h2>
-            <p>Add new donors to our Blood Donation Management System to help save lives. Your efforts in recruiting donors are invaluable and can make a significant difference in ensuring an adequate blood supply for those in need.</p>
-            <img src="../../public/assets/images/add-donor.jpg" alt="Add Donor" width="390px" height="150px">
+            <div class="infos">
+               <h2>Welcome, Lab Employee!</h2>
+               <p>Add new donors to our Blood Donation Management System to help save lives. Your efforts in recruiting donors are invaluable and can make a significant difference in ensuring an adequate blood supply for those in need.</p>
+               <img src="../../public/assets/images/add-donor.jpg" alt="Add Donor" width="390px" height="150px">
+
+            </div>
          </article>
 
       </section>

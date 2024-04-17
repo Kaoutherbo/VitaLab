@@ -1,123 +1,78 @@
-(function ($) {
-    $(function () {
-  
-      $(window).on('scroll', function () {
-        fnOnScroll();
-      });
-  
-      $(window).on('resize', function () {
-        fnOnResize();
-      });
-  
-      let agTimeline = $('.process_donate'),
-        agTimelineLine = $('.process_donate_line'),
-        agTimelineLineProgress = $('.line-progress'),
-        agTimelinePoint = $('.point_box'),
-        agTimelineItem = $('.process_donate_item'),
-        agOuterHeight = $(window).outerHeight(),
-        agHeight = $(window).height(),
-        f = -1,
-        agFlag = false;
-  
-      function fnOnScroll() {
-        agPosY = $(window).scrollTop();
-  
-        fnUpdateFrame();
-      }
-  
-      function fnOnResize() {
-        agPosY = $(window).scrollTop();
-        agHeight = $(window).height();
-  
-        fnUpdateFrame();
-      }
-  
-      function fnUpdateWindow() {
-        agFlag = false;
-  
-        agTimelineLine.css({
-          top: agTimelineItem.first().find(agTimelinePoint).offset().top - agTimelineItem.first().offset().top,
-          bottom: agTimeline.offset().top + agTimeline.outerHeight() - agTimelineItem.last().find(agTimelinePoint).offset().top
-        });
-  
-        f !== agPosY && (f = agPosY, agHeight, fnUpdateProgress());
-      }
-  
-      function fnUpdateProgress() {
-        let agTop = agTimelineItem.last().find(agTimelinePoint).offset().top;
-  
-        i = agTop + agPosY - $(window).scrollTop();
-        a = agTimelineLineProgress.offset().top + agPosY - $(window).scrollTop();
-        n = agPosY - a + agOuterHeight / 2;
-        i <= agPosY + agOuterHeight / 2 && (n = i - a);
-        agTimelineLineProgress.css({height: n + "px"});
-  
-        agTimelineItem.each(function () {
-          let agTop = $(this).find(agTimelinePoint).offset().top;
-  
-          (agTop + agPosY - $(window).scrollTop()) < agPosY + .5 * agOuterHeight ? $(this).addClass('js-ag-active') : $(this).removeClass('js-ag-active');
-        })
-      }
-  
-      function fnUpdateFrame() {
-        agFlag || requestAnimationFrame(fnUpdateWindow);
-        agFlag = true;
-      }
-  
-    });
-  })(jQuery);
-  
+document.addEventListener('DOMContentLoaded', function() {
+  // Define variables to reference elements
+  const agTimeline = document.querySelector('.process_donate');
+  const agTimelineLine = document.querySelector('.process_donate_line');
+  const agTimelineLineProgress = document.querySelector('.line-progress');
+  const agTimelineItems = document.querySelectorAll('.process_donate_item');
+  const agTimelinePoints = document.querySelectorAll('.point_box');
 
-  /*
-  document.addEventListener('DOMContentLoaded', function () {
-    let agTimeline = document.querySelector('.process_donate'),
-        agTimelineLine = document.querySelector('.process_donate_line'),
-        agTimelineLineProgress = document.querySelector('.line-progress'),
-        agTimelineItems = document.querySelectorAll('.process_donate_item'),
-        agOuterHeight = window.outerHeight,
-        agHeight = window.innerHeight,
-        agPosY = -1;
+  let agOuterHeight = window.outerHeight;
+  let agHeight = window.innerHeight;
+  let agFlag = false;
 
-    let observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('js-ag-active');
-            } else {
-                entry.target.classList.remove('js-ag-active');
-            }
-        });
-    }, { threshold: 0.5 });
+  let f = -1;
 
-    agTimelineItems.forEach((item) => {
-        observer.observe(item);
-    });
+  // Event listener for scroll event
+  window.addEventListener('scroll', fnOnScroll);
 
-    function fnUpdateProgress() {
-      let agTop = agTimelineItems[agTimelineItems.length - 1].querySelector('.card_point').offsetTop,
-          i = agTop + agPosY - window.scrollY,
-          a = agTimelineLineProgress.offsetTop + agPosY - window.scrollY,
-          n = agPosY - a + agOuterHeight / 2;
-  
+  // Event listener for resize event
+  window.addEventListener('resize', fnOnResize);
+
+  function fnOnScroll() {
+      const agPosY = window.scrollY;
+      fnUpdateFrame(agPosY);
+  }
+
+  function fnOnResize() {
+      const agPosY = window.scrollY;
+      agHeight = window.innerHeight;
+      fnUpdateFrame(agPosY);
+  }
+
+  function fnUpdateWindow(agPosY) {
+      agFlag = false;
+
+      // Update the top and bottom positions of the line
+      const firstPointTop = agTimelineItems[0].querySelector('.point_box').getBoundingClientRect().top + agPosY;
+      const lastPointTop = agTimelineItems[agTimelineItems.length - 1].querySelector('.point_box').getBoundingClientRect().top + agPosY;
+      
+      const agTimelineTop = agTimeline.getBoundingClientRect().top + agPosY;
+
+      agTimelineLine.style.top = `${firstPointTop - agTimelineTop}px`;
+      agTimelineLine.style.bottom = `${agTimelineTop + agTimeline.offsetHeight - lastPointTop}px`;
+
+      if (f !== agPosY) {
+          f = agPosY;
+          fnUpdateProgress(agPosY);
+      }
+  }
+
+  function fnUpdateProgress(agPosY) {
+      const lastPointTop = agTimelineItems[agTimelineItems.length - 1].querySelector('.point_box').getBoundingClientRect().top + agPosY;
+
+      let i = lastPointTop + agPosY - window.scrollY;
+      const a = agTimelineLineProgress.getBoundingClientRect().top + agPosY;
+      let n = agPosY - a + agOuterHeight / 2;
       if (i <= agPosY + agOuterHeight / 2) {
           n = i - a;
       }
-  
-      agTimelineLineProgress.style.height = n + 'px';
-  
-      let firstTimelinePoint = agTimelineItems[0].querySelector('.card_point'),
-          lastTimelinePoint = agTimelineItems[agTimelineItems.length - 1].querySelector('.card_point'),
-          lineTop = firstTimelinePoint.offsetTop - agTimelineItems[0].offsetTop,
-          lineBottom = agTimeline.offsetTop + agTimeline.offsetHeight - lastTimelinePoint.offsetTop;
-  
-      agTimelineLine.style.top = lineTop + 'px';
-      agTimelineLine.style.bottom = lineBottom + 'px';
+      agTimelineLineProgress.style.height = `${n}px`;
+
+      // Update active state of timeline items
+      agTimelineItems.forEach(item => {
+          const agTop = item.querySelector('.point_box').getBoundingClientRect().top + agPosY;
+          if ((agTop + agPosY - window.scrollY) < agPosY + (agOuterHeight / 2)) {
+              item.classList.add('js-ag-active');
+          } else {
+              item.classList.remove('js-ag-active');
+          }
+      });
   }
 
-  
-
-    window.addEventListener('scroll', function () {
-        agPosY = window.scrollY;
-        fnUpdateProgress();
-    });
+  function fnUpdateFrame(agPosY) {
+      if (!agFlag) {
+          requestAnimationFrame(() => fnUpdateWindow(agPosY));
+      }
+      agFlag = true;
+  }
 });
-*/

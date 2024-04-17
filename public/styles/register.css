@@ -134,6 +134,9 @@ main {
         & .login-welcome{
             background-image: url("../../public/assets/images/login.jpg");
         }
+        & .update-infos{
+            background-image: url("../../public/assets/images/update-infos.jpg");
+        }
         & .welcome-message {
             flex: 1;
             color: #dcd4d4;

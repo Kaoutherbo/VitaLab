@@ -67,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check if username already exists
     $table = ($role == "donor") ? "donors" : "labEmployee";
+    
     $query = "SELECT * FROM $table WHERE name='$username'";
     $result = mysqli_query($conn, $query);
 

@@ -7,6 +7,38 @@
 $errors = isset($_GET['err']) ? json_decode(urldecode($_GET['err']), true) : array();
 unset($_SESSION['errors']);
 
+// Fetch the counts of each blood type from the PHP array
+$bloodTypeData = [];
+foreach ($blood_groups as $type => $count) {
+    $bloodTypeData[] = "['$type', $count]";
+}
+
+// Convert the PHP array to a JavaScript-friendly format
+$bloodTypeDataJS = implode(',', $bloodTypeData);
+
+
+$sql = "SELECT d.donation_date, SUM(dr.blood_volume) AS total_blood_volume
+        FROM donations d
+        JOIN donation_records dr ON d.id = dr.donation_id
+        GROUP BY d.donation_date
+        ORDER BY d.donation_date ASC";
+$result = mysqli_query($conn, $sql);
+
+// Initialize an array to store the data
+$donationData = array();
+
+// Fetch results and store them in the data array
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $date = $row['donation_date'];
+        $total_volume = $row['total_blood_volume'];
+        $donationData[] = "['$date', $total_volume]";
+    }
+}
+
+// Convert the PHP array to a JavaScript-friendly format
+$donationDataJS = implode(',', $donationData);
+
 ?>
 
 <!DOCTYPE html>
@@ -39,20 +71,20 @@ unset($_SESSION['errors']);
             // Data array: blood type and donations registrations
             var data = google.visualization.arrayToDataTable([
                 ['Blood Type', 'Donations'],
-                ['A+', 30],
-                ['A-', 15],
-                ['B+', 25],
-                ['B-', 10],
-                ['O+', 40],
-                ['O-', 20],
-                ['AB+', 5],
-                ['AB-', 2]
+                <?php echo $bloodTypeDataJS; ?>
             ]);
 
             // Chart options
             var options = {
-                title: 'Donors Blood Type and Donations',
+                title: 'Donors Blood Type',
+                backgroundColor: '#FED5D5',
                 colors: ['#18A810', '#F28E2B', '#FB373A', '#4563FC', '#59A14F', '#EDC948', '#75288D', '#FF9DA7'],
+                chartArea: {
+                    width: '80%',
+                    height: '80%'
+
+                },
+                is3D: true,
             };
 
             // Create and draw the pie chart
@@ -64,37 +96,31 @@ unset($_SESSION['errors']);
         google.charts.setOnLoadCallback(drawDonorActivitiesChart);
 
         function drawDonorActivitiesChart() {
-            // Data array: task, hours per day, health metric
+            // Data array: donation date and total blood volume
             var data = google.visualization.arrayToDataTable([
-                ['Task', 'Hours per Day', 'Health Metric'],
-                ['Work', 8, 110],
-                ['Eat', 2, 120],
-                ['Commute', 1, 130],
-                ['Watch TV', 3, 100],
-                ['Sleep', 10, 140]
+                ['Donation Date', 'Total Blood Volume'],
+                <?php echo $donationDataJS; ?>
             ]);
 
             // Chart options
             var options = {
-                title: 'Donor Daily Activities and Health Metrics',
+                title: 'Donor Blood Volume Over Time',
+                backgroundColor: '#FED5D5',
                 vAxis: {
-                    title: 'Values'
+                    title: 'Total Blood Volume'
                 },
                 hAxis: {
-                    title: 'Tasks'
+                    title: 'Donation Date'
                 },
                 seriesType: 'bars',
                 series: {
                     0: {
                         type: 'bars',
-                        color: '#1ECB2D'
-                    }, // Color for the first series (bars)
-                    1: {
-                        type: 'line',
-                        color: '#FF5733'
-                    } // Color for the second series (line)
+                        color: '#1ECB2D',
+                        width: 0.4
+                    }
                 }
-            };
+            }
 
             // Create and draw the combination chart
             var chart = new google.visualization.ComboChart(document.getElementById('dailyActivitiesChart'));
@@ -236,6 +262,16 @@ unset($_SESSION['errors']);
                 <?php endforeach; ?>
             </section>
 
+            <!-- Graphs section -->
+            <section class="graphs-section">
+                <h3>Statistics</h3>
+                <div class="graphs" style="margin: 2rem 0">
+                    <div id="bloodTypeChart" style="width: 100%; height: 400px;"></div>
+                    <div id="dailyActivitiesChart" style="width: 100%; height: 400px;"></div>
+                </div>
+
+            </section>
+
             <!-- Table data section -->
             <section class="table-data">
                 <div class="order">
@@ -311,7 +347,7 @@ unset($_SESSION['errors']);
                                         echo "<td>" . $row_donor['address'] . "</td>";
                                         echo "<td>" . $row_donor['blood_group'] . "</td>";
                                         echo "<td>";
-                                        echo "<a href='update-donor.php?id=" . $row_donor['id'] . "' class='status edit'><span class='material-symbols-outlined'>edit</span></a>";
+                                        echo "<a href='../auth/updateProfile.php?id=" . $row_donor['id'] . "' class='status edit'><span class='material-symbols-outlined'>edit</span></a>";
                                         echo "<a href='../../controllers/admin/delete-donor.php?id=" . $row_donor['id'] . "' class='status delete'><span class='material-symbols-outlined'>delete</span></a>";
                                         echo "</td>";
                                         echo "</tr>";
@@ -325,10 +361,7 @@ unset($_SESSION['errors']);
                     </table>
                 </div>
             </section>
-            <section class="graphs">
-                <div id="bloodTypeChart" style="width: 100%; height: 400px;"></div>
-                <div id="dailyActivitiesChart" style="width: 100%; height: 400px;"></div>
-            </section>
+
         </main>
     </section>
 
@@ -367,7 +400,11 @@ unset($_SESSION['errors']);
                                 <i class="bx"><span class="material-symbols-outlined">logout</span></i>
                             </a>
                         </button>
-                        <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
+                        <button type="submit">
+                            <a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>&role=<?php echo $row_user['role']; ?>" class="button">
+                                <span class="material-symbols-outlined">edit</span>
+                            </a>
+                        </button>
                     </div>
 
                 </div>

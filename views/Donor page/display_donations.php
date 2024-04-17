@@ -50,6 +50,7 @@ mysqli_close($conn);
                 <li><a href="../Home/Home Page.html">Home</a></li>
                 <li><a href="<?php echo $row_user['role'] == 'admin' ? '../Admin page/admin.php' : '../Donor page/donor.php'; ?>">Dashboard</a></li>
                 <li><a href="?all_donations">All Donations</a></li>
+                <li><a href="./add-comment.php">Add Comment</a></li>
             </ul>
             <a href="#" class="profile" id="profilePicture">
                 <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
@@ -61,6 +62,7 @@ mysqli_close($conn);
 
     <!-- Donations-->
     <section class="donations All-donations">
+    <h2>Search about donation</h2>
         <form method="POST" id="searchForm">
             <div class="" group-inputs>
                 <label for="start_date">Start Date:</label>
@@ -123,73 +125,7 @@ mysqli_close($conn);
                     echo '</div>';
                     echo '</div>';
 
-                    // Display comments for this donation
-                    echo '<div class="comments_rates">';
-                    echo '<h3>Comments</h3>';
-                    echo ' <div class="comments-contents">';
-                    if (isset($comments[$donation_id]) && count($comments[$donation_id]) > 0) {
-                        // Display each comment
-                        foreach ($comments[$donation_id] as $comment_row) {
-                            echo '<div>';
-                            echo '<div>';
-                            echo '<div class="user">';
-                            // Display donor's profile picture and name
-                            echo '<img src="' . $comment_row['profilePicture'] . '" alt="Profile Picture" class="profilePicture">';
-                            echo '<strong>' . $comment_row['name'] . '</strong>';
-                            echo '</div>';
-
-                            // Display rating
-                            echo '<div class="rating">';
-                            for ($i = 0; $i < $comment_row['rating']; $i++) {
-                                echo '<img src="../../public/assets/images/Star_fill.png" alt="star" class="star" />';
-                            }
-                            echo '</div>';
-                            echo '</div>';
-                            // Display comment
-                            echo '<p>' . $comment_row['comment'] . '</p>';
-                            echo '</div>';
-                        }
-                    } else {
-                        // No comments for this donation
-                        echo '<p>No comments for this donation.</p>';
-                    }
-                    // Display form for adding comments
-                    echo '<form class="input-comments" action="../../controllers/user/submit_comment.php" method="post">';
-                    echo '<input type="hidden" name="donation_id" value="' . $donation_id . '">';
-                    echo '<input type="text" placeholder="Add comment..." name="comment-content" style="';
-                    if ($errorId == $donation_id && !empty($errors['comment'])) {
-                        echo 'border: 1.5px solid red;';
-                    }
-                    echo '">';
                     
-                    if ($errorId == $donation_id && !empty($errors['comment'])) {
-                        echo '<small class="error" style="position: absolute; bottom: 0; left: 10px; margin: 0 0 -1.1rem 0">' . $errors['comment'] . '</small>';
-                    }
-                    echo '<div>';
-                    echo '<button type="submit" name="add-comment">Add comment</button>';
-                    echo '<select name="rating" id="rating" style="';
-                    if ($errorId == $donation_id && !empty($errors['rating'])) {
-                        echo 'border: 1.5px solid red;';
-                    }
-                    echo '">';
-                    echo '<option value="" disabled selected>Rates the service...</option>';
-                    echo '<option value="1">1</option>';
-                    echo '<option value="2">2</option>';
-                    echo '<option value="3">3</option>';
-                    echo '<option value="4">4</option>';
-                    echo '<option value="5">5</option>';
-                    echo '</select>';
-                    if ($errorId == $donation_id && !empty($errors['rating'])) {
-                        echo '<small class="error" style="position: absolute; bottom: 0; right: 40px; margin: 0 0 -1rem 0">' . $errors['rating'] . '</small>';
-                    }
-                    echo '</div>';
-                    if ($errorId == $donation_id && !empty($errors['donation'])) {
-                        echo '<small class="error" style="position: absolute; bottom: 100px; left: 20px"> ' . $errors['donation'] . '</small>';
-                    }
-                    echo '</form>';
-
-                    echo '</div>';
-                    echo '</div>';
                     echo '</article>';
                 }
             }
@@ -198,8 +134,8 @@ mysqli_close($conn);
 
     </section>
 
-    <!-- for the profile section-->
-    <section class="account" id="accountSection">
+     <!-- for the profile section-->
+     <section class="account" id="accountSection">
         <div class="container">
             <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
 
@@ -222,7 +158,7 @@ mysqli_close($conn);
 
                         </div>
                         <div>
-                            <h2><span class="material-symbols-outlined">Person</span>Role</h2>
+                            <h2><span class="material-symbols-outlined">admin_panel_settings</span>Role</h2>
                             <p><?php echo $row_user['role']; ?></p>
                         </div>
                     </div>
@@ -233,7 +169,10 @@ mysqli_close($conn);
                                 <i class="bx"><span class="material-symbols-outlined">logout</span></i>
                             </a>
                         </button>
-                        <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
+                        <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>" class="button">
+                                <span class="material-symbols-outlined">edit</span>
+                            </a>
+                        </button>
                     </div>
 
                 </div>

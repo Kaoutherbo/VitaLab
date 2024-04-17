@@ -19,7 +19,7 @@ if (isset($_POST["submit"])) {
             $donation_date = $_POST['date'];
             $title = $_POST['title'];
             $description = $_POST['description'];
-            $donation_image = isset($_POST['donation_image']) && !empty($_POST['profilePicture']) ? $_POST['profilePicture'] : "../../public/assets/images/donation.webp";
+            $donation_image = isset($_POST['donation_image']) && !empty($_POST['donation_image']) ? $_POST['donation_image'] : "../../public/assets/images/donation.webp";
             $blood_group = $_POST['blood_group'];
             $errors = array();
 

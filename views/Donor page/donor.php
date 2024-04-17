@@ -18,6 +18,35 @@ unset($_SESSION['errors']);
 // Get the error ID from the URL parameters
 $errorId = isset($_GET['id']) ? $_GET['id'] : null;
 
+// Assume you have a variable $currentDonorId representing the ID of the current donor.
+$currentDonorId = $row_user['id'];
+
+$sql = "SELECT d.donation_date, SUM(dr.blood_volume) AS total_blood_volume
+FROM donations d
+JOIN donation_records dr ON d.id = dr.donation_id
+JOIN donors do ON dr.donor_id = do.id
+WHERE do.id = $currentDonorId
+GROUP BY d.donation_date
+ORDER BY d.donation_date ASC
+";
+
+$result = mysqli_query($conn, $sql);
+
+// Initialize an array to store the data
+$donationData = array();
+
+// Fetch results and store them in the data array
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $date = $row['donation_date'];
+        $total_volume = $row['total_blood_volume'];
+        $donationData[] = "['$date', $total_volume]";
+    }
+}
+
+// Convert the PHP array to a JavaScript-friendly format
+$donationDataJS = implode(',', $donationData);
+
 
 ?>
 
@@ -56,13 +85,13 @@ $errorId = isset($_GET['id']) ? $_GET['id'] : null;
             // Set the chart options
             var options = {
                 title: 'Donor Health Information',
-                backgroundColor: '#F6DCDC',
+                backgroundColor: '#FED5D5',
                 chartArea: {
                     width: '75%',
                     height: '75%'
 
                 },
-                pieHole: 3,
+                pieHole: 0.4,
             };
 
             // Create and draw the chart
@@ -76,37 +105,29 @@ $errorId = isset($_GET['id']) ? $_GET['id'] : null;
         google.charts.setOnLoadCallback(drawVisualization);
 
         function drawVisualization() {
-            // Data: task, hours per day, additional health metric
+            // Data array: donation date and total blood volume
             var data = google.visualization.arrayToDataTable([
-                ['Task', 'Hours per Day', 'Health Metric'],
-                ['Work', 11, 75],
-                ['Eat', 3, 120],
-                ['Commute', 4, 180],
-                ['Watch TV', 5, 13.5],
-                ['Sleep', 7, 15]
+                ['Donation Date', 'Total Blood Volume'],
+                <?php echo $donationDataJS; ?>
             ]);
 
-            // Chart options with colors and series type
+            // Chart options
             var options = {
-                title: 'Donor Health Information and Daily Activities',
-                backgroundColor: '#F6DCDC',
+                title: 'Donor Blood Volume Over Time',
+                backgroundColor: '#FED5D5',
                 vAxis: {
-                    title: 'Values'
+                    title: 'Total Blood Volume'
                 },
                 hAxis: {
-                    title: 'Tasks'
+                    title: 'Donation Date'
                 },
-                seriesType: 'bars', // Default series type is bars
+                seriesType: 'bars',
                 series: {
                     0: {
                         type: 'bars',
-                        color: '#5FDC31'
-                    },
-                    1: {
-                        type: 'line',
-                        color: '#F57842'
+                        color: '#1ECB2D'
                     }
-                },
+                }
             };
 
             // Create and draw the combination chart
@@ -253,9 +274,11 @@ $errorId = isset($_GET['id']) ? $_GET['id'] : null;
     <h2><?php echo "<h2>{$row_user['name']}'s Health Progress</h2>"; ?></h2>
 
     <!-- Graph -->
-    <section class="graphs">
-        <div id="healthChart" style="width: 600px; height: 500px; "></div>
-        <div id="comboChart" style="width: 600px; height: 500px; "></div>
+    <section class="graphs-section">
+        <div class="graphs">
+            <div id="healthChart" style="width: 600px; height: 500px; "></div>
+            <div id="comboChart" style="width: 600px; height: 500px; "></div>
+        </div>
     </section>
 
     <!-- Donation History Section -->
@@ -339,7 +362,10 @@ $errorId = isset($_GET['id']) ? $_GET['id'] : null;
                                 <i class="bx"><span class="material-symbols-outlined">logout</span></i>
                             </a>
                         </button>
-                        <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
+                        <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>" class="button">
+                                <span class="material-symbols-outlined">edit</span>
+                            </a>
+                        </button>
                     </div>
 
                 </div>

@@ -131,50 +131,54 @@ unset($_SESSION['errors']); // clean up the session
     </section>
 
   </main>
+   
   <!-- for the profile section-->
-  <section class="account" id="accountSection">
-    <div class="container">
-      <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
+   <section class="account" id="accountSection">
+        <div class="container">
+            <span class="material-symbols-outlined closeBtn" id="closeBtn">close</span>
 
-      <div class="infos">
-        <div>
-          <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
-        </div>
+            <div class="infos">
+                <div>
+                    <img src="<?php echo $row_user['profilePicture']; ?>" alt="Profile Picture">
+                </div>
 
-        <div>
-          <h2><span class="material-symbols-outlined">Person</span> Username</h2>
-          <p><?php echo $row_user['name']; ?></p>
-          <h2><span class="material-symbols-outlined">Mail</span>Email</h2>
-          <p><?php echo $row_user['email']; ?></p>
-          <h2><span class="material-symbols-outlined">location_on</span>Address</h2>
-          <p><?php echo $row_user['address']; ?></p>
-          <div class="secondary_info">
-            <div>
-              <h2><span class="material-symbols-outlined">relax</span>Blood Group</h2>
-              <p><?php echo $row_user['blood_group']; ?></p>
+                <div>
+                    <h2><span class="material-symbols-outlined">Person</span> Username</h2>
+                    <p><?php echo $row_user['name']; ?></p>
+                    <h2><span class="material-symbols-outlined">Mail</span>Email</h2>
+                    <p><?php echo $row_user['email']; ?></p>
+                    <h2><span class="material-symbols-outlined">location_on</span>Address</h2>
+                    <p><?php echo $row_user['address']; ?></p>
+                    <div class="secondary_info">
+                        <div>
+                            <h2><span class="material-symbols-outlined">relax</span>Blood Group</h2>
+                            <p><?php echo $row_user['blood_group']; ?></p>
+
+                        </div>
+                        <div>
+                            <h2><span class="material-symbols-outlined">admin_panel_settings</span>Role</h2>
+                            <p><?php echo $row_user['role']; ?></p>
+                        </div>
+                    </div>
+
+                    <div class="btns2">
+                        <button class="logout">
+                            <a href="../../controllers/auth/logout.php">
+                                <i class="bx"><span class="material-symbols-outlined">logout</span></i>
+                            </a>
+                        </button>
+                        <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>" class="button">
+                                <span class="material-symbols-outlined">edit</span>
+                            </a>
+                        </button>
+                    </div>
+
+                </div>
 
             </div>
-            <div>
-              <h2><span class="material-symbols-outlined">Person</span>Role</h2>
-              <p><?php echo $row_user['role']; ?></p>
-            </div>
-          </div>
-
-          <div class="btns2">
-            <button class="logout">
-              <a href="../../controllers/auth/logout.php">
-                <i class="bx"><span class="material-symbols-outlined">logout</span></i>
-              </a>
-            </button>
-            <button type="submit"><a href="/updateAccount"><span class="material-symbols-outlined">edit</span></a></button>
-          </div>
 
         </div>
-
-      </div>
-
-    </div>
-  </section>
+    </section>
 
   <script src="../../public/js/nav.js"></script>
   <script src="../../public/js/donor.js"></script>

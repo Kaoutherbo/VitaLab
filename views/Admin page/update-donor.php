@@ -29,9 +29,12 @@ unset($_SESSION['errors']);
    <main>
       <section class="container">
          <article class="welcome-message">
-            <h2>Welcome, Lab Employee!</h2>
-            <p>Update donor information in our Blood Donation Management System to ensure accurate records and continued support for those in need. Your attention to detail and dedication contribute to the success of our blood donation program.</p>
-            <img src="../../public/assets/images/update-donor.jpg" alt="Update Donor" width="390px" height="160px">
+            <div class="infos">
+               <h2>Welcome, Lab Employee!</h2>
+               <p>Update donor information in our Blood Donation Management System to ensure accurate records and continued support for those in need. Your attention to detail and dedication contribute to the success of our blood donation program.</p>
+               <img src="../../public/assets/images/update-donor.jpg" alt="Update Donor" width="390px" height="160px">
+
+            </div>
          </article>
 
 
@@ -49,7 +52,7 @@ unset($_SESSION['errors']);
                      <?php endif; ?>
                   </div>
                   <div>
-                     <label for="image">Image</label>
+                     <label for="image">Profile</label>
                      <input type="text" name="profilePicture" id="Image" value="<?php echo $row['profilePicture'] ?>" />
                   </div>
 
@@ -63,7 +66,7 @@ unset($_SESSION['errors']);
 
                   <div>
                      <label for="address">Address</label>
-                     <input type="address" name="address" id="address" value="<?php echo $row['address'] ?>" style="<?php echo (!empty($errors['address']) ? 'border: 1.5px solid red;' : ''); ?>"/>
+                     <input type="address" name="address" id="address" value="<?php echo $row['address'] ?>" style="<?php echo (!empty($errors['address']) ? 'border: 1.5px solid red;' : ''); ?>" />
                      <?php if (!empty($errors['address'])) : ?>
                         <small class="error"><?php echo $errors['address']; ?></small>
                      <?php endif; ?>
@@ -97,8 +100,8 @@ unset($_SESSION['errors']);
 
                </div>
                <?php if (!empty($errors['general'])) : ?>
-                        <small class="error"><?php echo $errors['general']; ?></small>
-                     <?php endif; ?>
+                  <small class="error"><?php echo $errors['general']; ?></small>
+               <?php endif; ?>
 
                <div class="group-btns">
                   <button type="submit" name="submit">Update</button>

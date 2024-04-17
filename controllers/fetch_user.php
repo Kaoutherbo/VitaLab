@@ -26,11 +26,11 @@ if (isset($_SESSION['name'])) {
         $result_query = mysqli_query($conn, $sql_query);
         $row_user = mysqli_fetch_assoc($result_query);
     } else {
-        header("Location: ../../views/auth/login.html");
+        header("Location: ../../views/auth/login.php");
         exit();
     }
 } else {
-    header("Location: ../../views/auth/login.html");
+    header("Location: ../../views/auth/login.php");
     exit();
 }
 ?>

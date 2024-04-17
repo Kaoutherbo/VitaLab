@@ -229,15 +229,28 @@
   margin: auto;
   padding: 6rem 1rem  1rem  1rem;
   display: block;
-  
-  background-color: rgb(254, 255, 247);
-
-  & form:first-child {
+  width: max-content;
+  & > div {
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 2rem;
+    & > article{
+      margin: 0 0 2rem 0;
+      width: 500px;
+      height: 100%;
+      max-height: 600px;
+      
+    }
+  }
+  & form {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     margin: 2rem 0;
-    background-color: #fff;
+
     & div {
       display: flex;
       flex-direction: column;
@@ -405,13 +418,19 @@ table {
   }
   .All-donations {
     max-width: 100% !important;
-    & form:first-child {
-      display: grid !important;
-      grid-template-columns: repeat(2, 1fr);
+    & > div {
+      flex-direction: column !important;
+    }
+    & form{
+      display: flex !important;
+      flex-direction: column !important;
       gap: 10px !important;
-     
-      & .last{
-        width: 100% !important;
+      & div , & .last{
+        width: 100%; 
+      }
+      & button{
+        width: 100%;
+        margin-top: 1rem;
       }
     }
   }

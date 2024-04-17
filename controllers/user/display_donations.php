@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])) {
         exit();
     }
 
-    $query = "SELECT * FROM donations WHERE donation_date BETWEEN '$start_date' AND '$end_date' AND blood_type = '$blood_group'";
+    $query = "SELECT * FROM donations WHERE donation_date BETWEEN '$start_date' AND '$end_date' AND blood_group = '$blood_group'";
     $result_Donations = mysqli_query($conn, $query);
 } else {
     $query = "SELECT * FROM donations";
