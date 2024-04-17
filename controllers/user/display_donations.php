@@ -2,7 +2,6 @@
 session_start();
 @include '../config.php';
 
-// Check if form is submitted for filtering donations
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])) {
     $start_date = $_POST['startDate'];
     $end_date = $_POST['endDate'];

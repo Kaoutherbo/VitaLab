@@ -1,5 +1,4 @@
 <?php
-// Fetch all comments
 $query = "SELECT * FROM comments";
 $result_Comments = mysqli_query($conn, $query);
 

@@ -2,7 +2,7 @@
 include "../config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
+
     $id = $_POST['id'];
     $name = $_POST['name'];
     $blood_group = $_POST['blood_group'];
@@ -58,7 +58,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Determine the table based on the user's role
     $table = ($role == "donor") ? "donors" : "labEmployee";
 
-    // Check for existing user with the same name and different ID
     $existing_user_query = "SELECT * FROM $table WHERE name='" . $name . "' AND id != '" . $id . "'";
     $existing_user_result = $conn->query($existing_user_query);
     if ($existing_user_result->num_rows > 0) {
@@ -72,16 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-
-    // Determine the table based on the user's role
     $table = ($role == "donor") ? "donors" : "labEmployee";
 
-    // Update the data in the specified table
     $sql = "UPDATE $table SET `name`='$name', `blood_group`='$blood_group', `email`='$email', `address`='$address', `profilePicture`='$profilePicture', `phone`='$phone' WHERE id = $id";
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
-        // Redirect based on the user's role
         if ($role_user == "admin") {
             header("Location: ../../views/Admin page/admin.php?msg=Data updated successfully");
         } else {

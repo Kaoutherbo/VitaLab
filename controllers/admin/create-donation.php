@@ -14,7 +14,6 @@ if (isset($_POST["submit"])) {
 
             $lab_employee_id = $row['id'];
 
-            // Proceed with the donation creation
             $donation_place = $_POST['location'];
             $donation_date = $_POST['date'];
             $title = $_POST['title'];
@@ -57,7 +56,6 @@ if (isset($_POST["submit"])) {
                 exit();
             }
 
-            // Prepare and execute the SQL query
             $insert_query = "INSERT INTO donations (donation_place, donation_date, title, description, donation_image, created_by, created_at, blood_group) VALUES ('$donation_place', '$donation_date', '$title', '$description', '$donation_image', '$lab_employee_id', NOW(), '$blood_group')";
 
             if (mysqli_query($conn, $insert_query)) {
@@ -67,11 +65,9 @@ if (isset($_POST["submit"])) {
                 echo "Failed to create donation. Please try again later.";
             }
         } else {
-            // No lab employee found with the given name
             echo "Lab employee not found.";
         }
     } else {
-        // Redirect to login page if the user is not logged in
         header("Location: ../../views/auth/login.php");
         exit();
     }

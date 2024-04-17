@@ -1,5 +1,5 @@
 <?php
-// Handle searching for donors
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_term'])) {
     $searchTerm = $_POST['search_term'];
     $errors = array();

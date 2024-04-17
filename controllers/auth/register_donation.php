@@ -7,7 +7,6 @@ $errors = array();
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
     $age = mysqli_real_escape_string($conn, $_POST['age']);
@@ -151,7 +150,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
     // Check if there are any errors
     if (count($errors) > 0) {
-        // Store errors and donation ID in session
         $_SESSION['errors'] = $errors;
         $_SESSION['id'] = $donation_id;
         header("Location: ../../views/auth/donatePage.php?id=$donation_id&err=" . urlencode(json_encode($errors)));

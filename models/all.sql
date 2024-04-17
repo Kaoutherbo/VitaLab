@@ -1,5 +1,6 @@
 
 use laboratory;
+
 CREATE TABLE comments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     donor_id INT UNSIGNED NOT NULL,
@@ -8,10 +9,12 @@ CREATE TABLE comments (
     name VARCHAR(100) NOT NULL,
     comment TEXT,
     rating INT,
+    is_general TINYINT(1) DEFAULT 0 NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (donor_id) REFERENCES donors(id) ON DELETE CASCADE,
     FOREIGN KEY (donation_id) REFERENCES donations(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE donation_records (
     id INT AUTO_INCREMENT PRIMARY KEY,

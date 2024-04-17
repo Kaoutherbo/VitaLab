@@ -4,7 +4,6 @@ include "../../controllers/config.php";
 if(isset($_GET["id"])) {
     $id = $_GET["id"];
     
-    // Using prepared statement to prevent SQL injection
     $stmt = $conn->prepare("DELETE FROM `donors` WHERE id = ?");
     $stmt->bind_param("i", $id);
 
@@ -15,7 +14,7 @@ if(isset($_GET["id"])) {
         echo "Failed: " . $stmt->error;
     }
     
-    $stmt->close(); // Close prepared statement
+    $stmt->close();
 } else {
     echo "No ID provided.";
 }

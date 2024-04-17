@@ -1,5 +1,5 @@
 <?php
-// Initialize blood type counts
+
 $blood_groups = array(
     'O+' => 0,
     'A+' => 0,

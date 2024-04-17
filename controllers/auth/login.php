@@ -65,7 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['name'] = "User not found. Please register first.";
     }
 
-    // Redirect back to login page with errors appended to URL
     header("Location: ../../views/auth/login.php?error=" . urlencode(json_encode($errors)));
     exit();
 }
