@@ -42,39 +42,3 @@ c. Explication du code de chaque page ou procédure.
 d. Une présentation de la base de données utilisée (MCD et MLD).
 [X] 2. Développer l’application conçue avec du HTML, CSS, PHP, ...
 [X] 3. Faire des tests de l’application sous un serveur web local.
---- 
-
-1. **Introduction**
-   - Explanation of the blood donation management system project.
-   - Importance of efficient blood donation management in healthcare.
-
-2. **Website Design**
-   - Illustration of the website's architecture, including:
-     - Pages related to donor registration and login.
-     - Blood donation management pages.
-     - Laboratory analysis management pages.
-
-3. **Homepage Mockup**
-   - Visual representation of the homepage design, highlighting key features and navigation elements.
-
-4. **Explanation of Code for Each Page or Procedure**
-   - Detailed explanation of the code implementation for each page and procedure:
-     - Donor Registration Page
-     - Donor Login Page
-     - Blood Donation Management Page
-     - Laboratory Analysis Management Page
-
-5. **Database Presentation**
-   - Overview of the database used in the blood donation management system:
-     - Conceptual Data Model (CDM) outlining the entities and their relationships.
-     - Logical Data Model (LDM) illustrating the database schema.
-
-6. **Conclusion**
-   - Summary of the project objectives and achievements.
-   - Discussion on the potential impact of the blood donation management system on healthcare.
-
-7. **Appendices**
-   - Additional resources or information, such as sample data or external references.
-
-8. **GitHub Repository**
-   - Link to the project's GitHub repository for access to the codebase and documentation.

@@ -1,15 +1,15 @@
--- Controller is responsible to handle user interactions/inputs such as keyboard or mouse events for a single View. Model is the data layer, responsible for managing the business logic and data sources such as databases or network APIs
 USE laboratory;
 
-CREATE TABLE donations (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    donation_date DATE NOT NULL,
-    donation_place VARCHAR(255) NOT NULL,
-    blood_group VARCHAR(5),
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    donation_image VARCHAR(2000) NOT NULL,
-    created_by INT UNSIGNED NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (created_by) REFERENCES labEmployee(id) ON DELETE CASCADE
+-- Create donations table
+CREATE TABLE DONATIONS (
+    ID INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    DONATION_DATE DATE NOT NULL,
+    DONATION_PLACE VARCHAR(255) NOT NULL,
+    BLOOD_GROUP VARCHAR(3) CHECK (BLOOD_GROUP REGEXP '^(A|B|AB|O)[+-]$'),
+    TITLE VARCHAR(255) NOT NULL,
+    DESCRIPTION TEXT,
+    DONATION_IMAGE VARCHAR(2000),
+    CREATED_BY INT UNSIGNED NOT NULL,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (CREATED_BY) REFERENCES LABEMPLOYEE(ID) ON DELETE CASCADE
 );
