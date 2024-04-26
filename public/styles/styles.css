@@ -401,7 +401,7 @@ body {
 
     }
 
-    /* News */
+    /* privacy policy */
 
     & .privacy-policy {
         & article:last-child{
@@ -449,16 +449,17 @@ body {
         }
       }  
         }
-        & .news-welcome {
+       
+        & .privacy-welcome{
             margin-bottom: 2rem;
             width: 100%;
-            background-image: url('../assets/images/news.jpg');
-
+            background-image: url("../../public/assets/images/feedback.jpg");
             & strong {
                 width: 50%;
             }
         }
     }
+   
     /* Contact Us */
     & .contact {
         width: 100%;

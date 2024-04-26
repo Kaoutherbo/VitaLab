@@ -9,7 +9,6 @@ if (isset($_POST["submit"])) {
     $password = $_POST['password'];
     $address = $_POST['address'];
     $profilePicture = isset($_POST['profilePicture']) && !empty($_POST['profilePicture']) ? $_POST['profilePicture'] : "../../public/assets/images/user.jpg";
-    $last_donation_date = isset($_POST['last_donation_date']) ? $_POST['last_donation_date'] : null;
 
     $errors = array();
 
@@ -65,9 +64,9 @@ if (isset($_POST["submit"])) {
     $created_at = date("Y-m-d H:i:s");
     $updated_at = $created_at;
 
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT); // default hashing algorithm
 
-    $insert_query = "INSERT INTO donors (name, blood_group, email, password, address, profilePicture, last_donation_date, created_at, updated_at) VALUES ('$name', '$blood_group', '$email', '$hashed_password', '$address', '$profilePicture', '$last_donation_date', '$created_at', '$updated_at')";
+    $insert_query = "INSERT INTO donors (name, blood_group, email, password, address, profilePicture, created_at, updated_at) VALUES ('$name', '$blood_group', '$email', '$hashed_password', '$address', '$profilePicture', '$created_at', '$updated_at')";
 
     if ($conn->query($insert_query) === TRUE) {
         header("Location: ../../views/Admin page/admin.php?msg=New record created successfully");

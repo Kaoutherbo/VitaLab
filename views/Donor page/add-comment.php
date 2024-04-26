@@ -35,7 +35,7 @@ unset($_SESSION['errors']);
 
   <!-- Navigation Bar -->
   <nav>
-    <a href="./Home Page.html" class="logo">
+    <a href="../Home/Home Page.html" class="logo">
       <img src="../../public/assets/images/Logo-donation.png" alt="VitaLab Logo" width="36px">
       <p>VitaLab</p>
     </a>

@@ -7,7 +7,7 @@ CREATE TABLE donations (
     donation_place VARCHAR(255) NOT NULL,
     blood_group VARCHAR(5),
     title VARCHAR(255) NOT NULL,
-    description VARCHAR(2000) NOT NULL,
+    description TEXT,
     donation_image VARCHAR(2000) NOT NULL,
     created_by INT UNSIGNED NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

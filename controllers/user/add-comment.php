@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $donation_id = 'NULL';
         }
 
-        $query_insert_comment = "INSERT INTO comments (donor_id, donation_id, name, comment, rating, profilePicture, is_general) VALUES ('$donor_id', $donation_id, '$username', '$comment', '$rating', (SELECT profilePicture FROM donors WHERE id = '$donor_id'), '$is_general')";
+        $query_insert_comment = "INSERT INTO comments (donor_id, donation_id, name, comment, rating, profilePicture, is_general) VALUES ('$donor_id', $donation_id, '$username', '$comment', '$rating', (SELECT profilePicture FROM donors WHERE id = '$donor_id'), '$is_general')";       
 
         if (mysqli_query($conn, $query_insert_comment)) {
             header("Location: ../../views/Donor page/donor.php");

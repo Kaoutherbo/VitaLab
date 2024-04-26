@@ -4,10 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const agTimelineLine = document.querySelector('.process_donate_line');
   const agTimelineLineProgress = document.querySelector('.line-progress');
   const agTimelineItems = document.querySelectorAll('.process_donate_item');
-  const agTimelinePoints = document.querySelectorAll('.point_box');
 
   let agOuterHeight = window.outerHeight;
-  let agHeight = window.innerHeight;
+  // let agHeight = window.innerHeight;
   let agFlag = false;
 
   let f = -1;

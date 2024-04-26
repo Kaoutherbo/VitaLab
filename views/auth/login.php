@@ -41,8 +41,7 @@ unset($_SESSION['errors']); // clean up the session
 
   <!-- main -->
   <main class="login">
-
-    <section class="container login-container">
+   <section class="container login-container">
       <article class="container-form">
         <h2>Login now!</h2>
         <form action="../../controllers/auth/login.php" method="post">

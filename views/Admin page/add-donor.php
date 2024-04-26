@@ -25,89 +25,109 @@ unset($_SESSION['errors']);
 </head>
 
 <body>
+   <!-- Navigation Bar -->
+   <nav>
+      <a href="./Home Page.html" class="logo">
+         <img src="../../public/assets/images/Logo-donation.png" alt="VitaLab Logo" width="36px" />
+         <p>VitaLab</p>
+      </a>
+      <ul class="ulMenu">
+         <li><a href="./Home Page.html">Home</a></li>
+         <li><a href="./services.html">Services</a></li>
+         <li><a href="./About.php">About Us</a></li>
+         <li><a href="./Privacy.html">Privacy Policy</a></li>
+         <li><a href="./Contact.html">Contact</a></li>
+      </ul>
+
+      <span class="material-symbols-outlined hamburger">menu</span>
+      <span class="material-symbols-outlined closeIcone">close</span>
+   </nav>
    <!-- main -->
    <main>
-      <section class="container">
+         <section class="container">
 
-         <article class="container-form">
-            <h2>Add Donor!</h2>
-            <form action="" method="post">
-               <div class="group-inputs">
+            <article class="container-form">
+               <h2>Add Donor!</h2>
+               <form action="" method="post">
+                  <div class="group-inputs">
 
-                  <div>
-                     <label for="username">Username</label>
-                     <input type="text" name="name" id="username" placeholder="Enter the Full name" style="<?php echo (!empty($errors['name']) ? 'border: 1.5px solid red;' : ''); ?>" />
-                     <?php if (!empty($errors['name'])) : ?>
-                        <small class="error"><?php echo $errors['name']; ?></small>
-                     <?php endif; ?>
+                     <div>
+                        <label for="username">Username</label>
+                        <input type="text" name="name" id="username" placeholder="Enter the Full name" style="<?php echo (!empty($errors['name']) ? 'border: 1.5px solid red;' : ''); ?>" />
+                        <?php if (!empty($errors['name'])) : ?>
+                           <small class="error"><?php echo $errors['name']; ?></small>
+                        <?php endif; ?>
+                     </div>
+                     <div>
+                        <label for="image">Image</label>
+                        <input type="text" name="profilePicture" id="Image" placeholder="Enter the profile image" />
+                     </div>
+
+                     <div>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" placeholder="Enter the email" style="<?php echo (!empty($errors['email']) ? 'border: 1.5px solid red;' : ''); ?>" />
+                        <?php if (!empty($errors['email'])) : ?>
+                           <small class="error"><?php echo $errors['email']; ?></small>
+                        <?php endif; ?>
+                     </div>
+                     <div>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="Enter the password" style="<?php echo (!empty($errors['password']) ? 'border: 1.5px solid red;' : ''); ?>" />
+                        <?php if (!empty($errors['password'])) : ?>
+                           <small class="error"><?php echo $errors['password']; ?></small>
+                        <?php endif; ?>
+                     </div>
+                     <div>
+                        <label for="address">Address</label>
+                        <input type="text" name="address" id="address" placeholder="Enter the address" style="<?php echo (!empty($errors['address']) ? 'border: 1.5px solid red;' : ''); ?>" />
+                        <?php if (!empty($errors['address'])) : ?>
+                           <small class="error"><?php echo $errors['address']; ?></small>
+                        <?php endif; ?>
+                     </div>
+
+                     <div class="donate-options">
+                        <label for="blood_group">Blood Group</label>
+                        <select name="blood_group" id="blood_group" style="<?php echo (!empty($errors['blood_group']) ? 'border: 1.5px solid red;' : ''); ?>">
+                           <option value="" selected disabled hidden>Select your blood group</option>
+                           <option value="A+">A+</option>
+                           <option value="A-">A-</option>
+                           <option value="B+">B+</option>
+                           <option value="B-">B-</option>
+                           <option value="AB+">AB+</option>
+                           <option value="AB-">AB-</option>
+                           <option value="O+">O+</option>
+                           <option value="O-">O-</option>
+                        </select>
+                        <?php if (!empty($errors['blood_group'])) : ?>
+                           <small class="error"><?php echo $errors['blood_group']; ?></small>
+                        <?php endif; ?>
+                     </div>
+
                   </div>
-                  <div>
-                     <label for="image">Image</label>
-                     <input type="text" name="profilePicture" id="Image" placeholder="Enter the profile image" />
+                  <?php if (!empty($errors['general'])) : ?>
+                     <small class="error"><?php echo $errors['general']; ?></small>
+                  <?php endif; ?>
+                  <div class="group-btns">
+                     <button type="submit" name="submit">Save</button>
+                     <button><a href="admin.php">Cancel</a></button>
                   </div>
 
-                  <div>
-                     <label for="email">Email</label>
-                     <input type="email" name="email" id="email" placeholder="Enter the email" style="<?php echo (!empty($errors['email']) ? 'border: 1.5px solid red;' : ''); ?>" />
-                     <?php if (!empty($errors['email'])) : ?>
-                        <small class="error"><?php echo $errors['email']; ?></small>
-                     <?php endif; ?>
-                  </div>
-                  <div>
-                     <label for="password">Password</label>
-                     <input type="password" name="password" id="password" placeholder="Enter the password" style="<?php echo (!empty($errors['password']) ? 'border: 1.5px solid red;' : ''); ?>" />
-                     <?php if (!empty($errors['password'])) : ?>
-                        <small class="error"><?php echo $errors['password']; ?></small>
-                     <?php endif; ?>
-                  </div>
-                  <div>
-                     <label for="address">Address</label>
-                     <input type="text" name="address" id="address" placeholder="Enter the address" style="<?php echo (!empty($errors['address']) ? 'border: 1.5px solid red;' : ''); ?>" />
-                     <?php if (!empty($errors['address'])) : ?>
-                        <small class="error"><?php echo $errors['address']; ?></small>
-                     <?php endif; ?>
-                  </div>
-
-                  <div class="donate-options">
-                     <label for="blood_group">Blood Group</label>
-                     <select name="blood_group" id="blood_group" style="<?php echo (!empty($errors['blood_group']) ? 'border: 1.5px solid red;' : ''); ?>">
-                        <option value="" selected disabled hidden>Select your blood group</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                     </select>
-                     <?php if (!empty($errors['blood_group'])) : ?>
-                        <small class="error"><?php echo $errors['blood_group']; ?></small>
-                     <?php endif; ?>
-                  </div>
-
-               </div>
-               <?php if (!empty($errors['general'])) : ?>
-                  <small class="error"><?php echo $errors['general']; ?></small>
-               <?php endif; ?>
-               <div class="group-btns">
-                  <button type="submit" name="submit">Save</button>
-                  <button><a href="admin.php">Cancel</a></button>
-               </div>
-
-            </form>
-         </article>
-         <article class="welcome-message add-donor">
-            <div class="infos">
+               </form>
+            </article>
+            <article class="welcome-message add-donor">
                <div class="infos">
-                  <h2>Welcome, Lab Employee!</h2>
-                  <p>Add new donors to our Blood Donation Management System to help save lives. Your efforts in recruiting donors are invaluable and can make a significant difference in ensuring an adequate blood supply for those in need.</p>
+                  <div class="infos">
+                     <h2>Welcome, Lab Employee!</h2>
+                     <p>Add new donors to our Blood Donation Management System to help save lives. Your efforts in recruiting donors are invaluable and can make a significant difference in ensuring an adequate blood supply for those in need.</p>
+                  </div>
                </div>
-            </div>
-         </article>
+            </article>
 
-      </section>
+         </section>
    </main>
+   <script src="../../public/js/nav.js"></script>
+   <script src="../../public/js/profile.js"></script>
+
 </body>
 
 </html>

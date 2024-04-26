@@ -289,10 +289,10 @@ $donationDataJS = implode(',', $donationData);
             <tbody>
                 <?php
                 $current_donor_id = $row_user['id'];
-                $query = "SELECT donations.*, donation_records.blood_volume
-          FROM donation_records 
-          INNER JOIN donations ON donation_records.donation_id = donations.id 
-          WHERE donation_records.donor_id = $current_donor_id";
+                $query = "SELECT donations.*, donation_records.blood_volume   -- select all the donation's attributes and the blood volume from donation_records
+                FROM donation_records 
+                INNER JOIN donations ON donation_records.donation_id = donations.id -- join donation_records on donations where their Ids are equals
+                WHERE donation_records.donor_id = $current_donor_id"; // Filter the results to include only records for a specific donor (projection)
 
 
                 $result = mysqli_query($conn, $query);
@@ -351,7 +351,7 @@ $donationDataJS = implode(',', $donationData);
                                 <i class="bx"><span class="material-symbols-outlined">logout</span></i>
                             </a>
                         </button>
-                        <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>" class="button">
+                        <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>" >
                                 <span class="material-symbols-outlined">edit</span>
                             </a>
                         </button>

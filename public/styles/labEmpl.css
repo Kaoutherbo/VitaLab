@@ -148,7 +148,7 @@ body {
         position: relative;
         width: calc(100% - 260px);
         left: 260px;
-        transition: width .3s ease;
+        transition:  .3s ease;
 
         /* NAVBAR */
         & nav {

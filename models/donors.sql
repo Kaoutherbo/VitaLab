@@ -11,7 +11,7 @@ CREATE TABLE donors (
     blood_group VARCHAR(3) NOT NULL,
     phone VARCHAR(255) NOT NULL,
     profilePicture VARCHAR(300),
-    last_donation_date DATE,
+    blood_volume VARCHAR(300) NOT NULL,
     role VARCHAR(20) NOT NULL DEFAULT 'donor';
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

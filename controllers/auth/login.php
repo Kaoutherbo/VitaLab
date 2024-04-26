@@ -33,14 +33,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = "Please enter a valid email address.";
     }
-
-     // Check if there are any errors
-     if (count($errors) > 0) {
+    // Check if there are any errors
+    if (count($errors) > 0) {
         $_SESSION['errors'] = $errors;
         header("Location: ../../views/auth/login.php?err=" . urlencode(json_encode($errors)));
         exit();
     }
-
+     
     $table = ($role == "donor") ? "donors" : "labEmployee";
     $query = "SELECT * FROM $table WHERE name='$username' LIMIT 1";
     $result = mysqli_query($conn, $query);
@@ -48,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows == 1) {
         $row = mysqli_fetch_assoc($result);
         $hashed_password = $row['password'];
-
+    
         if (password_verify($password, $hashed_password)) {
             $_SESSION['name'] = $username;
             $_SESSION['donor_id'] = $row['id'];
@@ -62,9 +61,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $errors['password'] = "Incorrect password. Please try again.";
         }
     } else {
+        // User not found
         $errors['name'] = "User not found. Please register first.";
     }
-
-    header("Location: ../../views/auth/login.php?error=" . urlencode(json_encode($errors)));
+    
+    $_SESSION['errors'] = $errors;
+    header("Location: ../../views/auth/login.php?err=" . urlencode(json_encode($errors)));
     exit();
-}
+}    

@@ -26,6 +26,27 @@ unset($_SESSION['errors']);
 </head>
 
 <body>
+   <!-- Navigation Bar -->
+   <nav>
+      <a href="./Home Page.html" class="logo">
+        <img
+          src="../../public/assets/images/Logo-donation.png"
+          alt="VitaLab Logo"
+          width="36px"
+        />
+        <p>VitaLab</p>
+      </a>
+      <ul class="ulMenu">
+        <li><a href="./Home Page.html">Home</a></li>
+        <li><a href="./services.html">Services</a></li>
+        <li><a href="./About.php">About Us</a></li>
+        <li><a href="./Privacy.html">Privacy Policy</a></li>
+        <li><a href="./Contact.html">Contact</a></li>
+      </ul>
+
+      <span class="material-symbols-outlined hamburger">menu</span>
+      <span class="material-symbols-outlined closeIcone">close</span>
+    </nav>
    <!-- main -->
    <main class="create-donation">
 
@@ -102,6 +123,9 @@ unset($_SESSION['errors']);
 
       </div>
    </main>
+
+   <script src="../../public/js/nav.js"></script>
+   <script src="../../public/js/profile.js"></script>
 
 
 </body>

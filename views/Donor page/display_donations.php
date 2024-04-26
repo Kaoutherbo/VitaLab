@@ -169,7 +169,7 @@ mysqli_close($conn);
                                 <i class="bx"><span class="material-symbols-outlined">logout</span></i>
                             </a>
                         </button>
-                        <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>" class="button">
+                        <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>">
                                 <span class="material-symbols-outlined">edit</span>
                             </a>
                         </button>

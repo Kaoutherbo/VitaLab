@@ -1,207 +1,217 @@
 main {
-    padding: 5rem 0 1rem 0;
-    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 5rem!important;
+    
+        & .container {
+            
+            backdrop-filter: blur(15px);
+            background-color: rgba(243, 184, 184, 0.453);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            padding: 18px;
+            display: flex;
+            max-width: 1000px;
+            max-height: fit-content;
 
-    & .container {
-        backdrop-filter: blur(15px);
-        background-color: rgba(243, 184, 184, 0.453);
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        padding: 18px;
-        display: flex;
-        max-width: 950px;
-        max-height: fit-content;
-        margin: auto;
+            & .container-form {
+                flex: 1;
+                padding: 0 2rem;
+                text-align: left;
 
-        & .container-form {
-            flex: 1;
-            padding: 0 2rem;
-            text-align: left;
+                & h2 {
+                    font-family: var(--Font-Family2);
+                    color: var(--red);
+                    font-size: 1.9rem;
+                    margin-bottom: 1rem;
+                }
 
-            & h2 {
-                font-family: var(--Font-Family2);
-                color: var(--red);
-                font-size: 1.9rem;
-                margin-bottom: 1rem;
-            }
+                & form {
+                    &>.group-inputs {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        grid-template-rows: repeat(3, 1fr);
+                        flex-wrap: wrap;
+                        row-gap: 15px;
+                        column-gap: 15px;
 
-            & form {
-                &>.group-inputs {
-                    display: grid;
-                    grid-template-columns: repeat(2, 1fr);
-                    grid-template-rows: repeat(3, 1fr);
-                    flex-wrap: wrap;
-                    row-gap: 15px;
-                    column-gap: 15px;
-
-                    & label {
-                        display: block;
-                        font-weight: var(--Font-weight-Bold);
-                        margin-bottom: 5px;
-                        color: var(--Dark-Grayish-Red);
-                    }
-
-
-                    & input[type="text"], & input[type="number"], & input[type="tel"],
-                    & input[type="password"], & input[type="email"], & input[type="address"], & input[type="date"] {
-                        width: 100%;
-                        padding: 10px 23px;
-                        border: 1px solid #ccc;
-                        font-size: 16px;
-                        border: 2px solid #f4f3f3;
-                        background-color: #f4f3f3;
-                        outline: none;
-
-                        &::placeholder {
-                            color: var(--Desaturated-gray-color);
+                        & label {
+                            display: block;
+                            font-weight: var(--Font-weight-Bold);
+                            margin-bottom: 5px;
+                            color: var(--Dark-Grayish-Red);
                         }
 
-                        &:focus {
-                            border-color: #ccc;
-                        }
-                    }
 
+                        & input[type="text"], & input[type="number"], & input[type="tel"],
+                        & input[type="password"], & input[type="email"], & input[type="address"], & input[type="date"] {
+                            width: 100%;
+                            padding: 10px 23px;
+                            border: 1px solid #ccc;
+                            font-size: 16px;
+                            border: 2px solid #f4f3f3;
+                            background-color: #f4f3f3;
+                            outline: none;
 
-                    & select {
-                        width: 100%;
-                        padding: 10px 23px;
-                        border: 1px solid #ccc;
-                        font-size: 16px;
-                        border: 2px solid #f4f3f3;
-                        background-color: #f4f3f3;
-                        outline: none;
-
-                        &::placeholder {
-                            color: var(--Desaturated-gray-color);
-                        }
-
-                        &:focus {
-                            border-color: #ccc;
-                        }
-
-                        & option {
-                            color: var(--Desaturated-gray-color);
-
-                            &:checked {
+                            &::placeholder {
                                 color: var(--Desaturated-gray-color);
-                                background-color: #ccc;
+                            }
+
+                            &:focus {
+                                border-color: #ccc;
+                            }
+                        }
+
+
+                        & select {
+                            width: 100%;
+                            padding: 10px 23px;
+                            border: 1px solid #ccc;
+                            font-size: 16px;
+                            border: 2px solid #f4f3f3;
+                            background-color: #f4f3f3;
+                            outline: none;
+
+                            &::placeholder {
+                                color: var(--Desaturated-gray-color);
+                            }
+
+                            &:focus {
+                                border-color: #ccc;
+                            }
+
+                            & option {
+                                color: var(--Desaturated-gray-color);
+
+                                &:checked {
+                                    color: var(--Desaturated-gray-color);
+                                    background-color: #ccc;
+                                }
+                            }
+                        }
+
+                    }
+
+
+                    & div:last-child {
+                        & .btn {
+                            width: 100%;
+                            max-width: 100%;
+                            transform: none;
+                        }
+
+                        & p {
+                            margin-top: 15px;
+                            text-align: center;
+
+                            & a {
+                                color: #d7c12e;
+                                font-weight: var(--Font-Weight-bold);
                             }
                         }
                     }
 
-                }
+                    & .group-btns {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 3rem;
 
-
-                & div:last-child {
-                    & .btn {
-                        width: 100%;
-                        max-width: 100%;
-                        transform: none;
-                    }
-
-                    & p {
-                        margin-top: 15px;
-                        text-align: center;
-
-                        & a {
-                            color: #d7c12e;
-                            font-weight: var(--Font-Weight-bold);
+                        & button {
+                            width: 50%;
+                            transform: none;
+                            transition: .3s;
                         }
                     }
                 }
 
-                & .group-btns {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 3rem;
 
-                    & button {
-                        width: 50%;
-                        transform: none;
-                        transition: .3s;
-                    }
-                }
-            }
-           
-
-        }
-        & .register-welcome{
-            background-image: url("../../public/assets/images/register.jpg");
-        }
-        & .login-welcome{
-            background-image: url("../../public/assets/images/login.jpg");
-        }
-        & .update-infos{
-            background-image: url("../../public/assets/images/update-infos.jpg");
-        }
-        & .register-donation{
-            background-image: url("../../public/assets/images/give_blood2.png");
-        }
-        & .comments-register{
-            background-image: url("../../public/assets/images/comment-register.jpg");
-        }
-        & .add-donor{
-            background-image: url("../../public/assets/images/add-donor.jpg");
-        }
-        & .welcome-message {
-            flex: 1;
-            color: #dcd4d4;
-            text-align: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0 1rem;
-
-            &::before {
-                content: "";
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, .7);
-                z-index: 1;
             }
 
-            &>div {
-                z-index: 400;
+            & .register-welcome {
+                background-image: url("../../public/assets/images/register.jpg");
+            }
+
+            & .login-welcome {
+                background-image: url("../../public/assets/images/login.jpg");
+            }
+
+            & .update-infos {
+                background-image: url("../../public/assets/images/update-infos.jpg");
+            }
+
+            & .register-donation {
+                background-image: url("../../public/assets/images/give_blood2.png");
+            }
+
+            & .comments-register {
+                background-image: url("../../public/assets/images/comment-register.jpg");
+            }
+
+            & .add-donor {
+                background-image: url("../../public/assets/images/add-donor.jpg");
+            }
+
+
+            & .welcome-message {
+                flex: 1;
+                color: #dcd4d4;
+                text-align: center;
+                background-repeat: no-repeat;
+                background-size: cover;
                 position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 0 1rem;
 
-                & p {
-                    line-height: 2;
-                    margin-bottom: 1rem;
+                &::before {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, .7);
+                    z-index: 1;
                 }
 
-                & h2 {
-                    font-size: 1.7rem;
-                    font-family: var(--Font-Family2);
-                    color: rgb(231, 63, 63);
-                    line-height: 1.2;
-                    text-align: center;
-                    margin: 3rem 0 1rem 0;
+                &>div {
+                    z-index: 400;
+                    position: relative;
 
-                    & b {
-                        font-family: var(--Font-Family2);
-                        
-                        color: var(--Desturated-yellow);
+                    & p {
+                        line-height: 2;
+                        margin-bottom: 1rem;
                     }
+
+                    & h2 {
+                        font-size: 1.7rem;
+                        font-family: var(--Font-Family2);
+                        color: rgb(231, 63, 63);
+                        line-height: 1.2;
+                        text-align: center;
+                        margin: 3rem 0 1rem 0;
+
+                        & b {
+                            font-family: var(--Font-Family2);
+
+                            color: var(--Desturated-yellow);
+                        }
+                    }
+
                 }
 
             }
 
         }
-
-    }
+    
 }
 
 .login {
-    padding-top: 8rem;
-
     & .container .container-form form {
         &>.group-inputs {
             display: grid;
@@ -210,19 +220,23 @@ main {
         }
     }
 }
-.comments{
+
+.comments {
     padding-top: 8rem;
+
     & .container .container-form form {
         &>.group-inputs {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: 1fr;
         }
+
         & .group {
             display: flex;
             flex-direction: column;
             gap: 7px;
-            & label{
+
+            & label {
                 font-weight: var(--Font-weight-Bold);
                 margin-top: 1rem;
                 color: var(--Dark-Grayish-Red);
@@ -250,7 +264,7 @@ main {
             }
         }
 
-        & button{
+        & button {
             margin-top: 1rem;
         }
     }

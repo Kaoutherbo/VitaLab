@@ -1,6 +1,5 @@
 <?php
 include '../../controllers/config.php';
-include '../../controllers/fetch_user.php';
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +33,7 @@ include '../../controllers/fetch_user.php';
       <li><a href="./Home Page.html">Home</a></li>
       <li><a href="./services.html">Services</a></li>
       <li><a href="./About.php">About Us</a></li>
-      <li><a href="./Privacy.html">Our News</a></li>
+      <li><a href="./Privacy.html">Privacy policy</a></li>
       <li><a href="./Contact.html">Contact</a></li>
     </ul>
     <span class="material-symbols-outlined hamburger">menu</span>
@@ -386,7 +385,7 @@ include '../../controllers/fetch_user.php';
         <li><a href="./Home Page.html">Home</a></li>
         <li><a href="./services.html">Services</a></li>
         <li><a href="./About.php">About Us</a></li>
-        <li><a href="./News.html">Our News</a></li>
+        <li><a href="./Privacy.html">Privacy policy</a></li>
         <li><a href="./Contact.html">Contact</a></li>
       </ul>
       <div>
@@ -400,7 +399,7 @@ include '../../controllers/fetch_user.php';
 
   <!-- Scripts -->
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-  <script src="../../public/js/main.js"></script>
+  <script src="../../public/js/swiper.js"></script>
   <script src="../../public/js/nav.js"></script>
   <!-- For the donation process -->
   <script src="../../public/js/script.js"></script>

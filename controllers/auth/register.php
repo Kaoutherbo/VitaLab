@@ -78,8 +78,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // bcrypt hashing algorithm 
     $sql = "INSERT INTO $table (name, password, email, profilePicture, address, phone, blood_group) VALUES ('$username', '$hashedPassword', '$email', '$profilePicture', '$address', '$phone', '$blood_group')";
+    
     if ($conn->query($sql) === TRUE) {
         $_SESSION['name'] = $username;
         if ($role == "donor") {

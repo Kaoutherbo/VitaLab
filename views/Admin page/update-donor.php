@@ -24,95 +24,116 @@ unset($_SESSION['errors']);
 </head>
 
 <body>
+   <!-- Navigation Bar -->
+   <nav>
+      <a href="./Home Page.html" class="logo">
+         <img src="../../public/assets/images/Logo-donation.png" alt="VitaLab Logo" width="36px" />
+         <p>VitaLab</p>
+      </a>
+      <ul class="ulMenu">
+         <li><a href="./Home Page.html">Home</a></li>
+         <li><a href="./services.html">Services</a></li>
+         <li><a href="./About.php">About Us</a></li>
+         <li><a href="./Privacy.html">Privacy Policy</a></li>
+         <li><a href="./Contact.html">Contact</a></li>
+      </ul>
+
+      <span class="material-symbols-outlined hamburger">menu</span>
+      <span class="material-symbols-outlined closeIcone">close</span>
+   </nav>
 
    <!-- main -->
    <main>
-      <section class="container">
-         <article class="welcome-message">
-            <div class="infos">
-               <h2>Welcome, Lab Employee!</h2>
-               <p>Update donor information in our Blood Donation Management System to ensure accurate records and continued support for those in need. Your attention to detail and dedication contribute to the success of our blood donation program.</p>
-               <img src="../../public/assets/images/update-donor.jpg" alt="Update Donor" width="390px" height="160px">
-
-            </div>
-         </article>
-
-
-         <article class="container-form">
-            <h2>Update Donor!</h2>
-            <form action="update-donor.php?id=<?php echo $row['id'] ?>" method="post">
-               <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
-               <div class="group-inputs">
-
-                  <div>
-                     <label for="username">Username</label>
-                     <input type="text" name="name" id="username" value="<?php echo $row['name'] ?>" style="<?php echo (!empty($errors['name']) ? 'border: 1.5px solid red;' : ''); ?>" />
-                     <?php if (!empty($errors['name'])) : ?>
-                        <small class="error"><?php echo $errors['name']; ?></small>
-                     <?php endif; ?>
-                  </div>
-                  <div>
-                     <label for="image">Profile</label>
-                     <input type="text" name="profilePicture" id="Image" value="<?php echo $row['profilePicture'] ?>" />
-                  </div>
-
-                  <div>
-                     <label for="email">Email</label>
-                     <input type="email" name="email" id="email" value="<?php echo $row['email'] ?>" style="<?php echo (!empty($errors['email']) ? 'border: 1.5px solid red;' : ''); ?>" />
-                     <?php if (!empty($errors['email'])) : ?>
-                        <small class="error"><?php echo $errors['email']; ?></small>
-                     <?php endif; ?>
-                  </div>
-
-                  <div>
-                     <label for="address">Address</label>
-                     <input type="address" name="address" id="address" value="<?php echo $row['address'] ?>" style="<?php echo (!empty($errors['address']) ? 'border: 1.5px solid red;' : ''); ?>" />
-                     <?php if (!empty($errors['address'])) : ?>
-                        <small class="error"><?php echo $errors['address']; ?></small>
-                     <?php endif; ?>
-                  </div>
-
-                  <div class="date">
-                     <label class="form-label">Last Donation Date:</label>
-                     <input type="date" name="last_donation_date" value="<?php echo $row['last_donation_date'] ?>" style="<?php echo (!empty($errors['last_donation_date']) ? 'border: 1.5px solid red;' : ''); ?>">
-                     <?php if (!empty($errors['last_donation_date'])) : ?>
-                        <small class="error"><?php echo $errors['last_donation_date']; ?></small>
-                     <?php endif; ?>
-                  </div>
-
-                  <div class="last">
-                     <label for="role">Blood Type</label>
-                     <select name="blood_group" id="blood_group" style="<?php echo (!empty($errors['blood_group']) ? 'border: 1.5px solid red;' : ''); ?>">
-                        <option value="" disabled selected>Select Blood Type...</option>
-                        <option value="O+" <?php if ($row['blood_group'] == 'O+') echo 'selected'; ?>>O+</option>
-                        <option value="A+" <?php if ($row['blood_group'] == 'A+') echo 'selected'; ?>>A+</option>
-                        <option value="B+" <?php if ($row['blood_group'] == 'B+') echo 'selected'; ?>>B+</option>
-                        <option value="AB+" <?php if ($row['blood_group'] == 'AB+') echo 'selected'; ?>>AB+</option>
-                        <option value="O-" <?php if ($row['blood_group'] == 'O-') echo 'selected'; ?>>O-</option>
-                        <option value="A-" <?php if ($row['blood_group'] == 'A-') echo 'selected'; ?>>A-</option>
-                        <option value="B-" <?php if ($row['blood_group'] == 'B-') echo 'selected'; ?>>B-</option>
-                        <option value="AB-" <?php if ($row['blood_group'] == 'AB-') echo 'selected'; ?>>AB-</option>
-                     </select>
-                     <?php if (!empty($errors['blood_group'])) : ?>
-                        <small class="error"><?php echo $errors['blood_group']; ?></small>
-                     <?php endif; ?>
-                  </div>
+         <section class="container">
+            <article class="welcome-message">
+               <div class="infos">
+                  <h2>Welcome, Lab Employee!</h2>
+                  <p>Update donor information in our Blood Donation Management System to ensure accurate records and continued support for those in need. Your attention to detail and dedication contribute to the success of our blood donation program.</p>
+                  <img src="../../public/assets/images/update-donor.jpg" alt="Update Donor" width="390px" height="160px">
 
                </div>
-               <?php if (!empty($errors['general'])) : ?>
-                  <small class="error"><?php echo $errors['general']; ?></small>
-               <?php endif; ?>
+            </article>
 
-               <div class="group-btns">
-                  <button type="submit" name="submit">Update</button>
-                  <button><a href="admin.php">Cancel</a></button>
-               </div>
 
-            </form>
-         </article>
+            <article class="container-form">
+               <h2>Update Donor!</h2>
+               <form action="update-donor.php?id=<?php echo $row['id'] ?>" method="post">
+                  <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
+                  <div class="group-inputs">
 
-      </section>
+                     <div>
+                        <label for="username">Username</label>
+                        <input type="text" name="name" id="username" value="<?php echo $row['name'] ?>" style="<?php echo (!empty($errors['name']) ? 'border: 1.5px solid red;' : ''); ?>" />
+                        <?php if (!empty($errors['name'])) : ?>
+                           <small class="error"><?php echo $errors['name']; ?></small>
+                        <?php endif; ?>
+                     </div>
+                     <div>
+                        <label for="image">Profile</label>
+                        <input type="text" name="profilePicture" id="Image" value="<?php echo $row['profilePicture'] ?>" />
+                     </div>
+
+                     <div>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" value="<?php echo $row['email'] ?>" style="<?php echo (!empty($errors['email']) ? 'border: 1.5px solid red;' : ''); ?>" />
+                        <?php if (!empty($errors['email'])) : ?>
+                           <small class="error"><?php echo $errors['email']; ?></small>
+                        <?php endif; ?>
+                     </div>
+
+                     <div>
+                        <label for="address">Address</label>
+                        <input type="address" name="address" id="address" value="<?php echo $row['address'] ?>" style="<?php echo (!empty($errors['address']) ? 'border: 1.5px solid red;' : ''); ?>" />
+                        <?php if (!empty($errors['address'])) : ?>
+                           <small class="error"><?php echo $errors['address']; ?></small>
+                        <?php endif; ?>
+                     </div>
+
+                     <div class="date">
+                        <label class="form-label">Last Donation Date:</label>
+                        <input type="date" name="last_donation_date" value="<?php echo $row['last_donation_date'] ?>" style="<?php echo (!empty($errors['last_donation_date']) ? 'border: 1.5px solid red;' : ''); ?>">
+                        <?php if (!empty($errors['last_donation_date'])) : ?>
+                           <small class="error"><?php echo $errors['last_donation_date']; ?></small>
+                        <?php endif; ?>
+                     </div>
+
+                     <div class="last">
+                        <label for="role">Blood Type</label>
+                        <select name="blood_group" id="blood_group" style="<?php echo (!empty($errors['blood_group']) ? 'border: 1.5px solid red;' : ''); ?>">
+                           <option value="" disabled selected>Select Blood Type...</option>
+                           <option value="O+" <?php if ($row['blood_group'] == 'O+') echo 'selected'; ?>>O+</option>
+                           <option value="A+" <?php if ($row['blood_group'] == 'A+') echo 'selected'; ?>>A+</option>
+                           <option value="B+" <?php if ($row['blood_group'] == 'B+') echo 'selected'; ?>>B+</option>
+                           <option value="AB+" <?php if ($row['blood_group'] == 'AB+') echo 'selected'; ?>>AB+</option>
+                           <option value="O-" <?php if ($row['blood_group'] == 'O-') echo 'selected'; ?>>O-</option>
+                           <option value="A-" <?php if ($row['blood_group'] == 'A-') echo 'selected'; ?>>A-</option>
+                           <option value="B-" <?php if ($row['blood_group'] == 'B-') echo 'selected'; ?>>B-</option>
+                           <option value="AB-" <?php if ($row['blood_group'] == 'AB-') echo 'selected'; ?>>AB-</option>
+                        </select>
+                        <?php if (!empty($errors['blood_group'])) : ?>
+                           <small class="error"><?php echo $errors['blood_group']; ?></small>
+                        <?php endif; ?>
+                     </div>
+
+                  </div>
+                  <?php if (!empty($errors['general'])) : ?>
+                     <small class="error"><?php echo $errors['general']; ?></small>
+                  <?php endif; ?>
+
+                  <div class="group-btns">
+                     <button type="submit" name="submit">Update</button>
+                     <button><a href="admin.php">Cancel</a></button>
+                  </div>
+
+               </form>
+            </article>
+
+         </section>
+
+
    </main>
+   <script src="../../public/js/nav.js"></script>
+    <script src="../../public/js/profile.js"></script>
 
 
 </body>

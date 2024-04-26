@@ -1,6 +1,6 @@
 USE laboratory;
 
-
+-- Create labEmployee table
 CREATE TABLE labEmployee (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,

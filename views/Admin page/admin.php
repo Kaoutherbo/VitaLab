@@ -394,7 +394,7 @@ $donationDataJS = implode(',', $donationData);
                             </a>
                         </button>
                         <button type="submit">
-                            <a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>&role=<?php echo $row_user['role']; ?>" class="button">
+                            <a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>&role=<?php echo $row_user['role']; ?>">
                                 <span class="material-symbols-outlined">edit</span>
                             </a>
                         </button>
