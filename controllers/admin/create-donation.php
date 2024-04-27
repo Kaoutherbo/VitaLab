@@ -4,7 +4,7 @@ session_start();
 
 if (isset($_POST["submit"])) {
     if (isset($_SESSION['login'])) {
-        $lab_employee_id = $_SESSION['loin'];
+        $lab_employee_id = $_SESSION['login'];
         $donation_place = $_POST['location'];
         $donation_date = $_POST['date'];
         $title = $_POST['title'];
