@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate username
     if (empty($username)) {
         $errors['name'] = "Username is required.";
-    } elseif($role_user['name'] != $username){
+    } elseif($row_user['name'] != $username){
         $errors['name'] = "Enter correct username.";
     }
 
