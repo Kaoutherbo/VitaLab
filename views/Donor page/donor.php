@@ -4,13 +4,6 @@
 @include '../../controllers/user/display_latest.php';
 @include '../../controllers/user/add-comment.php';
 @include '../../controllers/fetch_user.php';
-
-
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-
 @include '../../controllers/user/display_comments.php';
 
 $errors = isset($_GET['err']) ? json_decode(urldecode($_GET['err']), true) : array();
@@ -171,10 +164,10 @@ $donationDataJS = implode(',', $donationData);
             } else {
                 // Display donations
                 foreach ($donations as $donation_id => $donation) {
-                    
+
                     echo '<article>';
                     echo '<div class="donation-content">';
-                    
+
                     echo '<img src="' . $donation['donation_image'] . '" alt="News 1">';
                     echo '<div>';
                     echo '<div>';
@@ -195,26 +188,39 @@ $donationDataJS = implode(',', $donationData);
                     echo '<h3>Comments</h3>';
                     echo ' <div class="comments-contents">';
                     if (isset($comments[$donation_id]) && count($comments[$donation_id]) > 0) {
-                        
-                        foreach ($comments[$donation_id] as $comment_row) {
-                            echo '<div>';
-                            echo '<div>';
-                            echo '<div class="user">';
-                           
-                            echo '<img src="' . $comment_row['profilePicture'] . '" alt="Profile Picture" class="profilePicture">';
-                            echo '<strong>' . $comment_row['name'] . '</strong>';
-                            echo '</div>';
 
-                        
-                            echo '<div class="rating">';
-                            for ($i = 0; $i < $comment_row['rating']; $i++) {
-                                echo '<img src="../../public/assets/images/Star_fill.png" alt="star" class="star" />';
+                        foreach ($comments[$donation_id] as $comment_row) {
+                            // Fetch profile picture and name of the user from the database based on their ID
+                            $donor_id = $comment_row['donor_id'];
+                            $query_user_info = "SELECT name, profilePicture FROM donors WHERE id = '$donor_id'";
+                            $result_user_info = mysqli_query($conn, $query_user_info);
+
+                            if ($result_user_info && mysqli_num_rows($result_user_info) > 0) {
+                                $user_info = mysqli_fetch_assoc($result_user_info);
+                                $profile_picture = $user_info['profilePicture'];
+                                $name = $user_info['name'];
+
+                                // Display the comment with user's profile picture and name
+                                echo '<div>';
+                                echo '<div>';
+                                echo '<div class="user">';
+
+                                echo '<img src="' . $profile_picture . '" alt="Profile Picture" class="profilePicture">';
+                                echo '<strong>' . $name . '</strong>';
+                                echo '</div>';
+
+                                // Display the comment content and rating
+                                echo '<div class="rating">';
+                                for ($i = 0; $i < $comment_row['rating']; $i++) {
+                                    echo '<img src="../../public/assets/images/Star_fill.png" alt="star" class="star" />';
+                                }
+                                echo '</div>';
+                                echo '</div>';
+                                echo '<p>' . $comment_row['comment'] . '</p>';
+                                echo '</div>';
+                            } else {
+                                echo '<p>Error retrieving user information.</p>';
                             }
-                            echo '</div>';
-                            echo '</div>';
-                            
-                            echo '<p>' . $comment_row['comment'] . '</p>';
-                            echo '</div>';
                         }
                     } else {
                         echo '<p>No comments for this donation.</p>';
@@ -262,7 +268,7 @@ $donationDataJS = implode(',', $donationData);
             ?>
         </div>
     </section>
-    
+
     <h2><?php echo "<h2>{$row_user['name']}'s Health Progress</h2>"; ?></h2>
 
     <!-- Graph -->
@@ -283,7 +289,7 @@ $donationDataJS = implode(',', $donationData);
                     <th>Date</th>
                     <th>Location</th>
                     <th>Blood Volume</th>
-                    <th>Blood Type</th>
+                    <th>Blood Group</th>
                 </tr>
             </thead>
             <tbody>
@@ -351,7 +357,7 @@ $donationDataJS = implode(',', $donationData);
                                 <i class="bx"><span class="material-symbols-outlined">logout</span></i>
                             </a>
                         </button>
-                        <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>" >
+                        <button type="submit"><a href="../../views/auth/updateProfile.php?id=<?php echo $row_user['id']; ?>">
                                 <span class="material-symbols-outlined">edit</span>
                             </a>
                         </button>

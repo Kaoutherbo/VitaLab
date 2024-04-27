@@ -1,7 +1,7 @@
 <?php
 session_start();
 include "../config.php";
-@include '../../controllers/user/fetch_donor_info.php';
+@include '../fetch_user.php';
 
 $errors = array();
 
@@ -14,8 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $health = mysqli_real_escape_string($conn, $_POST['health']);
     $blood_volume = mysqli_real_escape_string($conn, $_POST['blood_volume']);
     $donation_id = isset($_POST['donation_id']) ? mysqli_real_escape_string($conn, $_POST['donation_id']) : null;
-    $name = isset($_POST['donor_id']) ? mysqli_real_escape_string($conn, $_POST['donor_id']) : null;
-
+    $donor_id = $row_user['id'];
+    $blood_group = $row_user['blood_group'];
 
      $query_blood_info = "SELECT blood_group, donation_date FROM donations WHERE id = '$donation_id'";
      $result_blood_info = mysqli_query($conn, $query_blood_info);
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate username
     if (empty($username)) {
         $errors['name'] = "Username is required.";
-    } elseif($name != $username){
+    } elseif($role_user['name'] != $username){
         $errors['name'] = "Enter correct username.";
     }
 
@@ -85,17 +85,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($donation_id === null) {
         $errors['general'] = "Invalid donation ID.";
     }
-
-    $query = "SELECT id, blood_group FROM donors WHERE name = '$username'";
-    $result = mysqli_query($conn, $query);
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $donor_id = $row['id'];
-        $blood_group = $row['blood_group'];
-    } else {
-        $errors['name'] = "Donor information not found.";
-    }
-
     // Check if the donor has already registered for the same donation
     if (empty($errors)) {
         $query = "SELECT * FROM donation_records WHERE donor_id = '$donor_id' AND donation_id = '$donation_id'";

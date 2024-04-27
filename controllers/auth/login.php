@@ -23,12 +23,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (strlen($password) < 6) {
         $errors['password'] = "Password should be at least 6 characters long.";
     }
-     // Validate role
-     if (empty($role)) {
+    // Validate role
+    if (empty($role)) {
         $errors['role'] = "Role is required.";
     }
-     // Validate email
-     if (empty($email)) {
+    // Validate email
+    if (empty($email)) {
         $errors['email'] = "Email is required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = "Please enter a valid email address.";
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../../views/auth/login.php?err=" . urlencode(json_encode($errors)));
         exit();
     }
-     
+
     $table = ($role == "donor") ? "donors" : "labEmployee";
     $query = "SELECT * FROM $table WHERE name='$username' LIMIT 1";
     $result = mysqli_query($conn, $query);
@@ -47,9 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows == 1) {
         $row = mysqli_fetch_assoc($result);
         $hashed_password = $row['password'];
-    
+
         if (password_verify($password, $hashed_password)) {
-            $_SESSION['name'] = $username;
+            // select the login user id from db
+            $query = "SELECT id FROM $table WHERE email='$email'";
+            $result = mysqli_query($conn, $query);
+            $row = mysqli_fetch_assoc($result);
+            $_SESSION['login'] = $row['id'];
             $_SESSION['donor_id'] = $row['id'];
             if ($role == "donor") {
                 header("Location: ../../views/Donor page/donor.php");
@@ -64,8 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // User not found
         $errors['name'] = "User not found. Please register first.";
     }
-    
+
     $_SESSION['errors'] = $errors;
     header("Location: ../../views/auth/login.php?err=" . urlencode(json_encode($errors)));
     exit();
-}    
+}

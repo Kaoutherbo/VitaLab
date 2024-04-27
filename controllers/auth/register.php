@@ -68,11 +68,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if username already exists
     $table = ($role == "donor") ? "donors" : "labEmployee";
     
-    $query = "SELECT * FROM $table WHERE name='$username'";
+    $query = "SELECT * FROM $table WHERE email='$email'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
-        $errors['name'] = "Username already exists.";
+        $errors['name'] = "User already exists.";
         $_SESSION['errors'] = $errors;
         header("Location: ../../views/auth/register.php?err=" . urlencode(json_encode($errors)));
         exit();
@@ -82,7 +82,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO $table (name, password, email, profilePicture, address, phone, blood_group) VALUES ('$username', '$hashedPassword', '$email', '$profilePicture', '$address', '$phone', '$blood_group')";
     
     if ($conn->query($sql) === TRUE) {
-        $_SESSION['name'] = $username;
+        // select the login user id from db
+        $query = "SELECT id FROM $table WHERE email='$email'";
+        $result = mysqli_query($conn, $query);
+        $row = mysqli_fetch_assoc($result);
+        $_SESSION['login'] = $row['id'];
         if ($role == "donor") {
             header("Location: ../../views/Donor page/donor.php");
             exit();

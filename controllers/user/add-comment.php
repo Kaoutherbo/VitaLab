@@ -50,9 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($is_general) {
             $donation_id = 'NULL';
         }
-
-        $query_insert_comment = "INSERT INTO comments (donor_id, donation_id, name, comment, rating, profilePicture, is_general) VALUES ('$donor_id', $donation_id, '$username', '$comment', '$rating', (SELECT profilePicture FROM donors WHERE id = '$donor_id'), '$is_general')";       
-
+        
+        // Prepare and execute the INSERT query
+        $query_insert_comment = "INSERT INTO comments (donor_id, donation_id, comment, rating, is_general) VALUES ('$donor_id', $donation_id, '$comment', '$rating', '$is_general')";       
+    
         if (mysqli_query($conn, $query_insert_comment)) {
             header("Location: ../../views/Donor page/donor.php");
             exit();
@@ -60,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors['general'] = "An error occurred while adding the comment.";
         }
     }
+    
 
     if (!empty($errors)) {
         $errors_json = urlencode(json_encode($errors));

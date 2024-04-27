@@ -1,5 +1,6 @@
 <?php
 include "../config.php";
+include "../fetch_user.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -11,16 +12,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $profilePicture = isset($_POST['profilePicture']) && !empty($_POST['profilePicture']) ? $_POST['profilePicture'] : "../../public/assets/images/user.jpg";
     $phone = $_POST['phone'];
     $role = $_POST['role'];
-    $role_user = $_POST['role_user'];
 
-    
     
     $errors = array();
 
     // Validate username
-    if (empty($username)) {
+    if (empty($name)) {
         $errors['name'] = "Username is required.";
-    } elseif (!ctype_alpha(str_replace(' ', '', $username))) {
+    } elseif (!ctype_alpha(str_replace(' ', '', $name))) {
         $errors['name'] = "Username can only contain letters.";
     }
 
@@ -58,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Determine the table based on the user's role
     $table = ($role == "donor") ? "donors" : "labEmployee";
 
-    $existing_user_query = "SELECT * FROM $table WHERE name='" . $name . "' AND id != '" . $id . "'";
+    $existing_user_query = "SELECT * FROM $table WHERE email='" . $email . "' AND id != '" . $id . "'";
     $existing_user_result = $conn->query($existing_user_query);
     if ($existing_user_result->num_rows > 0) {
         $errors['name'] = "User with this name already exists.";
