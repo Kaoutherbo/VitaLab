@@ -1,8 +1,6 @@
 <?php
-
 @include '../../controllers/config.php';
 @include '../../controllers/user/display_latest.php';
-@include '../../controllers/user/add-comment.php';
 @include '../../controllers/fetch_user.php';
 @include '../../controllers/user/display_comments.php';
 

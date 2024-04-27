@@ -46,7 +46,7 @@ include '../../controllers/config.php';
       <p>Donate to blood contribute</p>
       <strong>Your blood can <b>bring smile</b> in any one person face</strong>
       <div class="buttons">
-        <button class="btn"><a href="../Donor page/donor.php">Donate Now</a></button>
+      <button class="btn"><a href="../Donor page/donor.php">Donate Now</a></button>
         <button class="btn">
           <a href="../auth/login.php">Login Now</a>
         </button>
@@ -316,12 +316,15 @@ include '../../controllers/config.php';
   </section>
 
   <!-- Testimonials  -->
-
   <?php
-  $sql = "SELECT profilePicture, name, comment, rating FROM comments WHERE is_general = 1";
-  $result = $conn->query($sql);
+$sql = "SELECT c.comment, c.rating, d.profilePicture, d.name
+        FROM comments c
+        JOIN donors d ON c.donor_id = d.id
+        WHERE c.is_general = 1";
 
-  if ($result->num_rows > 0) {
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
     echo '<section class="swiper">
             <div class="testimonials swiper-container">
               <p>Testimonials</p>
@@ -329,7 +332,7 @@ include '../../controllers/config.php';
               <div class="swiper-wrapper">';
 
     while ($row = $result->fetch_assoc()) {
-      echo '<article class="swiper-slide">
+        echo '<article class="swiper-slide">
                 <div class="card">
                     <div>
                         <div>
@@ -338,11 +341,11 @@ include '../../controllers/config.php';
                         </div>
                         <div class="rating">';
 
-      for ($i = 0; $i < $row["rating"]; $i++) {
-        echo '<img src="../../public/assets/images/Star_fill.png" alt="star" width="20px" />';
-      }
+        for ($i = 0; $i < $row["rating"]; $i++) {
+            echo '<img src="../../public/assets/images/Star_fill.png" alt="star" width="20px" />';
+        }
 
-      echo '          </div>
+        echo '          </div>
                     </div>
                     <img src="../../public/assets/images/quotes.png" alt="" width="50px" id="quotes" />
                     <p>' . $row["comment"] . '</p>
@@ -356,13 +359,12 @@ include '../../controllers/config.php';
               <div class="swiper-button-next"></div>
           </div>
       </section>';
-  } else {
+} else {
     echo '<p>No comments found.</p>';
-  }
+}
 
-  $conn->close();
-  ?>
-
+$conn->close();
+?>
 
   <!-- Footer -->
   <footer>

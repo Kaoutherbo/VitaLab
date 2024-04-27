@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $profilePicture = isset($_POST['profilePicture']) && !empty($_POST['profilePicture']) ? $_POST['profilePicture'] : "../../public/assets/images/user.jpg";
     $phone = $_POST['phone'];
     $role = $_POST['role'];
-
+    $role_user = $_POST['role_user']; // for the admin role
     
     $errors = array();
 

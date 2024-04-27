@@ -5,8 +5,6 @@ CREATE TABLE comments (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     donor_id INT UNSIGNED NOT NULL,
     donation_id INT UNSIGNED,
-    profilePicture VARCHAR(300),
-    name VARCHAR(100) NOT NULL,
     comment TEXT,
     rating TINYINT UNSIGNED CHECK (rating >= 0 AND rating <= 5),
     is_general TINYINT(1) DEFAULT 0 NOT NULL,
