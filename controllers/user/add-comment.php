@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $donation_id = isset($_POST['donation_id']) ? intval($_POST['donation_id']) : null;
     $name = $row_user['name'];
-    $username = isset($_POST['name']) ? trim($_POST['name']) : '';
+    $username = isset($_POST['name']) ? trim($_POST['name']) : ''; // ternary operators(assigned $_POST[username] to $username)
     $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 0;
     $comment = isset($_POST['comment']) ? trim($_POST['comment']) : '';
     $donor_id = $row_user['id'];

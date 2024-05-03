@@ -11,8 +11,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $weight = mysqli_real_escape_string($conn, $_POST['weight']);
     $health = mysqli_real_escape_string($conn, $_POST['health']);
     $blood_volume = mysqli_real_escape_string($conn, $_POST['blood_volume']);
-    $donation_id = isset($_POST['donation_id']) ? mysqli_real_escape_string($conn, $_POST['donation_id']) : null;
-    $donor_id = $row_user['id'];
+    $donation_id = $_POST['donation_id'];
+    $donor_id = $_POST['donor_id'];
+
+    // get the blood group from the donor id 
+    $query_user = "SELECT blood_group FROM donors WHERE id = '$donor_id'";
+    $result_user = mysqli_query($conn, $query_user);
+    $row_user = mysqli_fetch_assoc($result_user);
     $blood_group = $row_user['blood_group'];
 
      $query_blood_info = "SELECT blood_group, donation_date FROM donations WHERE id = '$donation_id'";
@@ -30,9 +35,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($donation_date < $current_date) {
         $errors['general'] = "Donation date is expired.";
     }
+    // check if donor doesn't exist
+    $query_donor = "SELECT id FROM donors WHERE id = '$donor_id'";
+    $result_donor = mysqli_query($conn, $query_donor);
+    if (mysqli_num_rows($result_donor) === 0) {
+        $errors['donor_id'] = "Donor does not exist.";
+    }
 
     if(empty($errors)){
-    
+    // Validate donor name
+    if (empty($donor_id)) {
+        $errors['donor_id'] = "donor id is required.";
+    }
     // Validate blood_volume
     if (empty($blood_volume)) {
         $errors['blood_volume'] = "blood volume is required.";
@@ -125,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (count($errors) > 0) {
         $_SESSION['errors'] = $errors;
         $_SESSION['id'] = $donation_id;
-        header("Location: ../../views/auth/donatePage.php?id=$donation_id&err=" . urlencode(json_encode($errors)));
+        header("Location: ../../views/auth/register-donor.php?id=$donation_id&err=" . urlencode(json_encode($errors)));
         exit();
     }
 
@@ -135,13 +149,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = mysqli_query($conn, $query);
 
     if ($result) {
-        header("Location: ../../views/Donor page/donor.php");
+        header("Location: ../../views/Admin page/admin.php");
         exit();
     } else {
         echo "Error: " . mysqli_error($conn);
     }
 } else {
-    header("Location: ../../views/auth/donatePage.php");
+    header("Location: ../../views/auth/register-donor.php");
     exit();
 }
 ?>

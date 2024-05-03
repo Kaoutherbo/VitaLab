@@ -36,7 +36,9 @@ if ($result->num_rows > 0) {
     }
 }
 
-$donationDataJS = implode(',', $donationData);
+
+
+$donationDataJS = implode(',', $donationData);// joins element of array into string
 
 ?>
 
@@ -174,6 +176,12 @@ $donationDataJS = implode(',', $donationData);
                 <a href="#">
                     <i class='bx bxs-doughnut-chart'></i>
                     <span class="text">Statistics</span>
+                </a>
+            </li>
+            <li>
+                <a href="../auth/register-donor.php">
+                    <i class='bx bxs-user-plus'></i>
+                    <span class="text">Register Donor</span>
                 </a>
             </li>
             <li>

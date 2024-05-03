@@ -119,10 +119,10 @@ unset($_SESSION['errors']); // clean up the session
                             <?php endif; ?>
                         </div>
                         <div>
-                            <label for="tel">Phone</label>
-                            <input type="tel" name="phone" id="phone" placeholder="Enter your phone number" style="<?php echo (!empty($errors['phone']) ? 'border: 1.5px solid red;' : ''); ?>" />
-                            <?php if (!empty($errors['phone'])) : ?>
-                                <small class="error"><?php echo $errors['phone']; ?></small>
+                            <label for="date">Birthday</label>
+                            <input type="date" name="birthday" id="birthday" placeholder="Enter your birthday" style="<?php echo (!empty($errors['birthday']) ? 'border: 1.5px solid red;' : ''); ?>" />
+                            <?php if (!empty($errors['birthday'])) : ?>
+                                <small class="error"><?php echo $errors['birthday']; ?></small>
                             <?php endif; ?>
                         </div>
                     </div>

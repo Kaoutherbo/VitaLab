@@ -3,7 +3,7 @@ const menuBar = document.querySelector('#content nav .bx.bx-menu');
 const sidebar = document.getElementById('sidebar');
 
 menuBar.addEventListener('click', function () {
-	sidebar.classList.toggle('hide');
+	sidebar.classList.toggle('hide'); // hide the sidebar
 })
 
 // light and dark mode

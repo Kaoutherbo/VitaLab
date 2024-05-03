@@ -3,10 +3,9 @@ session_start();
 @include '../../controllers/config.php';
 @include '../../controllers/fetch_user.php';
 
-$donation_id = $_GET['id'];
 
 $errors = isset($_GET['err']) ? json_decode(urldecode($_GET['err']), true) : array();
-unset($_SESSION['errors']); // clean up the session
+unset($_SESSION['errors']);
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +27,7 @@ unset($_SESSION['errors']); // clean up the session
 <body>
   <!-- Navigation Bar -->
   <nav>
-    <a href="./Home Page.html" class="logo">
+    <a href="../../Home/Home Page.html" class="logo">
       <img src="../../public/assets/images/Logo-donation.png" alt="VitaLab Logo" width="36px">
       <p>VitaLab</p>
     </a>
@@ -50,14 +49,36 @@ unset($_SESSION['errors']); // clean up the session
   </nav>
 
   <!-- main -->
-  <main class="login">
-   <section class="container login-container">
+  <main>
+    <section class="container">
+      <article class="welcome-message register-donation">
+        <div class="info">
+          <h2 class="donate-title">Join Our <b>Life-Saving</b> Blood Donation Initiative!</h2>
+          <p>Your choice to donate blood can save lives and offer hope to those in need. Join a compassionate community making a significant impact. Each donation can change a life, providing a path to recovery and a brighter future. Register now to become a blood donor and be a hero to others.</p>
+        </div>
+      </article>
+
+
       <article class="container-form">
         <h2>Register for Donation</h2>
-        <form action="../../controllers/auth/register_donation.php?id=<?php echo $donation_id; ?>" method="post">
-          <input name="donation_id" value="<?php echo $donation_id; ?>" type="hidden">
-          <input name="donor_id" value="<?php echo $row_user['name']; ?>" type="hidden">
+        <form action="../../controllers/auth/register_donation_admin.php" method="post">
           <div class="group-inputs">
+            <div>
+              <label for="numer">Donor ID</label>
+              <input type="number" name="donor_id" id="donor_id" placeholder="Enter your Full name" style="<?php echo (!empty($errors['donor_id']) ? 'border: 1.5px solid red;' : ''); ?>" />
+              <?php if (!empty($errors['donor_id'])) : ?>
+                <small class="error"><?php echo $errors['donor_id']; ?></small>
+              <?php endif; ?>
+            </div>
+            
+            <div>
+              <label for="number">Donation ID</label>
+              <input type="number" name="donation_id" id="donation" placeholder="Enter the id of the donation" style="<?php echo (!empty($errors['donation']) ? 'border: 1.5px solid red;' : ''); ?>" />
+              <?php if (!empty($errors['donation'])) : ?>
+                <small class="error"><?php echo $errors['donation']; ?></small>
+              <?php endif; ?>
+            </div>
+
             <div>
               <label for="tel">Phone</label>
               <input type="tel" name="phone" id="phone" placeholder="Enter your phone number" style="<?php echo (!empty($errors['phone']) ? 'border: 1.5px solid red;' : ''); ?>" />
@@ -65,7 +86,7 @@ unset($_SESSION['errors']); // clean up the session
                 <small class="error"><?php echo $errors['phone']; ?></small>
               <?php endif; ?>
             </div>
-        
+
             <div>
               <label for="number">Weight</label>
               <input type="number" name="weight" id="weight" placeholder="Enter your weight" style="<?php echo (!empty($errors['weight']) ? 'border: 1.5px solid red;' : ''); ?>" />
@@ -103,16 +124,10 @@ unset($_SESSION['errors']); // clean up the session
 
             <div class="group-btns">
               <button type="submit" name="submit">Donate</button>
-              <button><a href="../../views/Donor page/donor.php">Cancel</a></button>
+              <button><a href="../../views/Admin page/admin.php">Cancel</a></button>
             </div>
           </div>
         </form>
-      </article>
-      <article class="welcome-message register-donation">
-        <div class="info">
-          <h2 class="donate-title">Join Our <b>Life-Saving</b> Blood Donation Initiative!</h2>
-          <p>Your choice to donate blood can save lives and offer hope to those in need. Join a compassionate community making a significant impact. Each donation can change a life, providing a path to recovery and a brighter future. Register now to become a blood donor and be a hero to others.</p>
-        </div>
       </article>
     </section>
 

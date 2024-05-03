@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $profilePicture = !empty($_POST['profilePicture']) ? $_POST['profilePicture'] : "../../public/assets/images/user.jpg";
     $address = mysqli_real_escape_string($conn, $_POST['Address']);
     $role = mysqli_real_escape_string($conn, $_POST['role']);
-    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $birthday = mysqli_real_escape_string($conn, $_POST['birthday']);
     $blood_group = mysqli_real_escape_string($conn, $_POST['blood_group']);
 
     $errors = array();
@@ -51,11 +51,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (!in_array($blood_group, ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])) {
         $errors['blood_group'] = "Invalid blood group selected.";
     }
-    // Validate phone
-    if (empty($phone)) {
-        $errors['phone'] = "Phone is required.";
-    } elseif (!preg_match("/^\+?[0-9]+$/", $phone)) {
-        $errors['phone'] = "Please enter a valid phone number.";
+    // Validate birthday
+    if (empty($birthday)) {
+        $errors['birthday'] = "Birthday is required.";
+    }else {
+        // Check if the user is over 18 years old
+        $dob = new DateTime($birthday);
+        $now = new DateTime();
+        $age = $now->diff($dob)->y;
+        if ($age < 18) {
+            $errors['birthday'] = "You must be at least 18 years old.";
+        }
+        // Check if the birthday is not in the future or today
+        if ($dob > $now) {
+            $errors['birthday'] = "Birthday cannot be in the future.";
+        }
     }
 
     // Check if there are any errors
@@ -67,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check if username already exists
     $table = ($role == "donor") ? "donors" : "labEmployee";
-    
+
     $query = "SELECT * FROM $table WHERE email='$email'";
     $result = mysqli_query($conn, $query);
 
@@ -79,8 +89,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // bcrypt hashing algorithm 
-    $sql = "INSERT INTO $table (name, password, email, profilePicture, address, phone, blood_group) VALUES ('$username', '$hashedPassword', '$email', '$profilePicture', '$address', '$phone', '$blood_group')";
-    
+    $sql = "INSERT INTO $table (name, password, email, profilePicture, address, birthday, blood_group) VALUES ('$username', '$hashedPassword', '$email', '$profilePicture', '$address', '$birthday', '$blood_group')";
+
     if ($conn->query($sql) === TRUE) {
         // select the login user id from db
         $query = "SELECT id FROM $table WHERE email='$email'";
